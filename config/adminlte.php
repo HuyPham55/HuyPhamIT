@@ -239,6 +239,19 @@ return [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
+        //Topnav
+        [
+            'text' => 'English',
+            'route' => ['change_language', ['lang' => 'en']],
+            'topnav' => true,
+            'active' => $_COOKIE['locale'] === 'en',
+        ],
+        [
+            'text' => '繁中',
+            'route' => ['change_language', ['lang' => 'zh']],
+            'topnav' => true,
+            'active' => $_COOKIE['locale'] === 'zh',
+        ],
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
