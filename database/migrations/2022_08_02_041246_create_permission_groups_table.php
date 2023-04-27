@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('permission_groups', function (Blueprint $table) {
             $table->id();
             $table->tinyText('name');
-            $table->string('slug')->unique();
+            $table->string('key')->unique();
             $table->timestamps();
         });
     }

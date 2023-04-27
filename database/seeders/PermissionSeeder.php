@@ -23,11 +23,11 @@ class PermissionSeeder extends Seeder
         $data = config('permission_data');
         if (empty($data) || !is_array($data)) return;
         foreach ($data as $slugGroup => $group) {
-            $permissionGroup = PermissionGroup::where('slug', $slugGroup)->first();
+            $permissionGroup = PermissionGroup::where('key', $slugGroup)->first();
             if (!$permissionGroup) {
                 $permissionGroup = PermissionGroup::create([
                     'name' => $group['title'],
-                    'slug' => $slugGroup
+                    'key' => $slugGroup
                 ]);
             }
             foreach ($group['permissions'] as $permissionKey => $permissionTitle) {
@@ -37,6 +37,7 @@ class PermissionSeeder extends Seeder
                         'guard_name' => 'web',
                     ]
                 )->first();
+
                 if (!$permission) {
                     Permission::create([
                         'name' => $permissionKey,
@@ -46,7 +47,6 @@ class PermissionSeeder extends Seeder
                     ]);
                 }
             }
-
         }
 
     }
