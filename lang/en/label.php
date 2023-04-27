@@ -79,4 +79,6 @@ return array (
   'tags' => 'Tags',
   'contact_email_reply_message' => 'Contact email reply message',
   'publish_date' => 'Publish date',
+  'permissions' => 'Permissions',
+  'permission_groups' => 'Permission groups',
 );

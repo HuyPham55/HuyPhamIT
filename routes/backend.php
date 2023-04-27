@@ -11,6 +11,8 @@ use App\Http\Controllers\Backend\HomeSlideController;
 use App\Http\Controllers\Backend\MediaController;
 use App\Http\Controllers\Backend\MemberController;
 use App\Http\Controllers\Backend\OptionController;
+use App\Http\Controllers\Backend\PermissionController;
+use App\Http\Controllers\Backend\PermissionGroupController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\StaticPageController;
 use App\Http\Controllers\Backend\UserController;
@@ -27,6 +29,49 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
     });
 
+
+    //Permission groups
+    Route::group(['prefix' => 'permission-groups'], function () {
+        Route::get('list', [PermissionGroupController::class, 'getList'])
+            ->middleware('permission:show_list_permission_groups')
+            ->name('permission_groups.list');
+
+        Route::group(['middleware' => 'permission:add_permission_groups'], function () {
+            Route::get('add', [PermissionGroupController::class, 'getAdd'])->name('permission_groups.add');
+            Route::post('add', [PermissionGroupController::class, 'postAdd']);
+        });
+        Route::group(['middleware' => 'permission:edit_permission_groups'], function () {
+            Route::get('edit/{id}', [PermissionGroupController::class, 'getEdit'])
+                ->name('permission_groups.edit');
+            Route::put('edit/{id}', [PermissionGroupController::class, 'putEdit']);
+        });
+        Route::post('delete', [PermissionGroupController::class, 'delete'])
+            ->middleware('permission:delete_permission_groups')
+            ->name('permission_groups.delete');
+    });
+
+    //Permissions
+    Route::group(['prefix' => 'permissions'], function () {
+        Route::get('list', [PermissionController::class, 'getList'])
+            ->middleware('permission:show_list_permissions')
+            ->name('permissions.list');
+
+        Route::group(['middleware' => 'permission:add_permissions'], function () {
+            Route::get('add', [PermissionController::class, 'getAdd'])
+                ->name('permissions.add');
+            Route::post('add', [PermissionController::class, 'postAdd']);
+        });
+
+        Route::group(['middleware' => 'permission:edit_permissions'], function () {
+            Route::get('edit/{id}', [PermissionController::class, 'getEdit'])
+                ->name('permissions.edit');
+            Route::put('edit/{id}', [PermissionController::class, 'putEdit']);
+        });
+
+        Route::post('delete', [PermissionController::class, 'delete'])
+            ->middleware('permission:delete_permissions')
+            ->name('permissions.delete');
+    });
 
     Route::group(['prefix' => 'media'], function () {
         Route::get('/', [MediaController::class, 'getList'])->name('media.list');
