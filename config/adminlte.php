@@ -244,13 +244,13 @@ return [
             'text' => 'English',
             'route' => ['change_language', ['lang' => 'en']],
             'topnav' => true,
-            'active' => $_COOKIE['locale'] === 'en',
+            'active' => isset($_COOKIE['locale']) && $_COOKIE['locale'] === 'en',
         ],
         [
             'text' => '繁中',
             'route' => ['change_language', ['lang' => 'zh']],
             'topnav' => true,
-            'active' => $_COOKIE['locale'] === 'zh',
+            'active' => isset($_COOKIE['locale']) && $_COOKIE['locale'] === 'zh',
         ],
         // Sidebar items:
         [
