@@ -2,6 +2,8 @@
 
 namespace App\ModelFilters;
 
+use App\Models\BlogCategory;
+use App\Services\CategoryService;
 use EloquentFilter\ModelFilter;
 
 class BlogPostFilter extends ModelFilter
@@ -26,5 +28,15 @@ class BlogPostFilter extends ModelFilter
     public function status($status)
     {
         return $this->where('status', $status);
+    }
+
+    public function categories($id) {
+        $category = BlogCategory::findOrfail($id);
+        $array_children = (new CategoryService($category))->getArrayChildrenId($category->lft, $category->rgt);
+        return $this->whereIn('category_id', $array_children);
+    }
+
+    public function category($id) {
+        return $this->where('category_id', $id);
     }
 }

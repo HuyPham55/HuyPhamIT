@@ -25,7 +25,9 @@
             @can('add_blog_posts')
                 @includeIf('components.buttons.add', ['route' => route('blog_posts.add')])
             @endcan
-            <div class="card">
+            @include('admin.blog.posts.filter_bar')
+
+            <div class="card card-primary">
                 <div class="card-header">
                     <div class="card-title">
                         <h4>{{trans('label.total')}}: {{$total_count}}</h4>
@@ -55,6 +57,7 @@
 @include('components.toastr')
 @include('components.bootstrapSwitch')
 @include('components.Datatables')
+@include('components.Select2')
 
 @push('js')
     <script type="text/javascript">
@@ -64,22 +67,48 @@
             let datatablesCallback = () => {
                 jQuery(".bt-switch input[type='checkbox']").bootstrapSwitch();
             }
-            jQuery("#datatables").DataTable({
-                serverSide: true,
-                processing: true,
-                responsive: true,
-                ajax: '{{route('blog_posts.datatables')}}',
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'image', name: 'image', orderable: false, render: imageContainer},
-                    {data: 'title', name: 'title'},
-                    {data: 'sorting', name: 'sorting', render: sortingContainer},
-                    {data: 'status', name: 'status'},
-                    {data: 'created_at', name: 'created_at'},
-                    {data: 'action', name: 'action', orderable: false}
-                ],
-                drawCallback: datatablesCallback
+            let filter = jQuery("#filter")
+
+            const initialize = function () {
+                let filterData = {};
+                if (filter) {
+                    filterData = {
+                        categories: jQuery("select[name='categories']").val(),
+                        status: jQuery("select[name='status']").val(),
+                    };
+                }
+                return jQuery("#datatables").DataTable({
+                    serverSide: true,
+                    processing: true,
+                    responsive: true,
+                    destroy: true,
+                    ajax: {
+                        "url": '{{route('blog_posts.datatables')}}',
+                        data: filterData
+                    },
+                    columns: [
+                        {data: 'id', name: 'id'},
+                        {data: 'image', name: 'image', orderable: false, render: imageContainer},
+                        {data: 'title', name: 'title'},
+                        {data: 'sorting', name: 'sorting', render: sortingContainer},
+                        {data: 'status', name: 'status'},
+                        {data: 'created_at', name: 'created_at'},
+                        {data: 'action', name: 'action', orderable: false}
+                    ],
+                    drawCallback: datatablesCallback
+                });
+            }
+            let table = initialize();
+
+            jQuery(filter).on("change", function() {
+                initialize()
+
             })
+            jQuery(filter).on("submit", function(e) {
+                e.preventDefault();
+                initialize()
+            })
+
 
 
             jQuery(document).on('switchChange.bootstrapSwitch', '.change-status', function (event) {
