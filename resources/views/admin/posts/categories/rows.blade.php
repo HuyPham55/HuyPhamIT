@@ -6,7 +6,7 @@
             {{$category->title}} ({{$category->posts_count}})
         </td>
         <td>
-            @if(auth()->user()->can('edit_blog_categories'))
+            @if(auth()->user()->can('edit_post_categories'))
                 <input type="number" value="{{ $category->sorting }}" data-item="{{ $category->id }}"
                        class="update-sorting" style="max-width: 75px;" min="0" max="e9" placeholder="0">
             @else
@@ -18,24 +18,24 @@
                    data-size="normal" data-on-color="success"
                    data-on-text="{{ __('label.on') }}" data-off-text="{{ __('label.off') }}"
                    {{ $category->status == 1 ? 'checked' : '' }}
-                   @cannot('edit_blog_categories')
+                   @cannot('edit_post_categories')
                        disabled
                 @endcannot
             />
         </td>
         <td>
-            @can('edit_blog_categories')
-                @includeIf('components.buttons.edit', ['route' => route('blog_categories.edit', $category->id)])
+            @can('edit_post_categories')
+                @includeIf('components.buttons.edit', ['route' => route('post_categories.edit', $category->id)])
             @endcan
 
-            @can('delete_blog_categories')
-                @includeIf('components.buttons.delete', ['route' => route('blog_categories.delete'), 'id' => $category->id])
+            @can('delete_post_categories')
+                @includeIf('components.buttons.delete', ['route' => route('post_categories.delete'), 'id' => $category->id])
             @endcan
         </td>
     </tr>
 
     @if(!empty($category->subs))
-        @includeIf('admin.blog.categories.rows', ['categories' => $category->subs])
+        @includeIf('admin.posts.categories.rows', ['categories' => $category->subs])
     @endif
 @empty
     <tr>

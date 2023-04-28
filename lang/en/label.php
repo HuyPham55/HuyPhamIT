@@ -81,4 +81,5 @@ return array (
   'publish_date' => 'Publish date',
   'permissions' => 'Permissions',
   'permission_groups' => 'Permission groups',
+  'posts' => 'Posts',
 );

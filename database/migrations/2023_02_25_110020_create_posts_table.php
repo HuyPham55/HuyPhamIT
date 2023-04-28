@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,22 +13,26 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('blog_categories', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parent_id')->default(0);
-            $table->integer('lft')->default(0);
-            $table->integer('rgt')->default(0);
-            $table->integer('level')->default(0);
+
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+
             $table->integer('sorting')->default(0);
+            $table->boolean('is_popular')->default(false);
             $table->boolean('status')->default(true);
+
 
             $table->json('image')->nullable();
             $table->json('title')->nullable();
             $table->json('slug')->nullable();
-
+            $table->json('content')->nullable();
+            $table->json('short_description')->nullable();
             $table->json('seo_title')->nullable();
             $table->json('seo_description')->nullable();
 
+            $table->timestamp('publish_date')->nullable();
             $table->timestamps();
         });
     }
@@ -39,6 +44,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('blog_categories');
+        Schema::dropIfExists('posts');
     }
 };

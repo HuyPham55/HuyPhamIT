@@ -265,23 +265,23 @@ return [
             ],
         ],
         [
-            'text' => 'blog',
+            'text' => 'posts',
             'icon' => 'fas fa-fw fa-rss',
-            'can' => ['show_list_blog_categories', 'show_list_blog_posts'],
+            'can' => ['show_list_post_categories', 'show_list_posts'],
             'submenu' => [
                 [
                     'text' => 'categories',
-                    'route' => 'blog_categories.list',
+                    'route' => 'post_categories.list',
                     'icon' => 'far fa-fw',
-                    'active' => ['admin/blog/categories/*'],
-                    'can' => 'show_list_blog_categories'
+                    'active' => ['admin/posts/categories/*'],
+                    'can' => 'show_list_post_categories'
                 ],
                 [
                     'text'    => 'posts',
-                    'route'     => 'blog_posts.list',
+                    'route'     => 'posts.list',
                     'icon' => 'far fa-fw',
-                    'active' => ['admin/blog/posts/*'],
-                    'can' => 'show_list_blog_posts'
+                    'active' => ['admin/posts/posts/*'],
+                    'can' => 'show_list_posts'
                 ]
             ],
         ],

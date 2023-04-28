@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\BlogCategory;
-use App\Models\BlogPost;
+use App\Models\PostCategory;
+use App\Models\Post;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class BlogPostController extends BaseController
+class PostController extends BaseController
 {
     //
-    private BlogPost $model;
+    private Post $model;
     private string $routeList;
     private string $pathView;
 
@@ -20,16 +20,16 @@ class BlogPostController extends BaseController
     {
         parent::__construct();
 
-        $this->model = new BlogPost();
-        $this->routeList = 'blog_posts.list';
-        $this->pathView = 'admin.blog.posts';
+        $this->model = new Post();
+        $this->routeList = 'posts.list';
+        $this->pathView = 'admin.posts.posts';
     }
 
     public function index()
     {
         session(['url.intended' => url()->full()]);
 
-        $categories = (new CategoryService(new BlogCategory()))->dropdown();
+        $categories = (new CategoryService(new PostCategory()))->dropdown();
         $total_count = $this->model->count();
 
         return view("{$this->pathView}.list", compact('categories', 'total_count'));
@@ -49,16 +49,16 @@ class BlogPostController extends BaseController
             ->editColumn('status', function ($item) {
                 return view('components.buttons.bootstrapSwitch', [
                     'data' => $item,
-                    'permission' => 'edit_blog_posts',
+                    'permission' => 'edit_posts',
                 ]);
             })
             ->editColumn('created_at', function ($item) {
                 return $item->date_format;
             })
             ->addColumn('action', function ($item) {
-                return view('components.buttons.edit', ['route' => route('blog_posts.edit', ['id' => $item->id])])
+                return view('components.buttons.edit', ['route' => route('posts.edit', ['id' => $item->id])])
                     . ' ' .
-                    view('components.buttons.delete', ['route' => route('blog_posts.delete'), 'id' => $item->id]);
+                    view('components.buttons.delete', ['route' => route('posts.delete'), 'id' => $item->id]);
             })
             ->setRowId(function ($item) {
                 return 'row-id-' . $item->id;
@@ -70,8 +70,8 @@ class BlogPostController extends BaseController
     public function getAdd()
     {
         $post = $this->model;
-        $categories = (new CategoryService(new BlogCategory()))->dropdown();
-
+        $categories = (new CategoryService(new PostCategory()))->dropdown();
+dd($categories);
         return view("{$this->pathView}.add", compact('post', 'categories'));
     }
 
@@ -93,7 +93,7 @@ class BlogPostController extends BaseController
     public function getEdit(int $id)
     {
         $post = $this->model::findOrFail($id);
-        $categories = (new CategoryService(new BlogCategory()))->dropdown();
+        $categories = (new CategoryService(new PostCategory()))->dropdown();
 
         return view("{$this->pathView}.edit", compact('post', 'categories'));
     }

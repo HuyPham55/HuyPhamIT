@@ -1,5 +1,5 @@
 @extends('admin.layout')
-@section('title', __('label.blog'))
+@section('title', __('label.posts'))
 
 @section('content_header')
     <div class="row mb-2">
@@ -10,7 +10,7 @@
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('label.home') }}</a></li>
                 <li class="breadcrumb-item active">
-                    {{ __('label.blog') }}
+                    {{ __('label.posts') }}
                 </li>
             </ol>
         </div>
@@ -22,10 +22,10 @@
     <div class="row">
         <div class="col-12">
             @includeIf('components.notification')
-            @can('add_blog_posts')
-                @includeIf('components.buttons.add', ['route' => route('blog_posts.add')])
+            @can('add_posts')
+                @includeIf('components.buttons.add', ['route' => route('posts.add')])
             @endcan
-            @include('admin.blog.posts.filter_bar')
+            @include('admin.posts.posts.filter_bar')
 
             <div class="card card-primary">
                 <div class="card-header">
@@ -83,7 +83,7 @@
                     responsive: true,
                     destroy: true,
                     ajax: {
-                        "url": '{{route('blog_posts.datatables')}}',
+                        "url": '{{route('posts.datatables')}}',
                         data: filterData
                     },
                     columns: [
@@ -119,7 +119,7 @@
                 let isChecked = event.target.checked;
 
                 if (itemId) {
-                    postData("{{route('blog_posts.change_status')}}", {
+                    postData("{{route('posts.change_status')}}", {
                         'field': field,
                         'item_id': itemId,
                         'status': isChecked ? 1 : 0,
@@ -137,7 +137,7 @@
                 let sorting = jQuery(this).val();
 
                 if (itemId) {
-                    postData("{{ route('blog_posts.change_sorting') }}", {
+                    postData("{{ route('posts.change_sorting') }}", {
                         'item_id': itemId,
                         'sorting': sorting,
                         '_token': '{{ csrf_token() }}'

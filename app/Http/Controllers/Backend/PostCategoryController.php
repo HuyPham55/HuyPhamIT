@@ -3,27 +3,27 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\BlogCategory;
+use App\Models\PostCategory;
 use App\Services\CategoryService;
 use App\Services\NestedSetService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class BlogCategoryController extends BaseController
+class PostCategoryController extends BaseController
 {
     //
     private CategoryService $categoryService;
     private string $pathView;
     private string $routeList;
-    private BlogCategory $model;
+    private PostCategory $model;
 
     public function __construct()
     {
         parent::__construct();
-        $this->model = new BlogCategory();
-        $this->categoryService = new CategoryService(new BlogCategory());
-        $this->routeList = 'blog_categories.list';
-        $this->pathView = 'admin.blog.categories';
+        $this->model = new PostCategory();
+        $this->categoryService = new CategoryService(new PostCategory());
+        $this->routeList = 'post_categories.list';
+        $this->pathView = 'admin.posts.categories';
     }
 
     public function index()
@@ -49,7 +49,7 @@ class BlogCategoryController extends BaseController
 
     public function postAdd(Request $request)
     {
-        $flag = $this->model->saveModel(new BlogCategory(), $request);
+        $flag = $this->model->saveModel($this->model, $request);
         if ($flag instanceof \Exception) {
             return redirect()
                 ->back()
@@ -96,7 +96,7 @@ class BlogCategoryController extends BaseController
             $subCategories = $this->categoryService->getArrayChildrenId($category->lft, $category->rgt);
 
             //delete all categories where id in $subCategories
-            foreach (BlogCategory::whereIn('id', $subCategories)->get() as $category) {
+            foreach ($this->model->whereIn('id', $subCategories)->get() as $category) {
                 $category->delete();
             }
 

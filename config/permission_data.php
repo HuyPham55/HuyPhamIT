@@ -80,26 +80,48 @@ return [
 //                ]
 //            ],
 
-    'blog_categories' => [
-        'title' => 'Blog categories',
+//    'blog_categories' => [
+//        'title' => 'Blog categories',
+//        'permissions' => [
+//            'show_list_blog_categories' => 'Show list blog categories',
+//            'add_blog_categories' => 'Add blog categories',
+//            'edit_blog_categories' => 'Edit blog categories',
+//            'delete_blog_categories' => 'Delete blog categories',
+//        ]
+//    ],
+//
+//
+//    'blog_posts' => [
+//        'title' => 'Blog Posts',
+//        'permissions' => [
+//            'show_list_blog_posts' => 'Show list blog posts',
+//            'add_blog_posts' => 'Add blog posts',
+//            'edit_blog_posts' => 'Edit blog posts',
+//            'delete_blog_posts' => 'Delete blog posts',
+//        ]
+//    ],
+
+    'post_categories' => [
+        'title' => 'Post categories',
         'permissions' => [
-            'show_list_blog_categories' => 'Show list blog categories',
-            'add_blog_categories' => 'Add blog categories',
-            'edit_blog_categories' => 'Edit blog categories',
-            'delete_blog_categories' => 'Delete blog categories',
+            'show_list_post_categories' => 'Show list post categories',
+            'add_post_categories' => 'Add post categories',
+            'edit_post_categories' => 'Edit post categories',
+            'delete_post_categories' => 'Delete post categories',
         ]
     ],
 
 
-    'blog_posts' => [
-        'title' => 'Blog Posts',
+    'posts' => [
+        'title' => ' Posts',
         'permissions' => [
-            'show_list_blog_posts' => 'Show list blog posts',
-            'add_blog_posts' => 'Add blog posts',
-            'edit_blog_posts' => 'Edit blog posts',
-            'delete_blog_posts' => 'Delete blog posts',
+            'show_list_posts' => 'Show list posts',
+            'add_posts' => 'Add posts',
+            'edit_posts' => 'Edit posts',
+            'delete_posts' => 'Delete posts',
         ]
     ],
+
 
     'faqs' => [
         'title' => 'Faqs',

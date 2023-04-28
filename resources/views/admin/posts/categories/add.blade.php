@@ -14,8 +14,8 @@
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('label.home') }}</a></li>
-                <li class="breadcrumb-item"><a href="">{{ __('label.blog') }}</a></li>
-                <li class="breadcrumb-item"><a href="{{route('blog_categories.list')}}">
+                <li class="breadcrumb-item"><a href="">{{ __('label.posts') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{route('post_categories.list')}}">
                         {{ trans('label.category') }}
                     </a>
                 </li>
@@ -33,7 +33,7 @@
             <div class="card">
                 <form action="" method="POST" class="form-horizontal pt-3">
                     @csrf
-                    @include('admin.blog.categories.form')
+                    @include('admin.posts.categories.form')
                 </form>
             </div>
         </div>

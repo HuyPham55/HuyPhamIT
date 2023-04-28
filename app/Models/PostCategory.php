@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Observers\BlogCategoryObserver;
+use App\Observers\PostCategoryObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,7 +15,7 @@ use Spatie\Translatable\HasTranslations;
  * @property int|mixed $sorting
  * @property bool|mixed $status
  */
-class BlogCategory extends BaseModel
+class PostCategory extends BaseModel
 {
     use HasFactory;
     use HasTranslations;
@@ -31,7 +31,7 @@ class BlogCategory extends BaseModel
     public static function boot()
     {
         parent::boot();
-        self::observe(BlogCategoryObserver::class);
+        self::observe(PostCategoryObserver::class);
     }
 
     public static function saveModel(self $model, Request $request)
@@ -63,7 +63,7 @@ class BlogCategory extends BaseModel
     public function posts(): HasMany
     {
         return $this
-            ->hasMany(BlogPost::class, 'category_id')
+            ->hasMany(Post::class, 'category_id')
             ->orderBy('sorting')
             ->orderBy('id');
     }

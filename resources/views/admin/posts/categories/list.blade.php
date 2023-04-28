@@ -1,5 +1,5 @@
 @extends('admin.layout')
-@section('title', __('label.blog').' - '.trans('label.category'))
+@section('title', __('label.posts').' - '.trans('label.category'))
 
 @section('content_header')
     <div class="row mb-2">
@@ -9,7 +9,7 @@
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('label.home') }}</a></li>
-                <li class="breadcrumb-item"><a href="#">{{ __('label.blog') }}</a></li>
+                <li class="breadcrumb-item"><a href="#">{{ __('label.posts') }}</a></li>
                 <li class="breadcrumb-item active">{{ trans('label.category') }}</li>
             </ol>
         </div>
@@ -21,8 +21,8 @@
     <div class="row">
         <div class="col-12">
             @includeIf('components.notification')
-            @can('add_blog_categories')
-                @includeIf('components.buttons.add', ['route' => route('blog_categories.add')])
+            @can('add_post_categories')
+                @includeIf('components.buttons.add', ['route' => route('post_categories.add')])
             @endcan
             <div class="card">
                 <div class="card-header">
@@ -42,7 +42,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                @includeIf('admin.blog.categories.rows', ['categories' => $categories])
+                                @includeIf('admin.posts.categories.rows', ['categories' => $categories])
                             </tbody>
                         </table>
                     </div>
@@ -65,7 +65,7 @@
                 let isChecked = event.target.checked;
 
                 if (itemId) {
-                    postData("{{ route('blog_categories.change_status') }}", {
+                    postData("{{ route('post_categories.change_status') }}", {
                         'field': field,
                         'item_id': itemId,
                         'status': isChecked ? 1 : 0,
@@ -79,7 +79,7 @@
                 let sorting = jQuery(this).val();
 
                 if (itemId) {
-                    postData("{{ route('blog_categories.change_sorting') }}", {
+                    postData("{{ route('post_categories.change_sorting') }}", {
                         'item_id': itemId,
                         'sorting': sorting,
                         '_token': '{{ csrf_token() }}'

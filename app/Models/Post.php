@@ -19,13 +19,11 @@ use Spatie\Translatable\HasTranslations;
  * @property mixed $created_at
  * @property \Illuminate\Support\Carbon|mixed|null $publish_date
  */
-class BlogPost extends BaseModel
+class Post extends BaseModel
 {
     use HasFactory;
     use HasTranslations;
     use Filterable;
-
-
 
     public array $translatable = [
         'image',
@@ -39,7 +37,7 @@ class BlogPost extends BaseModel
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(BlogCategory::class, 'category_id');
+        return $this->belongsTo(PostCategory::class, 'category_id');
     }
 
     public static function saveModel(self $model, Request $request)

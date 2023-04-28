@@ -1,10 +1,11 @@
 @extends('admin.layout')
 @php
-    $targetLabel = __('label.category');
-    $actionLabel = trans('label.action.edit');
+    $targetLabel = __('label.posts');
+    $actionLabel = trans('label.action.add');
     $title = $targetLabel." - ".$actionLabel;
 @endphp
 @section('title', $title)
+
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -13,9 +14,9 @@
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('label.home') }}</a></li>
-                <li class="breadcrumb-item"><a href="">{{ __('label.blog') }}</a></li>
-                <li class="breadcrumb-item"><a href="{{route('blog_categories.list')}}">
-                        {{ trans('label.category') }}
+                <li class="breadcrumb-item">
+                    <a href="{{route('posts.list')}}">
+                        {{ __('label.posts') }}
                     </a>
                 </li>
                 <li class="breadcrumb-item active">{{ $actionLabel }}</li>
@@ -23,6 +24,8 @@
         </div>
     </div>
 @endsection
+
+
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -30,8 +33,7 @@
             <div class="card">
                 <form action="" method="POST" class="form-horizontal pt-3">
                     @csrf
-                    @method('PUT')
-                    @include('admin.blog.categories.form')
+                    @include('admin.posts.posts.form')
                 </form>
             </div>
         </div>

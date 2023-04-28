@@ -2,11 +2,11 @@
 
 namespace App\ModelFilters;
 
-use App\Models\BlogCategory;
+use App\Models\PostCategory;
 use App\Services\CategoryService;
 use EloquentFilter\ModelFilter;
 
-class BlogPostFilter extends ModelFilter
+class PostFilter extends ModelFilter
 {
     /**
      * Related Models that have ModelFilters as well as the method on the ModelFilter
@@ -31,7 +31,7 @@ class BlogPostFilter extends ModelFilter
     }
 
     public function categories($id) {
-        $category = BlogCategory::findOrfail($id);
+        $category = PostCategory::findOrfail($id);
         $array_children = (new CategoryService($category))->getArrayChildrenId($category->lft, $category->rgt);
         return $this->whereIn('category_id', $array_children);
     }
