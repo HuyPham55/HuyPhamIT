@@ -22,4 +22,8 @@ return array (
   'send_customer_email' => 'Send customer email',
   'media' => 'Media',
   'ip_address' => 'IP address',
+  'is_shown_on_sidebar' => 'Show on sidebar',
+  'is_shown_on_menu' => 'Show on menu',
+  'is_shown_on_home' => 'Show on home',
+  'is_shown_on_footer' => 'Show on footer',
 );

@@ -17,6 +17,8 @@
     @php( $login_url = $login_url ? url($login_url) : '' )
 @endif
 
+@section('title', config('app.name').' - '.'Login')
+
 @section('auth_header', __('adminlte::adminlte.login_message'))
 
 @section('auth_body')
@@ -70,7 +72,7 @@
             @enderror
         </div>
 
-        <div class="text-center mb-3">
+        <div class="text-center mb-3" id="captcha">
             {!! captcha_img('flat') !!}
         </div>
 
@@ -78,10 +80,10 @@
         {{-- Login field --}}
         <div class="row">
             <div class="col-7">
-                <div class="icheck-primary" title="{{ __('adminlte::adminlte.remember_me_hint') }}">
-                    <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                    <label for="remember">
+                <div class="form-check icheck-primary" title="{{ __('adminlte::adminlte.remember_me_hint') }}">
+                    <input class="form-check-input" type="checkbox" name="remember"
+                           id="remember" {{ old('remember') ? 'checked' : '' }}>
+                    <label for="remember" class="form-check-label">
                         {{ __('adminlte::adminlte.remember_me') }}
                     </label>
                 </div>
@@ -92,9 +94,50 @@
 @stop
 
 @section('auth_footer')
-    <button type='submit' form="loginForm"
+    <button type='submit' form="loginForm" id="submitButton"
             class="btn btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-primary') }}">
         <span class="fas fa-sign-in-alt"></span>
         {{ __('adminlte::adminlte.sign_in') }}
     </button>
 @stop
+
+@push('js')
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            let captcha = document.querySelector("#captcha");
+            let refreshRoute = "{{route('contact.refresh_captcha')}}";
+            captcha.addEventListener("click", function () {
+                captcha.classList.add('loading');
+                if (!refreshRoute) return;
+                jQuery
+                    .post(refreshRoute, {
+                        '_token': '{{csrf_token()}}'
+                    })
+                    .then(res => {
+                        captcha.innerHTML = res;
+                    })
+                    .always(() => {
+                        captcha.classList.remove('loading');
+                    })
+            })
+        });
+    </script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (e) {
+            let submitButton = document.querySelector("#submitButton");
+            if (!submitButton) return
+            submitButton.addEventListener('click', function () {
+            })
+        });
+    </script>
+@endpush
+@push('css')
+    <style type="text/css">
+        #captcha {
+            cursor: pointer;
+        }
+        #captcha.loading {
+            pointer-events: none;
+        }
+    </style>
+@endpush
