@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Observers\PostCategoryObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +33,18 @@ class PostCategory extends BaseModel
     {
         parent::boot();
         self::observe(PostCategoryObserver::class);
+    }
+
+    public function chidlren(): HasMany
+    {
+        return $this
+            ->hasMany(PostCategory::class, 'parent_id')
+            ->orderBy('sorting');
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(PostCategory::class, 'parent_id');
     }
 
     public static function saveModel(self $model, Request $request)

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CommonStatus;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -82,5 +83,23 @@ class Post extends BaseModel
     public function getPublishFormatAttribute()
     {
         return $this->publish_date ? date_format(Carbon::parse($this->publish_date), 'Y-m-d') : null;
+    }
+
+    public function next()
+    {
+        return static
+            ::where('id', '>', $this->id)
+            ->where('status', CommonStatus::Active)
+            ->orderBy('id')
+            ->first();
+    }
+
+    public function previous()
+    {
+        return static
+            ::where('id', '<', $this->id)
+            ->where('status', CommonStatus::Active)
+            ->orderBy('id', 'DESC')
+            ->first();
     }
 }

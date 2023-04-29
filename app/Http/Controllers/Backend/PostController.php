@@ -7,6 +7,7 @@ use App\Models\PostCategory;
 use App\Models\Post;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Yajra\DataTables\Facades\DataTables;
 
 class PostController extends BaseController
@@ -15,6 +16,7 @@ class PostController extends BaseController
     private Post $model;
     private string $routeList;
     private string $pathView;
+    private string $cacheName;
 
     public function __construct()
     {
@@ -23,6 +25,7 @@ class PostController extends BaseController
         $this->model = new Post();
         $this->routeList = 'posts.list';
         $this->pathView = 'admin.posts.posts';
+        $this->cacheName = '';
     }
 
     public function index()
@@ -71,7 +74,6 @@ class PostController extends BaseController
     {
         $post = $this->model;
         $categories = (new CategoryService(new PostCategory()))->dropdown();
-dd($categories);
         return view("{$this->pathView}.add", compact('post', 'categories'));
     }
 
@@ -87,6 +89,7 @@ dd($categories);
                     'flash_message' => env("APP_DEBUG") ? $flag->getMessage() : trans('label.something_went_wrong')
                 ]);
         }
+        $this->forgetCache();
         return redirect()->route($this->routeList)->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
     }
 
@@ -111,6 +114,7 @@ dd($categories);
                 'flash_message' => env("APP_DEBUG") ? $flag->getMessage() : trans('label.something_went_wrong')
             ]);
         }
+        $this->forgetCache();
         return redirect()->intended(route($this->routeList))->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
     }
 
@@ -119,6 +123,7 @@ dd($categories);
         $post = $this->model::findOrFail($request->post('item_id'));
         $flag = $post->delete();
         if ($flag) {
+            $this->forgetCache();
             return response()->json([
                 'status' => 'success',
                 'title' => trans('label.deleted'),
@@ -149,6 +154,7 @@ dd($categories);
             $model = $this->model->findOrFail($itemId);
             $model->{$field} = $status;
             $model->save();
+            $this->forgetCache();
 
             return response()->json([
                 'status' => 'success',
@@ -178,6 +184,7 @@ dd($categories);
             $model = $this->model->findOrFail($itemId);
             $model->{$field} = $is_popular;
             $model->save();
+            $this->forgetCache();
 
             return response()->json([
                 'status' => 'success',
@@ -202,6 +209,7 @@ dd($categories);
             $model = $this->model->findOrFail($request->item_id);
             $model->sorting = $request->sorting;
             $model->save();
+            $this->forgetCache();
 
             return response()->json([
                 'status' => 'success',
@@ -213,5 +221,10 @@ dd($categories);
                 'message' => trans('label.something_went_wrong')
             ]);
         }
+    }
+
+    private function forgetCache(): void
+    {
+        Cache::forget($this->cacheName);
     }
 }
