@@ -67,7 +67,7 @@ return array (
     'inactive' => '停用',
     'status' => '狀態',
   ),
-  'subject' => '主旨\'',
+  'subject' => '主旨',
   'title' => '標題',
   'total' => '總共',
   'url' => 'URL',
