@@ -20,4 +20,8 @@ return array (
   'sorting' => '順序',
   'is_shown_on_home' => '在首頁上顯示',
   'is_shown_on_menu' => '顯示在子選單',
+  'gallery' => '画廊',
+  'icons' => '圖標',
+  'is_shown_on_sidebar' => '在側邊欄顯示',
+  'video' => '影片',
 );

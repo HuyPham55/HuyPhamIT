@@ -15,6 +15,8 @@ return array (
     'reset' => '重置',
     'show' => '顯示',
     'update' => '更新',
+    'archive' => '存檔',
+    'continue' => '繼續',
   ),
   'address' => '地址',
   'all' => '全部',
@@ -72,4 +74,6 @@ return array (
   'total' => '總共',
   'url' => 'URL',
   'username' => '帳號',
+  'download' => '文件下載',
+  'publish_date' => '刊登日期',
 );
