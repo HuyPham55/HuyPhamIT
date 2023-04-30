@@ -60,7 +60,7 @@
                                                data-item-id="{{ $item->id }}" title=""
                                                data-size="normal" data-on-color="success"
                                                data-on-text="{{ __('label.on') }}" data-off-text="{{ __('label.off') }}"
-                                               {{ $item->status == 1 ? 'checked' : '' }}
+                                               {{ $item->favourite == 1 ? 'checked' : '' }}
                                                @cannot('edit_faqs')
                                                    disabled
                                             @endcannot
