@@ -18,4 +18,6 @@ return array (
   ),
   'short_description' => '描述',
   'sorting' => '順序',
+  'is_shown_on_home' => '在首頁上顯示',
+  'is_shown_on_menu' => '顯示在子選單',
 );
