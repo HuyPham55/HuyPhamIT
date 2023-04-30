@@ -26,4 +26,7 @@ return array (
   'is_shown_on_menu' => 'Show on menu',
   'is_shown_on_home' => 'Show on home',
   'is_shown_on_footer' => 'Show on footer',
+  'icons' => 'Icons',
+  'video' => 'Video',
+  'gallery' => 'Gallery',
 );
