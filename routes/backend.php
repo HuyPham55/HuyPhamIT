@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Backend\BannerController;
-use App\Http\Controllers\Backend\BlogCategoryController;
-use App\Http\Controllers\Backend\BlogPostController;
+use App\Http\Controllers\Backend\PostCategoryController;
+use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\ContactController;
 use App\Http\Controllers\Backend\DashBoardController;
 use App\Http\Controllers\Backend\FaqController;
@@ -11,6 +11,8 @@ use App\Http\Controllers\Backend\HomeSlideController;
 use App\Http\Controllers\Backend\MediaController;
 use App\Http\Controllers\Backend\MemberController;
 use App\Http\Controllers\Backend\OptionController;
+use App\Http\Controllers\Backend\PermissionController;
+use App\Http\Controllers\Backend\PermissionGroupController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\StaticPageController;
 use App\Http\Controllers\Backend\UserController;
@@ -27,6 +29,49 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
     });
 
+
+    //Permission groups
+    Route::group(['prefix' => 'permission-groups'], function () {
+        Route::get('list', [PermissionGroupController::class, 'getList'])
+            ->middleware('permission:show_list_permission_groups')
+            ->name('permission_groups.list');
+
+        Route::group(['middleware' => 'permission:add_permission_groups'], function () {
+            Route::get('add', [PermissionGroupController::class, 'getAdd'])->name('permission_groups.add');
+            Route::post('add', [PermissionGroupController::class, 'postAdd']);
+        });
+        Route::group(['middleware' => 'permission:edit_permission_groups'], function () {
+            Route::get('edit/{id}', [PermissionGroupController::class, 'getEdit'])
+                ->name('permission_groups.edit');
+            Route::put('edit/{id}', [PermissionGroupController::class, 'putEdit']);
+        });
+        Route::post('delete', [PermissionGroupController::class, 'delete'])
+            ->middleware('permission:delete_permission_groups')
+            ->name('permission_groups.delete');
+    });
+
+    //Permissions
+    Route::group(['prefix' => 'permissions'], function () {
+        Route::get('list', [PermissionController::class, 'getList'])
+            ->middleware('permission:show_list_permissions')
+            ->name('permissions.list');
+
+        Route::group(['middleware' => 'permission:add_permissions'], function () {
+            Route::get('add', [PermissionController::class, 'getAdd'])
+                ->name('permissions.add');
+            Route::post('add', [PermissionController::class, 'postAdd']);
+        });
+
+        Route::group(['middleware' => 'permission:edit_permissions'], function () {
+            Route::get('edit/{id}', [PermissionController::class, 'getEdit'])
+                ->name('permissions.edit');
+            Route::put('edit/{id}', [PermissionController::class, 'putEdit']);
+        });
+
+        Route::post('delete', [PermissionController::class, 'delete'])
+            ->middleware('permission:delete_permissions')
+            ->name('permissions.delete');
+    });
 
     Route::group(['prefix' => 'media'], function () {
         Route::get('/', [MediaController::class, 'getList'])->name('media.list');
@@ -135,47 +180,55 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             ->middleware('permission:delete_home_slides')->name('home_slides.delete');
     });
 
-    //Blog
-    Route::group(['prefix' => 'blog'], function () {
-        //Blog Category
+    //post
+    Route::group(['prefix' => 'posts'], function () {
+        //Post Category
         Route::group(['prefix' => 'categories'], function () {
-            Route::get('/', [BlogCategoryController::class, 'index'])
-                ->middleware('permission:show_list_blog_categories')->name('blog_categories.list');
-            Route::group(['middleware' => 'permission:add_blog_categories'], function () {
-                Route::get('add', [BlogCategoryController::class, 'getAdd'])->name('blog_categories.add');
-                Route::post('add', [BlogCategoryController::class, 'postAdd']);
+            Route::get('/', [PostCategoryController::class, 'index'])
+                ->middleware('permission:show_list_post_categories')
+                ->name('post_categories.list');
+            Route::group(['middleware' => 'permission:add_post_categories'], function () {
+                Route::get('add', [PostCategoryController::class, 'getAdd'])
+                    ->name('post_categories.add');
+                Route::post('add', [PostCategoryController::class, 'postAdd']);
             });
-            Route::group(['middleware' => 'permission:edit_blog_categories'], function () {
-                Route::get('edit/{id}', [BlogCategoryController::class, 'getEdit'])->name('blog_categories.edit');
-                Route::put('edit/{id}', [BlogCategoryController::class, 'putEdit']);
+            Route::group(['middleware' => 'permission:edit_post_categories'], function () {
+                Route::get('edit/{id}', [PostCategoryController::class, 'getEdit'])
+                    ->name('post_categories.edit');
+                Route::put('edit/{id}', [PostCategoryController::class, 'putEdit']);
 
-                Route::post('change-sorting', [BlogCategoryController::class, 'changeSorting'])->name('blog_categories.change_sorting');
-                Route::post('change-status', [BlogCategoryController::class, 'changeStatus'])->name('blog_categories.change_status');
+                Route::post('change-sorting', [PostCategoryController::class, 'changeSorting'])
+                    ->name('post_categories.change_sorting');
+                Route::post('change-status', [PostCategoryController::class, 'changeStatus'])
+                    ->name('post_categories.change_status');
             });
-            Route::post('delete', [BlogCategoryController::class, 'delete'])
-                ->middleware('permission:delete_blog_categories')->name('blog_categories.delete');
+            Route::post('delete', [PostCategoryController::class, 'delete'])
+                ->middleware('permission:delete_post_categories')
+                ->name('post_categories.delete');
         });
 
-        //Blog Posts
+        //Posts
         Route::group(['prefix' => 'posts'], function () {
-            Route::get('/', [BlogPostController::class, 'index'])
-                ->middleware('permission:show_list_blog_posts')->name('blog_posts.list');
-            Route::get('/datatables', [BlogPostController::class, 'datatables'])->middleware('permission:show_list_blog_posts')->name('blog_posts.datatables');
+            Route::get('/', [PostController::class, 'index'])
+                ->middleware('permission:show_list_posts')->name('posts.list');
+            Route::get('/datatables', [PostController::class, 'datatables'])
+                ->middleware('permission:show_list_blog_posts')
+                ->name('posts.datatables');
 
-            Route::group(['middleware' => 'permission:add_blog_posts'], function () {
-                Route::get('add', [BlogPostController::class, 'getAdd'])->name('blog_posts.add');
-                Route::post('add', [BlogPostController::class, 'postAdd']);
+            Route::group(['middleware' => 'permission:add_posts'], function () {
+                Route::get('add', [PostController::class, 'getAdd'])->name('posts.add');
+                Route::post('add', [PostController::class, 'postAdd']);
             });
-            Route::group(['middleware' => 'permission:edit_blog_posts'], function () {
-                Route::get('edit/{id}', [BlogPostController::class, 'getEdit'])->name('blog_posts.edit');
-                Route::put('edit/{id}', [BlogPostController::class, 'putEdit']);
+            Route::group(['middleware' => 'permission:edit_posts'], function () {
+                Route::get('edit/{id}', [PostController::class, 'getEdit'])->name('posts.edit');
+                Route::put('edit/{id}', [PostController::class, 'putEdit']);
 
-                Route::post('change-popular', [BlogPostController::class, 'changePopular'])->name('blog_posts.change_popular');
-                Route::post('change-status', [BlogPostController::class, 'changeStatus'])->name('blog_posts.change_status');
-                Route::post('change-sorting', [BlogPostController::class, 'changeSorting'])->name('blog_posts.change_sorting');
+                Route::post('change-popular', [PostController::class, 'changePopular'])->name('posts.change_popular');
+                Route::post('change-status', [PostController::class, 'changeStatus'])->name('posts.change_status');
+                Route::post('change-sorting', [PostController::class, 'changeSorting'])->name('posts.change_sorting');
             });
-            Route::post('delete', [BlogPostController::class, 'delete'])
-                ->middleware('permission:delete_blog_posts')->name('blog_posts.delete');
+            Route::post('delete', [PostController::class, 'delete'])
+                ->middleware('permission:delete_posts')->name('posts.delete');
         });
     });
 

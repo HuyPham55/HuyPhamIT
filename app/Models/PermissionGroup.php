@@ -26,4 +26,11 @@ class PermissionGroup extends Model
         }
         return array_unique(call_user_func_array('array_merge', $availablePermissions));
     }
+
+    public function saveModel($model, $request)
+    {
+        $model->name = $request->input('name');
+        $model->key = !empty($model->key) ? $model->key : simple_slug($model->name);
+        $model->save();
+    }
 }
