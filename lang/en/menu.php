@@ -23,4 +23,7 @@ return array (
   'website_settings' => 'WEBSITE SETTINGS',
   'users' => 'Users',
   'content' => 'Content',
+  'products' => 'Products',
+  'applications' => 'Applications',
+  'projects' => 'Projects',
 );

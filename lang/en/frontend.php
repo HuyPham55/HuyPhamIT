@@ -10,4 +10,8 @@ return array (
   'country' => 'Country',
   'message_content' => 'Message',
   'submit' => 'Submit',
+  'read_more' => 'Read more',
+  'news' => 'News',
+  'products' => 'Products',
+  'homepage' => 'Homepage',
 );
