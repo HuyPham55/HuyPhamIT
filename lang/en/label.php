@@ -87,4 +87,5 @@ return array (
   'download' => 'Download',
   'subtitle' => 'Subtitle',
   'products' => 'Products',
+  'view_count' => 'Views',
 );

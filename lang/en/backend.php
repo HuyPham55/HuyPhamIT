@@ -31,4 +31,5 @@ return array (
   'gallery' => 'Gallery',
   'keyword' => 'Keyword',
   'hero_banner' => 'Hero banner',
+  'button' => 'Button',
 );
