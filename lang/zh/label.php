@@ -76,4 +76,5 @@ return array (
   'username' => '帳號',
   'download' => '文件下載',
   'publish_date' => '刊登日期',
+  'view_count' => '瀏覽人數',
 );
