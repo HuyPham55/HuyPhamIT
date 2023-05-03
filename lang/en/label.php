@@ -85,4 +85,7 @@ return array (
   'permission_groups' => 'Permission groups',
   'posts' => 'Posts',
   'download' => 'Download',
+  'subtitle' => 'Subtitle',
+  'products' => 'Products',
+  'view_count' => 'Views',
 );

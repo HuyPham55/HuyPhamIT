@@ -29,4 +29,7 @@ return array (
   'icons' => 'Icons',
   'video' => 'Video',
   'gallery' => 'Gallery',
+  'keyword' => 'Keyword',
+  'hero_banner' => 'Hero banner',
+  'button' => 'Button',
 );
