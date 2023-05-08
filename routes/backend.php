@@ -77,6 +77,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('/', [MediaController::class, 'getList'])->name('media.list');
     });
 
+    Route::group(['prefix' => 'files'], function () {
+        Route::get('/', [FileController::class, 'getList'])->name('files.list');
+    });
+
     Route::get('dashboard', [DashBoardController::class, 'index'])->name('dashboard');
 
     //Settings

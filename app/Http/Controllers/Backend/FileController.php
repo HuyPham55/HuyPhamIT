@@ -14,6 +14,10 @@ class FileController extends BaseController
 
     private string $disk = "public_relative";
 
+    public function getList(Request $request) {
+        return view('admin.files.list');
+    }
+
     public function postImage(Request $request)
     {
         $disk = $this->disk;

@@ -32,4 +32,5 @@ return array (
   'keyword' => 'Keyword',
   'hero_banner' => 'Hero banner',
   'button' => 'Button',
+  'files' => 'Files',
 );
