@@ -20,7 +20,19 @@
                     'inputName' => "site_favicon",
                     'inputValue' => old("site_favicon") ?? option('site_favicon'),
                     'lfmType' => 'image',
-                    'note' => 'height x width',
+                    'note' => '.ico / .png',
+                ])
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">{{ __('backend.seo.image') }}</label>
+                @includeIf('components.select_file', [
+                    'keyId' => "site_seo_image",
+                    'inputName' => "site_seo_image",
+                    'inputValue' => old("site_seo_image") ?? option('site_seo_image'),
+                    'lfmType' => 'image',
+                    'note' => 'SEO',
                 ])
             </div>
         </div>

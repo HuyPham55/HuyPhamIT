@@ -11,6 +11,7 @@ return array (
   array (
     'title' => 'SEO - Title',
     'description' => 'SEO - Description',
+    'image' => 'SEO - Image',
   ),
   'members' => 'Members',
   'favicon' => 'Favicon',
