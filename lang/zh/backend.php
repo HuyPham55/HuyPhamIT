@@ -15,9 +15,13 @@ return array (
   array (
     'description' => 'SEO - 描述',
     'title' => 'SEO - 標題',
+    'image' => 'SEO - 圖片',
   ),
   'short_description' => '描述',
   'sorting' => '順序',
+  'background_image' => '背景圖',
+  'footer' => '頁腳',
+  'header' => '抬頭',
   'is_shown_on_home' => '在首頁上顯示',
   'is_shown_on_menu' => '顯示在子選單',
   'gallery' => '画廊',
