@@ -34,4 +34,8 @@ return array (
   'hero_banner' => 'Hero banner',
   'button' => 'Button',
   'files' => 'Files',
+  'background_image' => 'Background image',
+  'thumbnail' => 'Thumbnail',
+  'footer' => 'Footer',
+  'header' => 'Header',
 );

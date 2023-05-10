@@ -88,4 +88,5 @@ return array (
   'subtitle' => 'Subtitle',
   'products' => 'Products',
   'view_count' => 'Views',
+  'statistics' => 'Statistics',
 );

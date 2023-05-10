@@ -24,4 +24,9 @@ return array (
   'see_more' => 'See more',
   'show_details' => 'Show details',
   'view_detail' => 'View detail',
+  'testimonials' => 'Testimonials',
+  'partners' => 'Partners',
+  'history' => 'History',
+  'services' => 'Services',
+  'please_enter' => 'Please enter',
 );

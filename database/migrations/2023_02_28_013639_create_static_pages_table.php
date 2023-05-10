@@ -21,12 +21,13 @@ return new class extends Migration
             $table->boolean('status')->default(true);
 
             $table->json('image')->nullable();
+            $table->json('banner')->nullable();
             $table->json('title')->nullable();
             $table->json('slug')->nullable();
             $table->json('content')->nullable();
             $table->json('seo_title')->nullable();
             $table->json('seo_description')->nullable();
-
+            $table->json('data')->nullable();
             $table->timestamps();
         });
     }
