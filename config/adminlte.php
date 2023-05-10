@@ -298,12 +298,7 @@ return [
                 ]
             ],
         ],
-        [
-            'text' => 'media',
-            'icon' => 'fa fa-fw fa-play-circle',
-            'route' => 'media.list',
-            'active' => ['admin/media/*'],
-        ],
+
         [
             'text' => 'static_pages',
             'icon' => 'far fa-fw fa-file',
@@ -359,6 +354,19 @@ return [
             'icon' => 'fas fa-fw fa-address-card',
             'can' => ['show_list_contacts'],
             'active' => ['admin/contacts/*'],
+        ],
+        ['header' => 'media_and_files'],
+        [
+            'text' => 'media',
+            'icon' => 'fa fa-fw fa-play-circle',
+            'route' => 'media.list',
+            'active' => ['admin/media/*'],
+        ],
+        [
+            'text' => 'files',
+            'icon' => 'fa fa-fw fa-folder',
+            'route' => 'files.list',
+            'active' => ['admin/files/*'],
         ],
         ['header' => 'website_settings'],
         [
