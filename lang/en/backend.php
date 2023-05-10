@@ -11,6 +11,7 @@ return array (
   array (
     'title' => 'SEO - Title',
     'description' => 'SEO - Description',
+    'image' => 'SEO - Image',
   ),
   'members' => 'Members',
   'favicon' => 'Favicon',
@@ -32,4 +33,9 @@ return array (
   'keyword' => 'Keyword',
   'hero_banner' => 'Hero banner',
   'button' => 'Button',
+  'files' => 'Files',
+  'background_image' => 'Background image',
+  'thumbnail' => 'Thumbnail',
+  'footer' => 'Footer',
+  'header' => 'Header',
 );

@@ -23,6 +23,7 @@ class StaticPage extends BaseModel
 
     public array $translatable = [
         'image',
+        'banner',
         'title',
         'slug',
         'content',
@@ -39,6 +40,7 @@ class StaticPage extends BaseModel
                 $slug = simple_slug($title);
 
                 $model->setTranslation('image', $langKey, $request->input("$langKey.image"));
+                $model->setTranslation('banner', $langKey, $request->input("$langKey.banner"));
                 $model->setTranslation('title', $langKey, $title);
                 $model->setTranslation('slug', $langKey, !empty($slug) ? $slug : 'post-detail');
                 $model->setTranslation('content', $langKey, $request->input("$langKey.content"));

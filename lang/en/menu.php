@@ -26,4 +26,6 @@ return array (
   'products' => 'Products',
   'applications' => 'Applications',
   'projects' => 'Projects',
+  'media_and_files' => 'MEDIA AND FILES',
+  'files' => 'Files',
 );
