@@ -293,7 +293,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'homepage',
-                    'route' => ['backend.static_page', ['key' => 'home_page', 'title' => 'label.home_page']],
+                    'route' => ['backend.static_page', ['key' => 'home_page', 'title' => 'frontend.homepage']],
                     'icon' => 'far fa-fw',
                     'active' => ['admin/static-pages/home_page*'],
                     'can' => 'update_home_page'

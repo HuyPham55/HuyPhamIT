@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('key');
             $table->unsignedInteger('sorting')->default(0);
             $table->boolean('status')->default(true);
+            $table->boolean('open_in_new_tab')->default(false);
 
             $table->json('image')->nullable();
             $table->json('url')->nullable();
