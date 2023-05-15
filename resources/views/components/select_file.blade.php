@@ -7,7 +7,10 @@
     <div class="{{ !empty($classInput) ? $classInput : 'col-md-7 col-8' }}">
         <div class="input-group">
              <span class="input-group-btn">
-                 <a data-input="{{ $keyId }}" data-preview="image-preview-{{ $keyId }}" class="btn btn-primary lfm-{{$lfmType}}">
+                 <?php
+                 $fileTypes = array_keys(config('lfm.folder_categories'));
+                 ?>
+                 <a data-input="{{ $keyId }}" data-preview="image-preview-{{ $keyId }}" class="btn btn-primary lfm-{{in_array($lfmType, $fileTypes)?$lfmType:$fileTypes[0]}}">
                      <i class="fa fa-folder-open"></i>
                      {{__('label.action.select')}}
                  </a>
