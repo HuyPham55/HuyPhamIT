@@ -12,6 +12,7 @@ return array (
     'inactive' => 'Inactive',
     'status' => 'Status',
     'canceled' => 'Canceled',
+    'is_read' => 'Seen',
   ),
   'root_category' => 'Root category',
   'something_went_wrong' => 'Something went wrong',

@@ -17,6 +17,16 @@
                             value="0" {{ !is_null(request()->input('status')) && !request()->input('status')?"selected":""}}>{{__('label.off')}}</option>
                     </select>
                 </div>
+                <div class="form-group col-md-4">
+                    <label for="read">{{__('label.status.is_read')}}</label>
+                    <select name="read" id="read" class="form-control">
+                        <option value="" selected>{{__('label.all')}}</option>
+                        <option
+                            value="1" {{request()->input('read')?"selected":""}}>{{__('label.on')}}</option>
+                        <option
+                            value="0" {{ !is_null(request()->input('read')) && !request()->input('read')?"selected":""}}>{{__('label.off')}}</option>
+                    </select>
+                </div>
             </div>
             <button class="btn btn-danger" type="reset">
                 <i class="fa fa-fw fa-eraser"></i>

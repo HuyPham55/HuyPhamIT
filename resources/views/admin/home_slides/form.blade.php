@@ -38,14 +38,14 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="form-group">
-                                <label for="{{ $langKey }}[url]"
-                                       class="control-label">{{ __('label.url') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
-                                <input type="text" name="{{ $langKey }}[url]" id="{{ $langKey }}[url]"
-                                       value="{{ old("$langKey.url") ?? $slide->getTranslation('url', $langKey) }}"
-                                       class="form-control" maxlength="255" autocomplete="off">
-                            </div>
+                            <label for="{{ $langKey }}[url]"
+                                   class="control-label">{{ __('label.url') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
+                            <input type="text" name="{{ $langKey }}[url]" id="{{ $langKey }}[url]"
+                                   value="{{ old("$langKey.url") ?? $slide->getTranslation('url', $langKey) }}"
+                                   class="form-control" maxlength="255" autocomplete="off">
+                        </div>
 
+                        <div class="form-group">
                             <label for="{{ $langKey }}[text_1]"
                                    class="control-label">{{ __('label.title') }}
                                 1 {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>

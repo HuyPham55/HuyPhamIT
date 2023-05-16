@@ -81,7 +81,7 @@
                                             @includeIf('components.buttons.edit', ['route' => route('faqs.edit', $item->id)])
                                         @endcan
 
-                                        @can('edit_faqs')
+                                        @can('delete_faqs')
                                             @includeIf('components.buttons.delete', ['route' => route('faqs.delete'), 'id' => $item->id])
                                         @endcan
                                     </td>

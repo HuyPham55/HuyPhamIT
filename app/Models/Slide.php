@@ -13,6 +13,7 @@ use Spatie\Translatable\HasTranslations;
  * @property int|mixed $sorting
  * @property bool|mixed $status
  * @property mixed $created_at
+ * @property bool|mixed $open_in_new_tab
  */
 class Slide extends BaseModel
 {
@@ -43,6 +44,9 @@ class Slide extends BaseModel
             $model->key = $key;
             $model->sorting = $request->input('sorting') | 0;
             $model->status = $request->boolean('status', true);
+            if ($request->has('open_in_new_tab')) {
+                $model->open_in_new_tab = $request->boolean('open_in_new_tab', true);
+            }
             $model->save();
             DB::commit();
             return $model;

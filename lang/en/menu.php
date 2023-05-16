@@ -28,4 +28,6 @@ return array (
   'projects' => 'Projects',
   'media_and_files' => 'MEDIA AND FILES',
   'files' => 'Files',
+  'history' => 'History',
+  'services' => 'Services',
 );
