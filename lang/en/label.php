@@ -90,4 +90,5 @@ return array (
   'products' => 'Products',
   'view_count' => 'Views',
   'statistics' => 'Statistics',
+  'not_required' => 'Not required',
 );
