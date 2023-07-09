@@ -90,7 +90,18 @@
                        class="form-control" min="0" max="e9" placeholder="0">
             </div>
         </div>
-
+    </div>
+</div>
+<div class="card-body">
+    <div class="row">
+        @php
+            $options = [
+                'value' => $slide->open_in_new_tab ?? false,
+               'label' => __('backend.open_in_new_tab'),
+               'name' => 'open_in_new_tab',
+                ];
+        @endphp
+        @include('components.form_elements.mono_radio', $options)
 
         @php
             $options = [

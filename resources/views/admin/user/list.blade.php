@@ -42,6 +42,8 @@
                                 <th>{{__('label.roles')}}</th>
                                 <th>{{ __('label.status.status') }}</th>
                                 <th>{{ __('label.created_at') }}</th>
+                                <th>{{ __('backend.updated_at') }}</th>
+                                <th>{{ __('backend.last_login') }}</th>
                                 <th>{{ __('label.action.action') }}</th>
                             </tr>
                             </thead>
@@ -61,6 +63,8 @@
                                         </span>
                                     </td>
                                     <td>{{ $user->created_at }}</td>
+                                    <td>{{ $user->updated_at }}</td>
+                                    <td>{{ $user->last_login }}</td>
                                     <td>
                                         @if($user->id <> Auth::id())
                                             @can('edit_users')
