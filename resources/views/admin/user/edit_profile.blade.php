@@ -22,6 +22,7 @@
             <div class="card">
                 <form action="" method="POST" class="form-horizontal pt-3">
                     @csrf
+                    @method('PUT')
                     <div class="card-body">
                         <div class="form-group row">
                             <label for="name"

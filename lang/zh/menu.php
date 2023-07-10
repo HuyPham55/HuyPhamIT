@@ -13,4 +13,5 @@ return array (
   'accounts_and_permissions' => '管理者與權限設定',
   'roles' => '權限',
   'users' => '管理者',
+  'frontpage' => '首頁',
 );

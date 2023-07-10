@@ -22,9 +22,16 @@
     <div class="row">
         <div class="col-12">
             @includeIf('components.notification')
-            @can('add_posts')
-                @includeIf('components.buttons.add', ['route' => route('posts.add')])
-            @endcan
+            <div class="btn-group">
+                @can('add_posts')
+                    @includeIf('components.buttons.add', ['route' => route('posts.add')])
+                @endcan
+                <button class="btn btn-outline-success mb-2 ml-2 refresh">
+                    <i class="fa fa-sync mr-2"></i>
+                    {{trans('label.action.refresh')}}
+                </button>
+            </div>
+
             @include('admin.posts.posts.filter_bar')
 
             <div class="card card-primary">
@@ -68,6 +75,7 @@
                 jQuery(".bt-switch input[type='checkbox']").bootstrapSwitch();
             }
             let filter = jQuery("#filter")
+            let refreshBtn = jQuery("button.refresh")
 
             const initialize = function () {
                 let filterData = {};
@@ -109,6 +117,13 @@
                 initialize()
             })
 
+            jQuery(refreshBtn).on("click", function () {
+                initialize()
+                jQuery(this).attr("disabled", "")
+                setTimeout(() => {
+                    jQuery(this).removeAttr('disabled')
+                }, 500)
+            })
 
 
             jQuery(document).on('switchChange.bootstrapSwitch', '.change-status', function (event) {

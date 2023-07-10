@@ -39,6 +39,7 @@ return array (
     'copy' => 'Copy',
     'archive' => 'Archive',
     'continue' => 'Continue',
+    'refresh' => 'Refresh',
   ),
   'home' => 'Home',
   'blog' => 'Blog',
@@ -90,4 +91,5 @@ return array (
   'products' => 'Products',
   'view_count' => 'Views',
   'statistics' => 'Statistics',
+  'not_required' => 'Not required',
 );

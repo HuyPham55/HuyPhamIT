@@ -24,7 +24,8 @@
     <script>
 
         document.addEventListener("DOMContentLoaded", () => {
-            jQuery('textarea.ckeditor').ckeditor(options);
+            // ckeditor is default initilization class
+            jQuery('textarea.editor').ckeditor(options);
         })
     </script>
 @endpush

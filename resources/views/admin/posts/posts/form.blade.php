@@ -47,6 +47,16 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="{{ $langKey }}[slug]"
+                                   class="control-label">{{ __('backend.slug') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
+                            <input type="text" name="{{ $langKey }}[slug]" id="{{ $langKey }}[slug]"
+                                   value="{{ old("$langKey.slug") ?? $post->getTranslation('slug', $langKey) }}"
+                                   placeholder="{{trans('label.not_required')}}"
+                                   autocomplete="off"
+                                   class="form-control" maxlength="155">
+                        </div>
+
+                        <div class="form-group">
                             <label for="{{ $langKey }}[short_description]"
                                    class="control-label">{{ __('backend.short_description') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <textarea id="{{ $langKey }}[short_description]" name="{{ $langKey }}[short_description]"

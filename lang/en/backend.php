@@ -39,4 +39,7 @@ return array (
   'footer' => 'Footer',
   'header' => 'Header',
   'open_in_new_tab' => 'Open in new tab',
+  'slug' => 'Slug',
+  'updated_at' => 'Updated at',
+  'last_login' => 'Last login',
 );

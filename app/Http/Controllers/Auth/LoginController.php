@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -70,5 +71,24 @@ class LoginController extends Controller
     {
         //
         return redirect(RouteServiceProvider::ADMIN_LOGIN);
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        //
+        if ($user instanceof User) {
+            //stop updating updated_at
+            $user->timestamps = false;
+            $user->update([
+                'last_login' => now()
+            ]);
+        }
     }
 }

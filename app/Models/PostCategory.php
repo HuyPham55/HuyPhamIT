@@ -55,6 +55,10 @@ class PostCategory extends BaseModel
                 $title = trim($request->input("$langKey.title"));
                 $slug = simple_slug($title);
 
+                if (!empty($request->input("$langKey.slug"))) {
+                    $slug = simple_slug($request->input("$langKey.slug"));
+                }
+
                 $model->setTranslation('image', $langKey, $request->input("$langKey.image"));
                 $model->setTranslation('title', $langKey, $title);
                 $model->setTranslation('slug', $langKey, !empty($slug) ? $slug : 'post-detail');

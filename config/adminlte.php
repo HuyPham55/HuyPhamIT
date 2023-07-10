@@ -227,6 +227,13 @@ return [
     'menu' => [
         // Navbar items:
         [
+            'text' => 'frontpage',
+            'icon' => 'fas fa-globe',
+            'url' => '/',
+            'target' => '_blank',
+            'topnav_right' => true,
+        ],
+        [
             'type'         => 'navbar-search',
             'text'         => 'search',
             'topnav_right' => true,
@@ -413,6 +420,19 @@ return [
             'icon' => 'fas fa-fw fa-users',
             'can' => 'show_list_members',
             'active' => ['admin/members/*']
+        ],
+        // Top nav user
+        [
+            'text' => 'profile',
+            'route' => 'users.edit_profile',
+            'icon' => 'fas fa-fw fa-user',
+            'topnav_user' => true
+        ],
+        [
+            'text' => 'change_password',
+            'route' => 'users.change_password',
+            'icon' => 'fas fa-fw fa-lock',
+            'topnav_user' => true
         ],
     ],
 

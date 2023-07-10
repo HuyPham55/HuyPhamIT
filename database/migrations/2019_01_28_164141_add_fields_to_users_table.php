@@ -17,6 +17,7 @@ class AddFieldsToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('user_code')->after('id')->nullable();
             $table->boolean('status')->default(CommonStatus::Inactive);
+            $table->timestamp('last_login')->nullable();
             $table->softDeletes();
         });
     }
