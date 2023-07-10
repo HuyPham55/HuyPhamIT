@@ -15,6 +15,7 @@ return array (
     'reset' => '重置',
     'show' => '顯示',
     'update' => '更新',
+    'refresh' => '刷新',
   ),
   'address' => '地址',
   'all' => '全部',

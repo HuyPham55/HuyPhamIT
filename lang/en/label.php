@@ -39,6 +39,7 @@ return array (
     'copy' => 'Copy',
     'archive' => 'Archive',
     'continue' => 'Continue',
+    'refresh' => 'Refresh',
   ),
   'home' => 'Home',
   'blog' => 'Blog',

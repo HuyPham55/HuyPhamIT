@@ -30,4 +30,5 @@ return array (
   'files' => 'Files',
   'history' => 'History',
   'services' => 'Services',
+  'frontpage' => 'Front page',
 );
