@@ -31,7 +31,7 @@
                             @includeIf('components.select_file', [
                                 'keyId' => "image-{$langKey}",
                                 'inputName' => "{$langKey}[image]",
-                                'inputValue' => old("$langKey.image") ?? $post->getTranslation('image', $langKey),
+                                'inputValue' => old("$langKey.image") ?? $post->getTranslation('image', $langKey, false),
                                 'lfmType' => 'image',
                                 'note' => 'height x width',
                             ])
@@ -41,7 +41,7 @@
                             <label for="{{ $langKey }}[title]"
                                    class="control-label">{{ __('label.title') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <input type="text" name="{{ $langKey }}[title]" id="{{ $langKey }}[title]"
-                                   value="{{ old("$langKey.title") ?? $post->getTranslation('title', $langKey) }}"
+                                   value="{{ old("$langKey.title") ?? $post->getTranslation('title', $langKey, false) }}"
                                    autocomplete="off" title=""
                                    class="form-control" maxlength="155">
                         </div>
@@ -50,7 +50,7 @@
                             <label for="{{ $langKey }}[slug]"
                                    class="control-label">{{ __('backend.slug') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <input type="text" name="{{ $langKey }}[slug]" id="{{ $langKey }}[slug]"
-                                   value="{{ old("$langKey.slug") ?? $post->getTranslation('slug', $langKey) }}"
+                                   value="{{ old("$langKey.slug") ?? $post->getTranslation('slug', $langKey, false) }}"
                                    placeholder="{{trans('label.not_required')}}"
                                    autocomplete="off"
                                    class="form-control" maxlength="155">
@@ -61,7 +61,7 @@
                                    class="control-label">{{ __('backend.short_description') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <textarea id="{{ $langKey }}[short_description]" name="{{ $langKey }}[short_description]"
                                       class="form-control" rows="5" maxlength="300"
-                            >{{ old("$langKey.short_description") ?? $post->getTranslation('short_description', $langKey) }}</textarea>
+                            >{{ old("$langKey.short_description") ?? $post->getTranslation('short_description', $langKey, false) }}</textarea>
                         </div>
 
                         <div class="form-group">
@@ -69,7 +69,7 @@
                                    class="control-label">{{ __('backend.content') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <textarea id="{{ $langKey }}[content]" name="{{ $langKey }}[content]"
                                       class="form-control tinymce" rows="25"
-                            >{{ old("$langKey.content") ?? $post->getTranslation('content', $langKey) }}</textarea>
+                            >{{ old("$langKey.content") ?? $post->getTranslation('content', $langKey, false) }}</textarea>
                         </div>
 
                     </div>

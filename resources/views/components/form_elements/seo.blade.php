@@ -29,7 +29,7 @@
                             <label for="{{ $langKey }}[seo_title]"
                                    class="control-label">{{ __('backend.seo.title') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <input type="text" name="{{ $langKey }}[seo_title]" id="{{ $langKey }}[seo_title]"
-                                   value="{{ old("$langKey.title") ?? $data->getTranslation('seo_title', $langKey) }}"
+                                   value="{{ old("$langKey.title") ?? $data->getTranslation('seo_title', $langKey, false) }}"
                                    autocomplete="off"
                                    class="form-control" maxlength="155">
                         </div>
@@ -37,7 +37,7 @@
                             <label for="{{ $langKey }}[seo_description]"
                                    class="control-label">{{ __('backend.seo.description') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <textarea name="{{ $langKey }}[seo_description]" id="{{ $langKey }}[seo_description]" class="form-control" rows="5" maxlength="300"
-                            >{{ old("$langKey.description") ?? $data->getTranslation('seo_description', $langKey) }}</textarea>
+                            >{{ old("$langKey.description") ?? $data->getTranslation('seo_description', $langKey, false) }}</textarea>
                         </div>
                     </div>
                 @endforeach

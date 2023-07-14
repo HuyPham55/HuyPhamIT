@@ -31,7 +31,7 @@
                             @includeIf('components.select_file', [
                                 'keyId' => "image-{$langKey}",
                                 'inputName' => "{$langKey}[image]",
-                                'inputValue' => old("$langKey.image") ?? $slide->getTranslation('image', $langKey),
+                                'inputValue' => old("$langKey.image") ?? $slide->getTranslation('image', $langKey, false),
                                 'lfmType' => 'image',
                                 'note' => 'height x width',
                             ])
@@ -41,7 +41,7 @@
                             <label for="{{ $langKey }}[url]"
                                    class="control-label">{{ __('label.url') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <input type="text" name="{{ $langKey }}[url]" id="{{ $langKey }}[url]"
-                                   value="{{ old("$langKey.url") ?? $slide->getTranslation('url', $langKey) }}"
+                                   value="{{ old("$langKey.url") ?? $slide->getTranslation('url', $langKey, false) }}"
                                    class="form-control" maxlength="255" autocomplete="off">
                         </div>
 
@@ -50,7 +50,7 @@
                                    class="control-label">{{ __('label.title') }}
                                 1 {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <input type="text" name="{{ $langKey }}[text_1]" id="{{ $langKey }}[text_1]"
-                                   value="{{ old("$langKey.text_1") ?? $slide->getTranslation('text_1', $langKey) }}"
+                                   value="{{ old("$langKey.text_1") ?? $slide->getTranslation('text_1', $langKey, false) }}"
                                    autocomplete="off" title=""
                                    class="form-control" maxlength="155">
                         </div>
@@ -59,7 +59,7 @@
                                    class="control-label">{{ __('label.title') }}
                                 2 {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <input type="text" name="{{ $langKey }}[text_2]" id="{{ $langKey }}[text_2]"
-                                   value="{{ old("$langKey.text_2") ?? $slide->getTranslation('text_2', $langKey) }}"
+                                   value="{{ old("$langKey.text_2") ?? $slide->getTranslation('text_2', $langKey, false) }}"
                                    autocomplete="off" title=""
                                    class="form-control" maxlength="155">
                         </div>
@@ -68,7 +68,7 @@
                                    class="control-label">{{ __('label.title') }}
                                 3 {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <input type="text" name="{{ $langKey }}[text_3]" id="{{ $langKey }}[text_3]"
-                                   value="{{ old("$langKey.text_3") ?? $slide->getTranslation('text_3', $langKey) }}"
+                                   value="{{ old("$langKey.text_3") ?? $slide->getTranslation('text_3', $langKey, false) }}"
                                    autocomplete="off" title=""
                                    class="form-control" maxlength="155">
                         </div>
