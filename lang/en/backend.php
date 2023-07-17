@@ -45,4 +45,6 @@ return array (
   'contact_form_description' => 'Contact form description',
   'footer_form_banner' => 'Footer form banner',
   'contact_form_title' => 'Contact form title',
+  'search_placeholder' => 'Search placeholder',
+  'meta' => 'Meta',
 );

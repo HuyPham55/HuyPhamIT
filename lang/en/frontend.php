@@ -30,4 +30,7 @@ return array (
   'services' => 'Services',
   'please_enter' => 'Please enter',
   'job_title' => 'Job title',
+  'privacy_policy' => 'Privacy policy',
+  'future_vision' => 'Future vision',
+  'solutions' => 'Solutions',
 );
