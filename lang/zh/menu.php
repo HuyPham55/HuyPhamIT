@@ -14,4 +14,10 @@ return array (
   'roles' => '權限',
   'users' => '管理者',
   'frontpage' => '首頁',
+  'dashboard' => '後台管理',
+  'content_blocks' => '自由頁',
+  'homepage' => '首頁管理',
+  'products' => '產品管理',
+  'slides' => '輪播圖管理',
+  'history' => '公司沿革',
 );

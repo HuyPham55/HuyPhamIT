@@ -21,4 +21,7 @@ return array (
   'message_content' => '留言內容',
   'submit' => '提交',
   'read_more' => '瀏覽更多',
+  'previous_post' => '前一則',
+  'next_post' => '下一則',
+  'back_to_news' => '回到新聞主頁',
 );

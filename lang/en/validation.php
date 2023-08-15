@@ -13,7 +13,7 @@ return array (
   'ascii' => 'The :attribute must only contain single-byte alphanumeric characters and symbols.',
   'before' => 'The :attribute must be a date before :date.',
   'before_or_equal' => 'The :attribute must be a date before or equal to :date.',
-  'between' =>
+  'between' => 
   array (
     'array' => 'The :attribute must have between :min and :max items.',
     'file' => 'The :attribute must be between :min and :max kilobytes.',
@@ -42,14 +42,14 @@ return array (
   'exists' => 'The selected :attribute is invalid.',
   'file' => 'The :attribute must be a file.',
   'filled' => 'The :attribute field must have a value.',
-  'gt' =>
+  'gt' => 
   array (
     'array' => 'The :attribute must have more than :value items.',
     'file' => 'The :attribute must be greater than :value kilobytes.',
     'numeric' => 'The :attribute must be greater than :value.',
     'string' => 'The :attribute must be greater than :value characters.',
   ),
-  'gte' =>
+  'gte' => 
   array (
     'array' => 'The :attribute must have :value items or more.',
     'file' => 'The :attribute must be greater than or equal to :value kilobytes.',
@@ -64,14 +64,14 @@ return array (
   'ipv4' => 'The :attribute must be a valid IPv4 address.',
   'ipv6' => 'The :attribute must be a valid IPv6 address.',
   'json' => 'The :attribute must be a valid JSON string.',
-  'lt' =>
+  'lt' => 
   array (
     'array' => 'The :attribute must have less than :value items.',
     'file' => 'The :attribute must be less than :value kilobytes.',
     'numeric' => 'The :attribute must be less than :value.',
     'string' => 'The :attribute must be less than :value characters.',
   ),
-  'lte' =>
+  'lte' => 
   array (
     'array' => 'The :attribute must not have more than :value items.',
     'file' => 'The :attribute must be less than or equal to :value kilobytes.',
@@ -79,7 +79,7 @@ return array (
     'string' => 'The :attribute must be less than or equal to :value characters.',
   ),
   'mac_address' => 'The :attribute must be a valid MAC address.',
-  'max' =>
+  'max' => 
   array (
     'array' => 'The :attribute must not have more than :max items.',
     'file' => 'The :attribute must not be greater than :max kilobytes.',
@@ -89,7 +89,7 @@ return array (
   'max_digits' => 'The :attribute must not have more than :max digits.',
   'mimes' => 'The :attribute must be a file of type: :values.',
   'mimetypes' => 'The :attribute must be a file of type: :values.',
-  'min' =>
+  'min' => 
   array (
     'array' => 'The :attribute must have at least :min items.',
     'file' => 'The :attribute must be at least :min kilobytes.',
@@ -106,7 +106,7 @@ return array (
   'not_in' => 'The selected :attribute is invalid.',
   'not_regex' => 'The :attribute format is invalid.',
   'numeric' => 'The :attribute must be a number.',
-  'password' =>
+  'password' => 
   array (
     'letters' => 'The :attribute must contain at least one letter.',
     'mixed' => 'The :attribute must contain at least one uppercase and one lowercase letter.',
@@ -130,7 +130,7 @@ return array (
   'required_without' => 'The :attribute field is required when :values is not present.',
   'required_without_all' => 'The :attribute field is required when none of :values are present.',
   'same' => 'The :attribute and :other must match.',
-  'size' =>
+  'size' => 
   array (
     'array' => 'The :attribute must contain :size items.',
     'file' => 'The :attribute must be :size kilobytes.',
@@ -146,11 +146,12 @@ return array (
   'url' => 'The :attribute must be a valid URL.',
   'ulid' => 'The :attribute must be a valid ULID.',
   'uuid' => 'The :attribute must be a valid UUID.',
-  'custom' =>
+  'custom' => 
   array (
-    'attribute-name' =>
+    'attribute-name' => 
     array (
       'rule-name' => 'custom-message',
     ),
   ),
+  'captcha' => 'The captcha is incorrect',
 );

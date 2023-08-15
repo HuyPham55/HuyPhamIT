@@ -33,4 +33,7 @@ return array (
   'privacy_policy' => 'Privacy policy',
   'future_vision' => 'Future vision',
   'solutions' => 'Solutions',
+  'previous_post' => 'Previous post',
+  'next_post' => 'Next post',
+  'back_to_news' => 'Back to news',
 );
