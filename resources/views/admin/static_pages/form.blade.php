@@ -31,7 +31,7 @@
                             @includeIf('components.select_file', [
                                 'keyId' => "image-{$langKey}",
                                 'inputName' => "{$langKey}[image]",
-                                'inputValue' => old("$langKey.image") ?? $page->getTranslation('image', $langKey),
+                                'inputValue' => old("$langKey.image") ?? $page->getTranslation('image', $langKey, false),
                                 'lfmType' => 'image',
                                 'note' => 'height x width',
                             ])
@@ -41,7 +41,7 @@
                             <label for="{{ $langKey }}[title]"
                                    class="control-label">{{ __('label.title') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <input type="text" name="{{ $langKey }}[title]" id="{{ $langKey }}[title]"
-                                   value="{{ old("$langKey.title") ?? $page->getTranslation('title', $langKey) }}"
+                                   value="{{ old("$langKey.title") ?? $page->getTranslation('title', $langKey, false) }}"
                                    autocomplete="off" title=""
                                    class="form-control" maxlength="155">
                         </div>
@@ -51,7 +51,7 @@
                                    class="control-label">{{ __('backend.content') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <textarea id="{{ $langKey }}[content]" name="{{ $langKey }}[content]"
                                       class="form-control tinymce" rows="25"
-                            >{{ old("$langKey.content") ?? $page->getTranslation('content', $langKey) }}</textarea>
+                            >{{ old("$langKey.content") ?? $page->getTranslation('content', $langKey, false) }}</textarea>
                         </div>
 
                     </div>

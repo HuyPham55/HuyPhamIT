@@ -37,12 +37,16 @@ class StaticPage extends BaseModel
         try {
             foreach (config('lang') as $langKey => $langTitle) {
                 $title = trim($request->input("$langKey.title"));
-                $slug = simple_slug($title);
-
+                $newSlug = simple_slug($title);
+                $defaultSlug = simple_slug("");
+                $inputSlug = $request->input("$langKey.slug");
+                if (!empty($inputSlug) && ($inputSlug !== $defaultSlug)) {
+                    $newSlug = simple_slug($inputSlug);
+                }
                 $model->setTranslation('image', $langKey, $request->input("$langKey.image"));
                 $model->setTranslation('banner', $langKey, $request->input("$langKey.banner"));
                 $model->setTranslation('title', $langKey, $title);
-                $model->setTranslation('slug', $langKey, !empty($slug) ? $slug : 'post-detail');
+                $model->setTranslation('slug', $langKey, !empty($newSlug) ? $newSlug : 'post-detail');
                 $model->setTranslation('content', $langKey, $request->input("$langKey.content"));
 
                 $model->setTranslation('seo_title', $langKey, $request->input("$langKey.seo_title"));

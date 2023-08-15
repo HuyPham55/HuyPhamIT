@@ -47,15 +47,15 @@ class Post extends BaseModel
         try {
             foreach (config('lang') as $langKey => $langTitle) {
                 $title = trim($request->input("$langKey.title"));
-                $slug = simple_slug($title);
-
-                if (!empty($request->input("$langKey.slug"))) {
-                    $slug = simple_slug($request->input("$langKey.slug"));
+                $newSlug = simple_slug($title);
+                $defaultSlug = simple_slug("");
+                $inputSlug = $request->input("$langKey.slug");
+                if (!empty($inputSlug) && ($inputSlug !== $defaultSlug)) {
+                    $newSlug = simple_slug($inputSlug);
                 }
-
                 $model->setTranslation('image', $langKey, $request->input("$langKey.image"));
                 $model->setTranslation('title', $langKey, $title);
-                $model->setTranslation('slug', $langKey, !empty($slug) ? $slug : 'post-detail');
+                $model->setTranslation('slug', $langKey, !empty($newSlug) ? $newSlug : 'post-detail');
                 $model->setTranslation('content', $langKey, $request->input("$langKey.content"));
                 $model->setTranslation('short_description', $langKey, $request->input("$langKey.short_description"));
 

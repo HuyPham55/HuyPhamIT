@@ -7,17 +7,19 @@
     <script src="/editor/trumbowyg/plugins/colors/trumbowyg.colors.min.js"></script>
     <script src="/editor/trumbowyg/plugins/fontsize/trumbowyg.fontsize.min.js"></script>
     <script>
-        $('.trumbowyg').trumbowyg({
-            btns: [
-                ['strong', 'em', 'underline'],
-                ['foreColor', 'backColor'],
-                ['fontsize'],
-                ['removeformat'],
-                ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
-            ],
-            tagsToRemove: ['script', 'link'],
-            resetCss: true,
-            autogrow: true
-        });
+        jQuery(() => {
+            $('.trumbowyg').trumbowyg({
+                btns: [
+                    ['strong', 'em', 'underline'],
+                    ['foreColor', 'backColor'],
+                    ['fontsize'],
+                    ['removeformat'],
+                    ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+                ],
+                tagsToRemove: ['script', 'link'],
+                resetCss: true,
+                autogrow: true
+            });
+        })
     </script>
 @endpush

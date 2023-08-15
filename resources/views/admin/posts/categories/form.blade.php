@@ -31,7 +31,7 @@
                             @includeIf('components.select_file', [
                                 'keyId' => "image-{$langKey}",
                                 'inputName' => "{$langKey}[image]",
-                                'inputValue' => old("$langKey.image") ?? $category->getTranslation('image', $langKey),
+                                'inputValue' => old("$langKey.image") ?? $category->getTranslation('image', $langKey, false),
                                 'lfmType' => 'image',
                                 'note' => 'height x width',
                             ])
@@ -41,7 +41,7 @@
                             <label for="{{ $langKey }}[title]"
                                    class="control-label">{{ __('label.title') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <input type="text" name="{{ $langKey }}[title]" id="{{ $langKey }}[title]"
-                                   value="{{ old("$langKey.title") ?? $category->getTranslation('title', $langKey) }}"
+                                   value="{{ old("$langKey.title") ?? $category->getTranslation('title', $langKey, false) }}"
                                    autocomplete="off"
                                    class="form-control" maxlength="155">
                         </div>
@@ -50,7 +50,7 @@
                             <label for="{{ $langKey }}[slug]"
                                    class="control-label">{{ __('backend.slug') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <input type="text" name="{{ $langKey }}[slug]" id="{{ $langKey }}[slug]"
-                                   value="{{ old("$langKey.slug") ?? $category->getTranslation('slug', $langKey) }}"
+                                   value="{{ old("$langKey.slug") ?? $category->getTranslation('slug', $langKey, false) }}"
                                    placeholder="{{trans('label.not_required')}}"
                                    autocomplete="off"
                                    class="form-control" maxlength="155">

@@ -31,4 +31,6 @@ return array (
   'history' => 'History',
   'services' => 'Services',
   'frontpage' => 'Front page',
+  'content_blocks' => 'Content blocks',
+  'solutions' => 'Solutions',
 );
