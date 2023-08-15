@@ -33,4 +33,5 @@ return array (
   'frontpage' => 'Front page',
   'content_blocks' => 'Content blocks',
   'solutions' => 'Solutions',
+  'dashboard' => 'Dashboard',
 );

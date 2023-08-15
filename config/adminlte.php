@@ -265,7 +265,7 @@ return [
             'text' => 'Search',
         ],
         [
-            'text' => 'Dashboard',
+            'text' => 'dashboard',
             'route' => 'dashboard',
             'icon' => 'fa fa-fw fa-tachometer-alt',
         ],
