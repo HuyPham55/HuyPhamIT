@@ -26,7 +26,7 @@
             @can('add_home_slides')
                 @includeIf('components.buttons.add', ['route' => route('home_slides.add')])
             @endcan
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <div class="card-title">
                         <h4>{{trans('label.total')}}: {{$data->total()}}</h4>
