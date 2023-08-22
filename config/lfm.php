@@ -96,7 +96,7 @@ return [
         'image' => [
             'folder_name' => 'photos',
             'startup_view' => 'grid',
-            'max_size' => 50000, // size in KB
+            'max_size' => 5000, // size in KB
             'thumb' => true,
             'thumb_width' => 80,
             'thumb_height' => 80,
@@ -137,16 +137,16 @@ return [
 
     'alphanumeric_filename' => true,
 
-    'alphanumeric_directory' => false,
+    'alphanumeric_directory' => true,
 
-    'should_validate_size' => false,
+    'should_validate_size' => true,
 
     'should_validate_mime' => true,
 
     // behavior on files with identical name
     // setting it to true cause old file replace with new one
     // setting it to false show `error-file-exist` error and stop upload
-    'over_write_on_duplicate' => false,
+    'over_write_on_duplicate' => true,
 
     // mimetypes of executables to prevent from uploading
     'disallowed_mimetypes' => ['text/x-php', 'text/html', 'text/plain'],
