@@ -25,7 +25,7 @@
             @includeIf('components.notification')
             @include('admin.contacts.filter_bar')
 
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <div class="card-title">
                         <h4>{{trans('label.total')}}: {{$contacts->total()}}</h4>
