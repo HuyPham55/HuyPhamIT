@@ -8,7 +8,7 @@
                     'inputName' => "site_logo",
                     'inputValue' => old("site_logo") ?? option('site_logo'),
                     'lfmType' => 'image',
-                    'note' => 'height x width',
+                    'note' => '',
                 ])
             </div>
         </div>
@@ -127,6 +127,17 @@
                             <textarea id="{{ $langKey }}[site_description]" name="site_description_{{ $langKey }}"
                                       class="form-control" rows="5" maxlength="300"
                             >{{ old("site_description_$langKey") ?? option("site_description_$langKey") }}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ $langKey }}[contact_address]"
+                                   class="control-label">{{ __('label.address') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
+                            <input type="text" name="contact_address_{{ $langKey }}"
+                                   id="{{ $langKey }}[contact_address]"
+                                   value="{{ old("contact_address_$langKey") ?? option("contact_address_$langKey") }}"
+                                   placeholder="{{ __('label.address') }}"
+                                   autocomplete="off"
+                                   class="form-control" maxlength="155">
                         </div>
 
                         <div class="form-group">
