@@ -4,7 +4,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>{{ trans('label.blog') }}</h1>
+            <h1>{{ trans('label.posts') }}</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -50,6 +50,7 @@
                             <th scope="col">{{ __('backend.sorting') }}</th>
                             <th scope="col">{{ __('label.status.status') }}</th>
                             <th scope="col">{{ __('label.created_at') }}</th>
+                            <th scope="col">{{ __('backend.updated_at') }}</th>
                             <th scope="col">{{ __('label.action.action') }}</th>
                         </tr>
                         </thead>
@@ -101,8 +102,10 @@
                         {data: 'sorting', name: 'sorting', render: sortingContainer},
                         {data: 'status', name: 'status'},
                         {data: 'created_at', name: 'created_at'},
+                        {data: 'updated_at', name: 'updated_at'},
                         {data: 'action', name: 'action', orderable: false}
                     ],
+                    order: [[0, 'desc']],
                     drawCallback: datatablesCallback
                 });
             }

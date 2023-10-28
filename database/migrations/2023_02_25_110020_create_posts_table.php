@@ -18,11 +18,11 @@ return new class extends Migration
 
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
 
             $table->integer('sorting')->default(0);
             $table->boolean('is_popular')->default(false);
             $table->boolean('status')->default(true);
-
 
             $table->json('image')->nullable();
             $table->json('title')->nullable();

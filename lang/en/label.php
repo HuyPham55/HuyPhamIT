@@ -92,4 +92,7 @@ return array (
   'view_count' => 'Views',
   'statistics' => 'Statistics',
   'not_required' => 'Not required',
+  'information' => 'Information',
+  'created_by' => 'Created by',
+  'updated_by' => 'Updated by',
 );

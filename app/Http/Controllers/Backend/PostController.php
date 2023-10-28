@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use App\Models\Post;
 use App\Services\CategoryService;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class PostController extends BaseController
@@ -47,7 +49,7 @@ class PostController extends BaseController
                 return either($item->image, '/images/no-image.png');
             })
             ->editColumn('title', function ($item) {
-                return $item->title;
+                return $item->dynamic_title;
             })
             ->editColumn('status', function ($item) {
                 return view('components.buttons.bootstrapSwitch', [
@@ -57,6 +59,9 @@ class PostController extends BaseController
             })
             ->editColumn('created_at', function ($item) {
                 return $item->date_format;
+            })
+            ->editColumn('updated_at', function ($item) {
+                return $item->formatDate('updated_at');
             })
             ->addColumn('action', function ($item) {
                 return view('components.buttons.edit', ['route' => route('posts.edit', ['id' => $item->id])])
@@ -79,7 +84,10 @@ class PostController extends BaseController
 
     public function postAdd(Request $request)
     {
+        $begin = microtime(true);
         $flag = $this->model::saveModel($this->model, $request);
+        $duration = microtime(true) - $begin;
+        $ms = round($duration * 1000, 1);
         if ($flag instanceof \Exception) {
             return redirect()
                 ->back()
@@ -90,12 +98,15 @@ class PostController extends BaseController
                 ]);
         }
         $this->forgetCache();
-        return redirect()->route($this->routeList)->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
+        return redirect()->route($this->routeList)->with([
+            'status' => 'success',
+            'flash_message' => trans('label.notification.success')." ({$ms}ms)"
+        ]);
     }
 
     public function getEdit(int $id)
     {
-        $post = $this->model::findOrFail($id);
+        $post = $this->model::with(['author', 'updater'])->findOrFail($id);
         $categories = (new CategoryService(new PostCategory()))->dropdown();
 
         return view("{$this->pathView}.edit", compact('post', 'categories'));
@@ -103,9 +114,11 @@ class PostController extends BaseController
 
     public function putEdit(Request $request, int $id)
     {
+        $begin = microtime(true);
         $post = $this->model::findOrFail($id);
         $flag = $this->model::saveModel($post, $request);
-        if ($flag instanceof \Exception) {
+        $duration = microtime(true) - $begin;
+        $ms = round($duration * 1000, 1);  if ($flag instanceof \Exception) {
             return redirect()
                 ->back()
                 ->withInput()
@@ -115,7 +128,10 @@ class PostController extends BaseController
             ]);
         }
         $this->forgetCache();
-        return redirect()->intended(route($this->routeList))->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
+        return redirect()->intended(route($this->routeList))->with([
+            'status' => 'success',
+            'flash_message' => trans('label.notification.success')." ({$ms}ms)"
+        ]);
     }
 
     public function delete(Request $request)
