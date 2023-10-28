@@ -155,7 +155,7 @@
 @include('components.tinymce')
 @include('components.Select2')
 @include('components.BootstrapDatePicker')
-
+@include('components.form_elements.alertUnsavedChange')
 @push('js')
     <script type="text/javascript">
         jQuery(() => {
@@ -166,3 +166,4 @@
         })
     </script>
 @endpush
+

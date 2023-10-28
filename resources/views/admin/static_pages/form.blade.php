@@ -74,4 +74,5 @@
 </div>
 
 @include('components.tinymce')
+@include('components.form_elements.alertUnsavedChange')
 
