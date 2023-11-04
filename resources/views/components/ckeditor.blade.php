@@ -21,14 +21,31 @@
                     event.cancel();
                 }
             })
+
+            event.editor.on("change", function (event) {
+                if (!document.body.onbeforeunload) {
+                    document.body.onbeforeunload = function (e) {
+                        //unsaved data
+                        e.preventDefault()
+                        return 1;
+                    }
+                }
+            })
         })
+
     </script>
     <script src="/editor/ckeditor/adapters/jquery.js"></script>
     <script>
-
         document.addEventListener("DOMContentLoaded", () => {
             // ckeditor is default initialization class
             jQuery('textarea.editor').ckeditor(options);
+            let submitButton = document.querySelector("form button[type='submit']")
+            if (submitButton) {
+                submitButton.addEventListener("click", function () {
+                    document.body.onbeforeunload = () => {
+                    }
+                })
+            }
         })
     </script>
 @endpush
