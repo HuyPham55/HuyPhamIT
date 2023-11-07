@@ -36,7 +36,7 @@ class PostCategory extends BaseModel
         self::observe(PostCategoryObserver::class);
     }
 
-    public function chidlren(): HasMany
+    public function children(): HasMany
     {
         return $this
             ->hasMany(PostCategory::class, 'parent_id')
