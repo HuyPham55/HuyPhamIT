@@ -41,22 +41,24 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-hover" id="datatables">
-                        <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">{{ __('label.image') }}</th>
-                            <th scope="col">{{ __('label.title') }}</th>
-                            <th scope="col">{{ __('backend.sorting') }}</th>
-                            <th scope="col">{{ __('label.status.status') }}</th>
-                            <th scope="col">{{ __('label.created_at') }}</th>
-                            <th scope="col">{{ __('backend.updated_at') }}</th>
-                            <th scope="col">{{ __('label.action.action') }}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="datatables">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">{{ __('label.image') }}</th>
+                                <th scope="col">{{ __('label.title') }}</th>
+                                <th scope="col">{{ __('backend.sorting') }}</th>
+                                <th scope="col">{{ __('label.status.status') }}</th>
+                                <th scope="col">{{ __('label.created_at') }}</th>
+                                <th scope="col">{{ __('backend.updated_at') }}</th>
+                                <th scope="col">{{ __('label.action.action') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
