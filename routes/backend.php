@@ -216,7 +216,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('/', [PostController::class, 'index'])
                 ->middleware('permission:show_list_posts')->name('posts.list');
             Route::get('/datatables', [PostController::class, 'datatables'])
-                ->middleware('permission:show_list_blog_posts')
+                ->middleware('permission:show_list_posts')
                 ->name('posts.datatables');
 
             Route::group(['middleware' => 'permission:add_posts'], function () {
