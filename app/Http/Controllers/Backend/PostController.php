@@ -36,7 +36,13 @@ class PostController extends BaseController
 
         $categories = (new CategoryService(new PostCategory()))->dropdown();
         $total_count = $this->model->count();
-
+        if (!session()->has('flash_message')) {
+            $inactiveCount = Post::where('status', 0)->count();
+            if ($inactiveCount) {
+                session()->flash('flash_message', $inactiveCount . " inactive items(s)");
+                session()->flash('status', 'warning');
+            }
+        }
         return view("{$this->pathView}.list", compact('categories', 'total_count'));
     }
 

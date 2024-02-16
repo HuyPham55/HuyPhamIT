@@ -27,6 +27,14 @@ class ContactController extends BaseController
             ->orderBy('id')
             ->paginate();
 
+        if (!session()->has('flash_message')) {
+            $inactiveCount = $this->model->where('is_read', 0)->count();
+            if ($inactiveCount) {
+                session()->flash('flash_message', $inactiveCount . " unread items(s)");
+                session()->flash('status', 'warning');
+            }
+        }
+
         return view("{$this->pathView}.list", compact('contacts'));
     }
 
