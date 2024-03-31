@@ -69,7 +69,7 @@
 @include('components.Datatables')
 @include('components.Select2')
 
-@push('js')
+@push('c')
     <script type="text/javascript">
         jQuery(() => {
             let imageContainer = (data) => `<img src="${data}" style="max-width: 125px;"/>`;
