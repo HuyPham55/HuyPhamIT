@@ -29,6 +29,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
     });
 
+    Route::get("translations", function() {
+        return redirect("/translations");
+    });
+
 
     //Permission groups
     Route::group(['prefix' => 'permission-groups'], function () {
