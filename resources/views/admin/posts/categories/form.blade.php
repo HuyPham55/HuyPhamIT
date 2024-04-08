@@ -47,16 +47,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="{{ $langKey }}[slug]"
+                            <label for="{{ $langKey }}slug"
                                    class="control-label">{{ __('backend.slug') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <div class="input-group mb-3">
-                                <input type="text" name="{{ $langKey }}[slug]" id="{{ $langKey }}[slug]"
+                                <input type="text" name="{{ $langKey }}[slug]" id="{{ $langKey }}slug"
                                        value="{{ old("$langKey.slug") ?? $category->getTranslation('slug', $langKey, false) }}"
                                        placeholder="{{trans('label.not_required')}}"
                                        autocomplete="off"
                                        class="form-control" maxlength="155">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" onclick="resetInput('{{ $langKey }}[slug]')">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="resetInput('{{ $langKey }}slug')">
+                                        <i class="fa fa-eraser mr-2"></i>
                                         {{trans('label.action.clear')}}
                                     </button>
                                 </div>
