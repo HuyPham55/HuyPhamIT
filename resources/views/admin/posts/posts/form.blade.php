@@ -33,7 +33,7 @@
                                 'inputName' => "{$langKey}[image]",
                                 'inputValue' => old("$langKey.image") ?? $post->getTranslation('image', $langKey, false),
                                 'lfmType' => 'image',
-                                'note' => 'height x width',
+                                'note' => '',
                             ])
                         </div>
 
@@ -49,11 +49,18 @@
                         <div class="form-group">
                             <label for="{{ $langKey }}[slug]"
                                    class="control-label">{{ __('backend.slug') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
-                            <input type="text" name="{{ $langKey }}[slug]" id="{{ $langKey }}[slug]"
-                                   value="{{ old("$langKey.slug") ?? $post->getTranslation('slug', $langKey, false) }}"
-                                   placeholder="{{trans('label.not_required')}}"
-                                   autocomplete="off"
-                                   class="form-control" maxlength="155">
+                            <div class="input-group mb-3">
+                                <input type="text" name="{{ $langKey }}[slug]" id="{{ $langKey }}[slug]"
+                                       value="{{ old("$langKey.slug") ?? $post->getTranslation('slug', $langKey, false) }}"
+                                       placeholder="{{trans('label.not_required')}}"
+                                       autocomplete="off"
+                                       class="form-control" maxlength="155">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="resetInput('{{ $langKey }}[slug]')">
+                                        {{trans('label.action.clear')}}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
