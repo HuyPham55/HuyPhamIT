@@ -88,6 +88,11 @@
                     </label>
                 </div>
             </div>
+            <div class="col-5 text-center">
+                <a href="/">
+                    {{trans('frontend.homepage')}}
+                </a>
+            </div>
         </div>
 
     </form>
