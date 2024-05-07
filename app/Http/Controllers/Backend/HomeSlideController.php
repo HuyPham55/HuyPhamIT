@@ -28,7 +28,8 @@ class HomeSlideController extends BaseController
     public function index()
     {
         session(['url.intended' => url()->full()]);
-        $data = $this->model::where('key', $this->key)
+        $data = $this->model
+            ->where('key', $this->key)
             ->orderBy('sorting')
             ->orderBy('id')
             ->paginate();
@@ -43,7 +44,7 @@ class HomeSlideController extends BaseController
 
     public function postAdd(Request $request)
     {
-        $flag = $this->model::saveModel($this->model, $this->key, $request);
+        $flag = $this->model->saveModel($this->model, $this->key, $request);
         if ($flag instanceof \Exception) {
             return redirect()
                 ->back()
@@ -59,15 +60,15 @@ class HomeSlideController extends BaseController
 
     public function getEdit(int $id)
     {
-        $slide = $this->model::findOrFail($id);
+        $slide = $this->model->findOrFail($id);
 
         return view("{$this->pathView}.edit", compact('slide'));
     }
 
     public function putEdit(Request $request, int $id)
     {
-        $model = $this->model::findOrFail($id);
-        $flag = $this->model::saveModel($model, $this->key, $request);
+        $model = $this->model->findOrFail($id);
+        $flag = $this->model->saveModel($model, $this->key, $request);
         if ($flag instanceof \Exception) {
             return redirect()
                 ->back()
@@ -83,7 +84,7 @@ class HomeSlideController extends BaseController
 
     public function delete(Request $request)
     {
-        $model = $this->model::findOrFail($request->post('item_id'));
+        $model = $this->model->findOrFail($request->post('item_id'));
         $flag = $model->delete();
         if ($flag) {
             $this->forgetCache();
