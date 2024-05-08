@@ -22,12 +22,22 @@ class PermissionSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
         $data = config('permission_data');
         if (empty($data) || !is_array($data)) return;
+        PermissionGroup::query()->update(['status' => false]);
+        Permission::query()->update(['status' => false]);
+
+        $groupIndex = 0;
         foreach ($data as $slugGroup => $group) {
+            $groupIndex++;
             $permissionGroup = PermissionGroup::where('key', $slugGroup)->first();
             if (!$permissionGroup) {
                 $permissionGroup = PermissionGroup::create([
                     'name' => $group['title'],
-                    'key' => $slugGroup
+                    'key' => $slugGroup,
+                    'sorting' => $groupIndex
+                ]);
+            } else {
+                $permissionGroup->update([
+                    'sorting' => $groupIndex
                 ]);
             }
             foreach ($group['permissions'] as $permissionKey => $permissionTitle) {

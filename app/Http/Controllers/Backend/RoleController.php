@@ -21,7 +21,10 @@ class RoleController extends BaseController
     public function getAdd()
     {
         $data = new Role();
-        $permissionGroups = PermissionGroup::with('permissions')->orderBy('name')->get();
+        $permissionGroups = PermissionGroup::with('permissions')
+            ->where('status', true)
+            ->orderBy('sorting')
+            ->orderBy('name')->get();
         return view('admin.role.add', compact('permissionGroups', 'data'));
     }
 
