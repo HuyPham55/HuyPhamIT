@@ -233,11 +233,11 @@ return [
             'target' => '_blank',
             'topnav_right' => true,
         ],
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
+//        [
+//            'type'         => 'navbar-search',
+//            'text'         => 'search',
+//            'topnav_right' => true,
+//        ],
         [
             'type' => 'darkmode-widget',
             'topnav_right' => true, // Or "topnav => true" to place on the left.
