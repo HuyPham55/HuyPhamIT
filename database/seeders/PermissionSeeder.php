@@ -37,7 +37,8 @@ class PermissionSeeder extends Seeder
                 ]);
             } else {
                 $permissionGroup->update([
-                    'sorting' => $groupIndex
+                    'sorting' => $groupIndex,
+                    'status' => true
                 ]);
             }
             foreach ($group['permissions'] as $permissionKey => $permissionTitle) {
@@ -54,6 +55,10 @@ class PermissionSeeder extends Seeder
                         'title' => $permissionTitle,
                         'permission_group_id' => $permissionGroup->id,
                         'guard_name' => 'web',
+                    ]);
+                } else {
+                    $permission->update([
+                        'status' => true
                     ]);
                 }
             }
