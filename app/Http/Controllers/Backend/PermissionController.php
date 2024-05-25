@@ -31,7 +31,12 @@ class PermissionController extends BaseController
 
     public function getList()
     {
-        $data = $this->groupModel->with('permissions')->orderBy('name')->get();
+        $data = $this->groupModel
+            ->where('status', true)
+            ->with(['permissions' => function ($query) {
+                return $query->where('status', true);
+            }])
+            ->orderBy('name')->get();
         return view("{$this->pathView}.list", compact('data'));
     }
 

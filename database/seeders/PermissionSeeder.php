@@ -37,11 +37,14 @@ class PermissionSeeder extends Seeder
                 ]);
             } else {
                 $permissionGroup->update([
+                    'name' => $group['title'],
                     'sorting' => $groupIndex,
                     'status' => true
                 ]);
             }
+            $permissionIndex = 0;
             foreach ($group['permissions'] as $permissionKey => $permissionTitle) {
+                $permissionIndex++;
                 $permission = Permission::where(
                     [
                         'name' => $permissionKey,
@@ -55,10 +58,14 @@ class PermissionSeeder extends Seeder
                         'title' => $permissionTitle,
                         'permission_group_id' => $permissionGroup->id,
                         'guard_name' => 'web',
+                        'status' => true,
+                        'sorting' => $permissionIndex
                     ]);
                 } else {
                     $permission->update([
-                        'status' => true
+                        'title' => $permissionTitle,
+                        'status' => true,
+                        'sorting' => $permissionIndex
                     ]);
                 }
             }
