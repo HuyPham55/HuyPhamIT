@@ -63,6 +63,7 @@ class ContactController extends BaseController
 
     private function sendMail(array $data)
     {
+        if (empty(env('MAIL_USERNAME'))) return;
         $adminEmails = cachedOption('emails_receive_notification');
         $arrayEmails = explode(',', $adminEmails);
         if (!empty($arrayEmails)) {
