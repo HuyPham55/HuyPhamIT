@@ -1,4 +1,9 @@
 @extends('adminlte::page')
+@if(cachedOption('site_favicon'))
+    @section('meta_tags')
+        <link rel="shortcut icon" href="{{ asset(cachedOption('site_favicon')) }}"/>
+    @endsection
+@endif
 @push('js')
     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
 
