@@ -95,4 +95,5 @@ return array (
   'information' => 'Information',
   'created_by' => 'Created by',
   'updated_by' => 'Updated by',
+  'role_name' => 'Role name',
 );

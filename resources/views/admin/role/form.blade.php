@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="row">
                 <label for="name"
-                       class="col-sm-2 control-label col-form-label">{{ __('label.name') }}</label>
+                       class="col-sm-2 control-label col-form-label">{{ __('label.role_name') }}</label>
                 <div class="col-sm-10">
                     <input type="text" id="name" name="name" class="form-control" value="{{old('name')??$data->name}}"
                            required>
