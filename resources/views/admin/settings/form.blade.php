@@ -271,7 +271,20 @@
             jQuery(".textarea_custom_code").on("input", function () {
                 let changingLang = jQuery(this).data('lang');
                 if (changingLang) {
-                    jQuery(`input#custom_code_${changingLang}`).val(btoa($(this).val()));
+                    try {
+                        jQuery(`input#custom_code_${changingLang}`).val(btoa($(this).val()));
+                    } catch (exception) {
+                        let message = exception.message
+                        if (typeof Swal !== "undefined") {
+                            Swal.fire({
+                                type: 'warning',
+                                titleText: message,
+                                text: "Please remove any non-Unicode character",
+                            })
+                        } else {
+                            alert(message)
+                        }
+                    }
                 }
             });
 
