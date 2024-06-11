@@ -344,6 +344,7 @@ return [
         ],
         [
             'text' => 'contact_requests',
+            'key' => 'contact_requests',
             'route' => 'contacts.list',
             'icon' => 'fas fa-fw fa-address-card',
             'can' => ['show_list_contacts'],

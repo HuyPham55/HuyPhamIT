@@ -146,11 +146,15 @@
                     jQuery(this).addClass('btn-info').removeClass('btn-outline-info');
                 }
                 jQuery.get('{{ route('contacts.show') }}', {
-                    item_id : itemID,
+                    item_id: itemID,
                 }, function (data) {
                     jQuery('.modal-body').html(data);
                     jQuery('.modal').modal('show');
                     callback()
+                }).fail((res) => {
+                    if (typeof toastr !== 'undefined') {
+                        toastr.error(res.statusText, 'Error');
+                    }
                 });
             });
         })
