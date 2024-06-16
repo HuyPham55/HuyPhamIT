@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 class FaqController extends BaseController
 {
     //
-    private string $pathView;
-    private string $routeList;
-    private Faq $model;
+    protected string $pathView;
+    protected string $routeList;
+    protected Faq $model;
 
     public function __construct()
     {
@@ -38,115 +38,10 @@ class FaqController extends BaseController
         return view("{$this->pathView}.add", ['post' => $this->model]);
     }
 
-    public function postAdd(Request $request)
-    {
-        $flag = $this->model::saveModel($this->model, $request);
-        if ($flag instanceof \Exception) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with([
-                    'status' => 'danger',
-                    'flash_message' => env("APP_DEBUG") ? $flag->getMessage() : trans('label.something_went_wrong')
-                ]);
-        }
-        return redirect()->route($this->routeList)->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
-    }
-
     public function getEdit(int $id)
     {
         $post = $this->model::findOrFail($id);
 
         return view("{$this->pathView}.edit", ['post' => $post]);
-    }
-
-    public function putEdit(Request $request, int $id)
-    {
-        $post = $this->model::findOrFail($id);
-        $flag = $this->model::saveModel($post, $request);
-        if ($flag instanceof \Exception) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with([
-                    'status' => 'danger',
-                    'flash_message' => env("APP_DEBUG") ? $flag->getMessage() : trans('label.something_went_wrong')
-                ]);
-        }
-        return redirect()->intended(route($this->routeList))->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
-    }
-
-    public function delete(Request $request)
-    {
-        $post = $this->model::findOrFail($request->post('item_id'));
-        $flag = $post->delete();
-
-        if ($flag) {
-            return response()->json([
-                'status' => 'success',
-                'title' => trans('label.deleted'),
-                'message' => trans('label.notification.success')
-            ]);
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'title' => trans('label.error'),
-            'message' => trans('label.something_went_wrong')
-        ]);
-    }
-
-    public function changeSorting(Request $request)
-    {
-        $this->validate($request, [
-            'item_id' => 'required|integer',
-            'sorting' => 'integer|min:0|nullable',
-        ]);
-        try {
-            $modelId = $request->post('item_id');
-            $sorting = $request->post('sorting');
-
-            $model = $this->model->findOrFail($modelId);
-            $model->sorting = $sorting;
-            $model->save();
-
-            return response()->json([
-                'status' => 'success',
-                'message' => __('label.notification.success')
-            ]);
-        } catch (\Exception $exception) {
-            return response()->json([
-                'status' => 'error',
-                'message' => trans('label.something_went_wrong')
-            ]);
-        }
-    }
-
-    public function changeStatus(Request $request)
-    {
-        $this->validate($request, [
-            'field' => 'required|in:status',
-            'item_id' => 'required|integer',
-            'status' => 'required|integer',
-        ]);
-
-        $field = $request->post('field');
-        $itemId = $request->post('item_id');
-        $status = $request->post('status');
-
-        if (in_array($status, [0, 1])) {
-            $model = $this->model->findOrFail($itemId);
-            $model->{$field} = $status;
-            $model->save();
-            return response()->json([
-                'status' => 'success',
-                'message' => __('label.notification.success')
-            ]);
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'message' => trans('label.something_went_wrong')
-        ]);
     }
 }

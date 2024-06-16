@@ -231,7 +231,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::get('edit/{id}', [PostController::class, 'getEdit'])->name('posts.edit');
                 Route::put('edit/{id}', [PostController::class, 'putEdit']);
 
-                Route::post('change-popular', [PostController::class, 'changePopular'])->name('posts.change_popular');
                 Route::post('change-status', [PostController::class, 'changeStatus'])->name('posts.change_status');
                 Route::post('change-sorting', [PostController::class, 'changeSorting'])->name('posts.change_sorting');
             });

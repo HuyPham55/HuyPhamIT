@@ -36,7 +36,6 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                            <tr>
                                 <th scope="col">{{ __('label.created_at') }}</th>
                                 <th scope="col">{{ __('label.subject') }}</th>
                                 <th scope="col">{{ __('label.name') }}</th>
@@ -68,7 +67,8 @@
                                     </td>
                                     <td>
                                         @can('delete_contacts')
-                                            <button type="button" class="btn show-detail-contact {{$item->is_read?'btn-info':'btn-outline-info'}}"
+                                            <button type="button"
+                                                    class="btn show-detail-contact {{$item->is_read?'btn-info':'btn-outline-info'}}"
                                                     data-contact-id="{{ $item->id }}">
                                                 <i class="fas fa-fw fa-eye"></i> {{ __('label.action.show') }}
                                             </button>

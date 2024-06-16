@@ -85,7 +85,7 @@ class CategoryService
      * @param int|null $exceptId
      * @return array
      */
-    public function dropdown(string $text = '', int $exceptId = null)
+    public function dropdown(string $text = '', int $exceptId = null, $titleField = 'title')
     {
         $categories = $this->model->where('status', 1);
         if ($exceptId !== null) {
@@ -105,7 +105,7 @@ class CategoryService
         }
         if ($categories->count() > 0) {
             foreach ($categories as $key => $category) {
-                $data[$category->id] = str_repeat('_ ', (($category->level > 0) ? ($category->level - 1) : 0)) . $category->title;
+                $data[$category->id] = str_repeat('_ ', (($category->level > 0) ? ($category->level - 1) : 0)) . $category->{$titleField};
             }
         }
 

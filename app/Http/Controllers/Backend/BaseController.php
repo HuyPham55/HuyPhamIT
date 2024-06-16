@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Enums\CommonStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
-use App\Observers\ContactObserver;
+use App\Traits\BackendTrait;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
@@ -14,11 +14,11 @@ use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 class BaseController extends Controller
 {
     //
+    use BackendTrait;
     public array $lang;
 
     public function __construct()
     {
-
         $this->lang = array_map(function($item) { return $item['title']; }, config('lang'));
         $this->middleware(function ($request, $next) {
             View::share([

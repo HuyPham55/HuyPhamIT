@@ -15,10 +15,10 @@ use Yajra\DataTables\Facades\DataTables;
 class PostController extends BaseController
 {
     //
-    private Post $model;
-    private string $routeList;
-    private string $pathView;
-    private string $cacheName;
+    protected Post $model;
+    protected string $routeList;
+    protected string $pathView;
+    protected string $cacheName;
 
     public function __construct()
     {
@@ -80,34 +80,11 @@ class PostController extends BaseController
         return $data->toJson();
     }
 
-
     public function getAdd()
     {
         $post = $this->model;
         $categories = (new CategoryService(new PostCategory()))->dropdown();
         return view("{$this->pathView}.add", compact('post', 'categories'));
-    }
-
-    public function postAdd(Request $request)
-    {
-        $begin = microtime(true);
-        $flag = $this->model::saveModel($this->model, $request);
-        $duration = microtime(true) - $begin;
-        $ms = round($duration * 1000, 1);
-        if ($flag instanceof \Exception) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with([
-                    'status' => 'danger',
-                    'flash_message' => env("APP_DEBUG") ? $flag->getMessage() : trans('label.something_went_wrong')
-                ]);
-        }
-        $this->forgetCache();
-        return redirect()->route($this->routeList)->with([
-            'status' => 'success',
-            'flash_message' => trans('label.notification.success')." ({$ms}ms)"
-        ]);
     }
 
     public function getEdit(int $id)
@@ -118,134 +95,7 @@ class PostController extends BaseController
         return view("{$this->pathView}.edit", compact('post', 'categories'));
     }
 
-    public function putEdit(Request $request, int $id)
-    {
-        $begin = microtime(true);
-        $post = $this->model::findOrFail($id);
-        $flag = $this->model::saveModel($post, $request);
-        $duration = microtime(true) - $begin;
-        $ms = round($duration * 1000, 1);  if ($flag instanceof \Exception) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with([
-                'status' => 'danger',
-                'flash_message' => env("APP_DEBUG") ? $flag->getMessage() : trans('label.something_went_wrong')
-            ]);
-        }
-        $this->forgetCache();
-        return redirect()->intended(route($this->routeList))->with([
-            'status' => 'success',
-            'flash_message' => trans('label.notification.success')." ({$ms}ms)"
-        ]);
-    }
-
-    public function delete(Request $request)
-    {
-        $post = $this->model::findOrFail($request->post('item_id'));
-        $flag = $post->delete();
-        if ($flag) {
-            $this->forgetCache();
-            return response()->json([
-                'status' => 'success',
-                'title' => trans('label.deleted'),
-                'message' => trans('label.notification.success')
-            ]);
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'title' => trans('label.error'),
-            'message' => trans('label.something_went_wrong')
-        ]);
-    }
-
-    public function changeStatus(Request $request)
-    {
-        $this->validate($request, [
-            'field' => 'required|in:status',
-            'item_id' => 'required|integer',
-            'status' => 'required|integer',
-        ]);
-
-        $field = $request->post('field');
-        $itemId = $request->post('item_id');
-        $status = $request->post('status');
-
-        if (in_array($status, [0, 1])) {
-            $model = $this->model->findOrFail($itemId);
-            $model->{$field} = $status;
-            $model->save();
-            $this->forgetCache();
-
-            return response()->json([
-                'status' => 'success',
-                'message' => __('label.notification.success')
-            ]);
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'message' => trans('label.something_went_wrong')
-        ]);
-    }
-
-    public function changePopular(Request $request)
-    {
-        $this->validate($request, [
-            'field' => 'required|in:is_popular',
-            'item_id' => 'required|integer',
-            'is_popular' => 'required|integer',
-        ]);
-
-        $field = $request->post('field');
-        $itemId = $request->post('item_id');
-        $is_popular = $request->post('is_popular');
-
-        if (in_array($is_popular, [0, 1])) {
-            $model = $this->model->findOrFail($itemId);
-            $model->{$field} = $is_popular;
-            $model->save();
-            $this->forgetCache();
-
-            return response()->json([
-                'status' => 'success',
-                'message' => __('label.notification.success')
-            ]);
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'message' => trans('label.something_went_wrong')
-        ]);
-    }
-
-    public function changeSorting(Request $request)
-    {
-        $this->validate($request, [
-            'item_id' => 'required|integer',
-            'sorting' => 'required|integer',
-        ]);
-
-        try {
-            $model = $this->model->findOrFail($request->item_id);
-            $model->sorting = $request->sorting;
-            $model->save();
-            $this->forgetCache();
-
-            return response()->json([
-                'status' => 'success',
-                'message' => __('label.notification.success')
-            ]);
-        } catch (\Exception $exception) {
-            return response()->json([
-                'status' => 'error',
-                'message' => trans('label.something_went_wrong')
-            ]);
-        }
-    }
-
-    private function forgetCache(): void
+    protected function forgetCache(): void
     {
         Cache::forget($this->cacheName);
     }

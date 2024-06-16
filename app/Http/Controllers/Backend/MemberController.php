@@ -12,9 +12,9 @@ class MemberController extends BaseController
 {
     //
 
-    private Member $model;
-    private string $routeList;
-    private string $pathView;
+    protected Member $model;
+    protected string $routeList;
+    protected string $pathView;
 
     public function __construct()
     {
@@ -81,25 +81,5 @@ class MemberController extends BaseController
             ]);
         }
         return redirect()->intended(route($this->routeList))->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
-    }
-
-    public function delete(Request $request)
-    {
-        $member = $this->model::findOrFail($request->item_id);
-        $flag = $member->delete();
-        if ($flag) {
-            return response()->json([
-                'status' => 'success',
-                'title' => trans('label.deleted'),
-                'message' => trans('label.notification.success')
-            ]);
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'title' => trans('label.error'),
-            'message' => trans('label.something_went_wrong')
-        ]);
-
     }
 }

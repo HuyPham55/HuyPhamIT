@@ -14,8 +14,8 @@ class PostCategoryController extends BaseController
     //
     private CategoryService $categoryService;
     private string $pathView;
-    private string $routeList;
-    private PostCategory $model;
+    protected string $routeList;
+    protected PostCategory $model;
 
     public function __construct()
     {
@@ -47,44 +47,12 @@ class PostCategoryController extends BaseController
         return view("{$this->pathView}.add", compact('categories', 'category'));
     }
 
-    public function postAdd(Request $request)
-    {
-        $flag = $this->model->saveModel($this->model, $request);
-        if ($flag instanceof \Exception) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with([
-                    'status' => 'danger',
-                    'flash_message' => env("APP_DEBUG") ? $flag->getMessage() : trans('label.something_went_wrong')
-                ]);
-        }
-        return redirect()->route($this->routeList)->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
-    }
-
     public function getEdit(int $id)
     {
         $category = $this->model->findOrFail($id);
         $categories = $this->categoryService->dropdown(trans('label.root_category'), $id);
 
         return view("{$this->pathView}.edit", compact('category', 'categories'));
-    }
-
-    public function putEdit(Request $request, int $id)
-    {
-        $category = $this->model->findOrFail($id);
-        $flag = $this->model->saveModel($category, $request);
-
-        if ($flag instanceof \Exception) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with([
-                    'status' => 'danger',
-                    'flash_message' => env("APP_DEBUG") ? $flag->getMessage() : trans('label.something_went_wrong')
-                ]);
-        }
-        return redirect()->intended(route($this->routeList))->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
     }
 
     public function delete(Request $request)
@@ -124,54 +92,4 @@ class PostCategoryController extends BaseController
             ]);
         }
     }
-
-    public function changeSorting(Request $request)
-    {
-        $this->validate($request, [
-            'item_id' => 'required|integer',
-            'sorting' => 'integer|min:0|nullable',
-        ]);
-
-        $modelId = $request->post('item_id');
-        $sorting = $request->post('sorting');
-
-        $model = $this->model->findOrFail($modelId);
-        $model->sorting = $sorting;
-        $model->save();
-        return response()->json([
-            'status' => 'success',
-            'message' => __('label.notification.success')
-        ]);
-    }
-
-    public function changeStatus(Request $request)
-    {
-        $this->validate($request, [
-            'field' => 'required|in:status',
-            'item_id' => 'required|integer',
-            'status' => 'required|integer',
-        ]);
-
-        $field = $request->post('field');
-        $itemId = $request->post('item_id');
-        $status = $request->post('status');
-
-        if (in_array($status, [0, 1])) {
-            $model = $this->model->findOrFail($itemId);
-            $model->{$field} = $status;
-            $model->save();
-
-            return response()->json([
-                'status' => 'success',
-                'reload' => true,
-                'message' => __('label.notification.success')
-            ]);
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'message' => trans('label.something_went_wrong')
-        ]);
-    }
-
 }
