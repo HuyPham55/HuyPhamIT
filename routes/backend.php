@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\PermissionGroupController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\StaticPageController;
 use App\Http\Controllers\Backend\UserController;
+use App\Models\StaticPage;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
@@ -242,14 +243,21 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     //Static pages
     Route::group([
         'prefix' => 'static-pages',
-        'middleware' => 'permission:update_home_page|update_about_page|update_contact_page|update_blog_index|update_404_page'
+        'middleware' => 'permission:update_home_page|update_about_page|update_contact_page|update_404_page'
     ], function () {
-        $arrKey = 'home_page|about_page|contact_page|blog_index|404_page';
+        $arrKey = implode("|", StaticPage::AVAILABLE_PAGES);
         Route::get('/{key}', [StaticPageController::class, 'getEdit'])
             ->where('key', $arrKey)
             ->name('backend.static_page');
+
+        $keySeo = implode("|", StaticPage::AVAILABLE_SEO_PAGES);
+        Route::get('/{keySeo}', [StaticPageController::class, 'getEditSeoPage'])
+            ->where('keySeo', $keySeo)
+            ->name('backend.seo_page');
+
+        $arrKeyAccept = implode("|", array_merge(StaticPage::AVAILABLE_PAGES, StaticPage::AVAILABLE_SEO_PAGES));
         Route::put('/{key}', [StaticPageController::class, 'putEdit'])
-            ->where('key', $arrKey);
+            ->where('key', $arrKeyAccept);
     });
 
     //Faqs

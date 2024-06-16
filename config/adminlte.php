@@ -302,22 +302,23 @@ return [
                     'text' => 'homepage',
                     'route' => ['backend.static_page', ['key' => 'home_page', 'title' => 'frontend.homepage']],
                     'icon' => 'far fa-fw',
-                    'active' => ['admin/static-pages/home_page*'],
+                    'active' => ['admin/static-pages/home_page'],
                     'can' => 'update_home_page'
                 ],
+//                [
+//                    'text' => 'homepage',
+//                    'route' => ['backend.seo_page', ['keySeo' => 'home_page_seo', 'title' => 'frontend.homepage']],
+//                    'icon' => 'far fa-fw',
+//                    'active' => ['admin/static-pages/home_page_seo'],
+//                    'can' => 'update_home_page'
+//                ],
+
                 [
                     'text' => 'about_page',
                     'route' => ['backend.static_page', ['key' => 'about_page', 'title' => 'frontend.about_us']],
                     'icon' => 'far fa-fw',
                     'active' => ['admin/static-pages/about_page*'],
                     'can' => 'update_about_page'
-                ],
-                [
-                    'text' => 'blog',
-                    'route' => ['backend.static_page', ['key' => 'blog_index', 'title' => 'label.home_page']],
-                    'icon' => 'far fa-fw',
-                    'active' => ['admin/static-pages/blog_index*'],
-                    'can' => 'update_blog_index'
                 ],
                 [
                     'text' => 'contact_us',

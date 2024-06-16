@@ -21,6 +21,17 @@ class StaticPage extends BaseModel
         'key'
     ];
 
+    const AVAILABLE_PAGES = [
+        'home_page',
+        'about_page',
+        'contact_page',
+        '404_page',
+    ];
+
+    const AVAILABLE_SEO_PAGES = [
+        'home_page_seo'
+    ];
+
     public array $translatable = [
         'image',
         'banner',

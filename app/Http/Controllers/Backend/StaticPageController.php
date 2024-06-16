@@ -24,6 +24,12 @@ class StaticPageController extends BaseController
         return view('admin.static_pages.edit', compact('page'));
     }
 
+    public function getEditSeoPage($key = '')
+    {
+        $page = StaticPage::firstOrCreate(['key' => $key]);
+        return view('admin.static_pages.edit_seo_page', compact('page'));
+    }
+
     public function putEdit(Request $request, $key)
     {
         $page = StaticPage::firstOrCreate(['key' => $key]);
