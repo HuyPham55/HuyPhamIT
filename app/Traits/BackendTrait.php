@@ -113,7 +113,7 @@ trait BackendTrait
         }
     }
 
-    private function forgetCache()
+    protected function forgetCache()
     {
 
     }
