@@ -49,4 +49,5 @@ return array (
   'meta' => 'Meta',
   'footer_logo' => 'Footer logo',
   'slogan' => 'Slogan',
+  'history' => 'History',
 );

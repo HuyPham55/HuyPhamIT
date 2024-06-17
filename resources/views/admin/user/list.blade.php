@@ -24,7 +24,9 @@
         <div class="col-12">
             @includeIf('components.notification')
             @can('add_users')
-                @includeIf('components.buttons.add', ['route' => route('users.add')])
+                <div class="btn-group mb-2">
+                    @includeIf('components.buttons.add', ['route' => route('users.add')])
+                </div>
             @endcan
             <div class="card">
                 <div class="card-header">

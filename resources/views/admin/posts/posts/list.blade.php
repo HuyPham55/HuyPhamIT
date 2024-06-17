@@ -22,11 +22,11 @@
     <div class="row">
         <div class="col-12">
             @includeIf('components.notification')
-            <div class="btn-group">
+            <div class="btn-group mb-2">
                 @can('add_posts')
                     @includeIf('components.buttons.add', ['route' => route('posts.add')])
                 @endcan
-                <button class="btn btn-outline-success mb-2 ml-2 refresh">
+                <button class="btn btn-outline-success ml-2 refresh">
                     <i class="fa fa-sync mr-2"></i>
                     {{trans('label.action.refresh')}}
                 </button>

@@ -24,7 +24,9 @@
         <div class="col-12">
             @includeIf('components.notification')
             @can('add_faqs')
-                @includeIf('components.buttons.add', ['route' => route('faqs.add')])
+                <div class="btn-group mb-2">
+                    @includeIf('components.buttons.add', ['route' => route('faqs.add')])
+                </div>
             @endcan
 
             @include('admin.faqs.filter_bar')

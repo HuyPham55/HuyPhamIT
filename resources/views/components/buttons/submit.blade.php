@@ -1,4 +1,4 @@
-<button type="submit" class="btn btn-info waves-effect waves-light">
+<button type="submit" class="btn btn-primary waves-effect waves-light" title="{{ __('label.action.submit') }}">
     <i class="far fa-save"></i>
-    {{ __('label.action.save') }}
+    {{ __('label.action.submit') }}
 </button>

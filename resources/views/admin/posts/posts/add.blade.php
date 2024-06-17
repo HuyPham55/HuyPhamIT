@@ -34,6 +34,14 @@
                 <form action="" method="POST" class="form-horizontal pt-3">
                     @csrf
                     @include('admin.posts.posts.form')
+                    <div class="card-footer">
+                        <div class="action-form">
+                            <div class="form-group mb-0 text-center">
+                                @includeIf('components.buttons.save')
+                                @includeIf('components.buttons.cancel')
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
