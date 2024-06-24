@@ -24,4 +24,6 @@ return array (
   'previous_post' => '前一則',
   'next_post' => '下一則',
   'back_to_news' => '回到新聞主頁',
+  'department' => '国家',
+  'privacy_policy' => '隱私權聲明',
 );

@@ -35,4 +35,5 @@ return array (
   'solutions' => 'Solutions',
   'dashboard' => 'Dashboard',
   'statistics' => 'Statistics',
+  'tags' => 'Tags',
 );

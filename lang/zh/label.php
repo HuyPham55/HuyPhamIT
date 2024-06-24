@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'action' =>
+  'action' => 
   array (
     'action' => '編輯',
     'add' => '新增',
@@ -18,6 +18,7 @@ return array (
     'archive' => '存檔',
     'continue' => '繼續',
     'refresh' => '刷新',
+    'sign_in' => '登入',
   ),
   'address' => '地址',
   'all' => '全部',
@@ -32,7 +33,7 @@ return array (
   'error' => '錯誤',
   'faqs' => '常見問題',
   'favourite' => '最喜歡的',
-  'gender' =>
+  'gender' => 
   array (
     'gender' => '性別',
     'female' => '女',
@@ -44,7 +45,7 @@ return array (
   'name' => '姓名',
   'new_password' => '新密碼',
   'none' => '沒有任何',
-  'notification' =>
+  'notification' => 
   array (
     'success' => '成功',
   ),
@@ -63,7 +64,7 @@ return array (
   'settings' => '系統設定',
   'slide' => 'Slide',
   'something_went_wrong' => '出了问题',
-  'status' =>
+  'status' => 
   array (
     'active' => '啟用',
     'canceled' => '取消',
@@ -78,4 +79,6 @@ return array (
   'download' => '文件下載',
   'publish_date' => '刊登日期',
   'view_count' => '瀏覽人數',
+  'next_page' => '下一頁',
+  'previous_page' => '上一頁',
 );

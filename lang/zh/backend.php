@@ -28,4 +28,5 @@ return array (
   'icons' => '圖標',
   'is_shown_on_sidebar' => '在側邊欄顯示',
   'video' => '影片',
+  'login_message' => '请先登录',
 );

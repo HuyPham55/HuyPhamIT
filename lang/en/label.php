@@ -43,6 +43,7 @@ return array (
     'restore' => 'Restore',
     'preview' => 'Preview',
     'submit' => 'Submit',
+    'sign_in' => 'Sign in',
   ),
   'home' => 'Home',
   'blog' => 'Blog',
@@ -99,4 +100,7 @@ return array (
   'created_by' => 'Created by',
   'updated_by' => 'Updated by',
   'role_name' => 'Role name',
+  'next_page' => 'Next page',
+  'previous_page' => 'Previous page',
+  'remember_me' => 'Remember me',
 );

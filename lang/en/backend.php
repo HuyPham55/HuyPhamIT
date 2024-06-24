@@ -50,4 +50,5 @@ return array (
   'footer_logo' => 'Footer logo',
   'slogan' => 'Slogan',
   'history' => 'History',
+  'login_message' => 'Please login to begin your session',
 );

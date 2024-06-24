@@ -36,4 +36,7 @@ return array (
   'previous_post' => 'Previous post',
   'next_post' => 'Next post',
   'back_to_news' => 'Back to news',
+  'industry' => 'Industry',
+  'department' => 'Department',
+  'share_to_community' => 'Share to social media',
 );
