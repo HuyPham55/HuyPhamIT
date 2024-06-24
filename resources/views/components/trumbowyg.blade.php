@@ -14,6 +14,8 @@
                     ['foreColor', 'backColor'],
                     ['fontsize'],
                     ['removeformat'],
+                    ['link'],
+                    ['unorderedList', 'orderedList'],
                     ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
                 ],
                 tagsToRemove: ['script', 'link'],

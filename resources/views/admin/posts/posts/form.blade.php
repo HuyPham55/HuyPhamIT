@@ -33,7 +33,7 @@
                                 'inputName' => "{$langKey}[image]",
                                 'inputValue' => old("$langKey.image") ?? $post->getTranslation('image', $langKey, false),
                                 'lfmType' => 'image',
-                                'note' => 'height x width',
+                                'note' => '',
                             ])
                         </div>
 
@@ -47,13 +47,21 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="{{ $langKey }}[slug]"
+                            <label for="{{ $langKey }}slug"
                                    class="control-label">{{ __('backend.slug') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
-                            <input type="text" name="{{ $langKey }}[slug]" id="{{ $langKey }}[slug]"
-                                   value="{{ old("$langKey.slug") ?? $post->getTranslation('slug', $langKey, false) }}"
-                                   placeholder="{{trans('label.not_required')}}"
-                                   autocomplete="off"
-                                   class="form-control" maxlength="155">
+                            <div class="input-group mb-3">
+                                <input type="text" name="{{ $langKey }}[slug]" id="{{ $langKey }}slug"
+                                       value="{{ old("$langKey.slug") ?? $post->getTranslation('slug', $langKey, false) }}"
+                                       placeholder="{{trans('label.not_required')}}"
+                                       autocomplete="off"
+                                       class="form-control" maxlength="155">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="resetInput('{{ $langKey }}slug')">
+                                        <i class="fa fa-eraser mr-2"></i>
+                                        {{trans('label.action.clear')}}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -143,19 +151,10 @@
     </div>
 </div>
 
-<div class="card-footer">
-    <div class="action-form">
-        <div class="form-group mb-0 text-center">
-            @includeIf('components.buttons.submit')
-            @includeIf('components.buttons.cancel')
-        </div>
-    </div>
-</div>
-
 @include('components.tinymce')
 @include('components.Select2')
 @include('components.BootstrapDatePicker')
-
+@include('components.form_elements.alertUnsavedChange')
 @push('js')
     <script type="text/javascript">
         jQuery(() => {
@@ -166,3 +165,4 @@
         })
     </script>
 @endpush
+

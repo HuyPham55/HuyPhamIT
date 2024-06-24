@@ -28,6 +28,8 @@ class Slide extends BaseModel
         'description',
     ];
 
+    public string $titleColumn = "text_1";
+
     public static function saveModel(self $model, string $key, Request $request)
     {
         DB::beginTransaction();

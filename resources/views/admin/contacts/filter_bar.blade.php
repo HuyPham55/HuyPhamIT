@@ -9,12 +9,12 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="status">{{__('label.favourite')}}</label>
-                    <select type="text" name="status" id="status" class="form-control">
+                    <select type="text" name="favourite" id="favourite" class="form-control">
                         <option value="" selected>{{__('label.all')}}</option>
                         <option
-                            value="1" {{request()->input('status')?"selected":""}}>{{__('label.on')}}</option>
+                            value="1" {{request()->input('favourite')?"selected":""}}>{{__('label.on')}}</option>
                         <option
-                            value="0" {{ !is_null(request()->input('status')) && !request()->input('status')?"selected":""}}>{{__('label.off')}}</option>
+                            value="0" {{ !is_null(request()->input('favourite')) && !request()->input('favourite')?"selected":""}}>{{__('label.off')}}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-4">
@@ -39,3 +39,12 @@
         </form>
     </div>
 </div>
+
+@push('js')
+    <script>
+        jQuery("form#form-filter select").on('change', function () {
+            jQuery("form#form-filter").submit();
+        })
+    </script>
+@endpush
+

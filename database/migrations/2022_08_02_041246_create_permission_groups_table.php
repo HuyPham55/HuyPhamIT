@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->id();
             $table->tinyText('name');
             $table->string('key')->unique();
+            $table->boolean('status')->default(true);
+            $table->integer('sorting')->default(0);
             $table->timestamps();
         });
     }

@@ -24,7 +24,9 @@
         <div class="col-12">
             @includeIf('components.notification')
             @can('add_permission_groups')
-                @includeIf('components.buttons.add', ['route' => route('permission_groups.add')])
+                <div class="btn-group mb-2">
+                    @includeIf('components.buttons.add', ['route' => route('permission_groups.add')])
+                </div>
             @endcan
             <div class="card">
                 <div class="card-body">

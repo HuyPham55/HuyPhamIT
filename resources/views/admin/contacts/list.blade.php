@@ -25,7 +25,7 @@
             @includeIf('components.notification')
             @include('admin.contacts.filter_bar')
 
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <div class="card-title">
                         <h4>{{trans('label.total')}}: {{$contacts->total()}}</h4>
@@ -35,7 +35,6 @@
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
-                            <tr>
                             <tr>
                                 <th scope="col">{{ __('label.created_at') }}</th>
                                 <th scope="col">{{ __('label.subject') }}</th>
@@ -68,7 +67,8 @@
                                     </td>
                                     <td>
                                         @can('delete_contacts')
-                                            <button type="button" class="btn show-detail-contact {{$item->is_read?'btn-info':'btn-outline-info'}}"
+                                            <button type="button"
+                                                    class="btn show-detail-contact {{$item->is_read?'btn-info':'btn-outline-info'}}"
                                                     data-contact-id="{{ $item->id }}">
                                                 <i class="fas fa-fw fa-eye"></i> {{ __('label.action.show') }}
                                             </button>
@@ -146,11 +146,15 @@
                     jQuery(this).addClass('btn-info').removeClass('btn-outline-info');
                 }
                 jQuery.get('{{ route('contacts.show') }}', {
-                    item_id : itemID,
+                    item_id: itemID,
                 }, function (data) {
                     jQuery('.modal-body').html(data);
                     jQuery('.modal').modal('show');
                     callback()
+                }).fail((res) => {
+                    if (typeof toastr !== 'undefined') {
+                        toastr.error(res.statusText, 'Error');
+                    }
                 });
             });
         })

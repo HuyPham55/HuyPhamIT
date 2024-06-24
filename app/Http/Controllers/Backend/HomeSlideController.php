@@ -10,10 +10,10 @@ class HomeSlideController extends BaseController
 {
     //
     const CACHE_NAME = '';
-    private string $pathView;
-    private string $routeList;
-    private Slide $model;
-    private string $key;
+    protected string $pathView;
+    protected string $routeList;
+    protected Slide $model;
+    protected string $key;
 
     public function __construct()
     {
@@ -28,7 +28,8 @@ class HomeSlideController extends BaseController
     public function index()
     {
         session(['url.intended' => url()->full()]);
-        $data = $this->model::where('key', $this->key)
+        $data = $this->model
+            ->where('key', $this->key)
             ->orderBy('sorting')
             ->orderBy('id')
             ->paginate();
@@ -43,7 +44,7 @@ class HomeSlideController extends BaseController
 
     public function postAdd(Request $request)
     {
-        $flag = $this->model::saveModel($this->model, $this->key, $request);
+        $flag = $this->model->saveModel($this->model, $this->key, $request);
         if ($flag instanceof \Exception) {
             return redirect()
                 ->back()
@@ -59,15 +60,15 @@ class HomeSlideController extends BaseController
 
     public function getEdit(int $id)
     {
-        $slide = $this->model::findOrFail($id);
+        $slide = $this->model->findOrFail($id);
 
         return view("{$this->pathView}.edit", compact('slide'));
     }
 
     public function putEdit(Request $request, int $id)
     {
-        $model = $this->model::findOrFail($id);
-        $flag = $this->model::saveModel($model, $this->key, $request);
+        $model = $this->model->findOrFail($id);
+        $flag = $this->model->saveModel($model, $this->key, $request);
         if ($flag instanceof \Exception) {
             return redirect()
                 ->back()
@@ -79,77 +80,6 @@ class HomeSlideController extends BaseController
         }
         $this->forgetCache();
         return redirect()->intended(route($this->routeList))->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
-    }
-
-    public function delete(Request $request)
-    {
-        $model = $this->model::findOrFail($request->post('item_id'));
-        $flag = $model->delete();
-        if ($flag) {
-            $this->forgetCache();
-            return response()->json([
-                'status' => 'success',
-                'title' => trans('label.deleted'),
-                'message' => trans('label.notification.success')
-            ]);
-        }
-        return response()->json([
-            'status' => 'error',
-            'title' => trans('label.error'),
-            'message' => trans('label.something_went_wrong')
-        ]);
-    }
-
-    public function changeSorting(Request $request)
-    {
-        $this->validate($request, [
-            'item_id' => 'required|integer',
-            'sorting' => 'required|integer',
-        ]);
-
-        try {
-            $model = $this->model->findOrFail($request->item_id);
-            $model->sorting = $request->sorting;
-            $model->save();
-
-            return response()->json([
-                'status' => 'success',
-                'message' => __('label.notification.success')
-            ]);
-        } catch (\Exception $exception) {
-            return response()->json([
-                'status' => 'error',
-                'message' => trans('label.something_went_wrong')
-            ]);
-        }
-    }
-
-    public function changeStatus(Request $request)
-    {
-        $this->validate($request, [
-            'field' => 'required|in:status',
-            'item_id' => 'required|integer',
-            'status' => 'required|integer',
-        ]);
-
-        $field = $request->post('field');
-        $itemId = $request->post('item_id');
-        $status = $request->post('status');
-
-        if (in_array($status, [0, 1])) {
-            $model = $this->model->findOrFail($itemId);
-            $model->{$field} = $status;
-            $model->save();
-            $this->forgetCache();
-            return response()->json([
-                'status' => 'success',
-                'message' => __('label.notification.success')
-            ]);
-        }
-        return response()->json([
-            'status' => 'error',
-            'message' => trans('label.something_went_wrong')
-        ]);
     }
 
     protected function forgetCache()

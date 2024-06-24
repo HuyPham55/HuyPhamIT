@@ -40,6 +40,9 @@ return array (
     'archive' => 'Archive',
     'continue' => 'Continue',
     'refresh' => 'Refresh',
+    'restore' => 'Restore',
+    'preview' => 'Preview',
+    'submit' => 'Submit',
   ),
   'home' => 'Home',
   'blog' => 'Blog',
@@ -92,4 +95,8 @@ return array (
   'view_count' => 'Views',
   'statistics' => 'Statistics',
   'not_required' => 'Not required',
+  'information' => 'Information',
+  'created_by' => 'Created by',
+  'updated_by' => 'Updated by',
+  'role_name' => 'Role name',
 );

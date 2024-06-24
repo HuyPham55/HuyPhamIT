@@ -47,4 +47,7 @@ return array (
   'contact_form_title' => 'Contact form title',
   'search_placeholder' => 'Search placeholder',
   'meta' => 'Meta',
+  'footer_logo' => 'Footer logo',
+  'slogan' => 'Slogan',
+  'history' => 'History',
 );

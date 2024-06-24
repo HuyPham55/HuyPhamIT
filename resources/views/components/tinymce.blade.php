@@ -44,11 +44,28 @@
                     callback(message.content);
                 }
             });
+        },
+        setup: function (editor) {
+            editor.on('Change', function (e) {
+                if (!document.body.onbeforeunload) {
+                    document.body.onbeforeunload = function (e) {
+                        //unsaved data
+                        e.preventDefault()
+                        return 1;
+                    }
+                }
+            });
         }
     };
 
-
     document.addEventListener("DOMContentLoaded", () => {
         tinymce.init(editor_config);
+        let submitButton = document.querySelector("form button[type='submit']")
+        if (submitButton) {
+            submitButton.addEventListener("click", function () {
+                document.body.onbeforeunload = () => {
+                }
+            })
+        }
     })
 </script>

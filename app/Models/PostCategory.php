@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Translatable\HasTranslations;
@@ -35,7 +36,7 @@ class PostCategory extends BaseModel
         self::observe(PostCategoryObserver::class);
     }
 
-    public function chidlren(): HasMany
+    public function children(): HasMany
     {
         return $this
             ->hasMany(PostCategory::class, 'parent_id')
@@ -83,5 +84,15 @@ class PostCategory extends BaseModel
             ->hasMany(Post::class, 'category_id')
             ->orderBy('sorting')
             ->orderBy('id');
+    }
+
+    public function nestedPosts(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Post::class,
+            PostCategory::class,
+            'parent_id',
+            'category_id'
+        );
     }
 }

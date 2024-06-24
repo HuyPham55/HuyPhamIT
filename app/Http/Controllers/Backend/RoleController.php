@@ -21,7 +21,7 @@ class RoleController extends BaseController
     public function getAdd()
     {
         $data = new Role();
-        $permissionGroups = PermissionGroup::with('permissions')->orderBy('name')->get();
+        $permissionGroups = $this->getPermissionGroups();
         return view('admin.role.add', compact('permissionGroups', 'data'));
     }
 
@@ -67,7 +67,8 @@ class RoleController extends BaseController
         if ($data->name == RoleEnum::Admin) {
             return redirect()->back()->with(['status' => 'danger', 'flash_message' => trans('label.something_went_wrong')]);
         }
-        $permissionGroups = PermissionGroup::with('permissions')->orderBy('name')->get();
+
+        $permissionGroups = $this->getPermissionGroups();
         return view('admin.role.edit', compact('data', 'permissionGroups'));
     }
 
@@ -121,5 +122,21 @@ class RoleController extends BaseController
                 'reload' => true
             ]);
         }
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getPermissionGroups(): array|\Illuminate\Database\Eloquent\Collection
+    {
+        return PermissionGroup::with(['permissions' => function ($query) {
+            $query->where('status', true)
+                ->orderBy('sorting')
+                ->get();
+        }])
+            ->where('status', true)
+            ->orderBy('sorting')
+            ->orderBy('name')
+            ->get();
     }
 }

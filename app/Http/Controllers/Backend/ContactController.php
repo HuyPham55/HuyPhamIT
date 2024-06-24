@@ -10,7 +10,7 @@ class ContactController extends BaseController
 {
     //
 
-    private $model, $pathView;
+    protected $model, $pathView;
 
     public function __construct()
     {
@@ -27,6 +27,14 @@ class ContactController extends BaseController
             ->orderBy('id')
             ->paginate();
 
+        if (!session()->has('flash_message')) {
+            $inactiveCount = $this->model->where('is_read', 0)->count();
+            if ($inactiveCount) {
+                session()->flash('flash_message', $inactiveCount . " unread items(s)");
+                session()->flash('status', 'warning');
+            }
+        }
+
         return view("{$this->pathView}.list", compact('contacts'));
     }
 
@@ -37,25 +45,6 @@ class ContactController extends BaseController
         $contact->save();
 
         return view("{$this->pathView}.modal", compact('contact'))->render();
-    }
-
-    public function delete(Request $request)
-    {
-        $model = $this->model::findOrFail($request->post('item_id'));
-        $flag = $model->delete();
-
-        if ($flag) {
-            return response()->json([
-                'status' => 'success',
-                'title' => trans('label.deleted'),
-                'message' => trans('label.notification.success')
-            ]);
-        }
-        return response()->json([
-            'status' => 'error',
-            'title' => trans('label.error'),
-            'message' => trans('label.something_went_wrong')
-        ]);
     }
 
     public function changeFavourite(Request $request)
@@ -74,16 +63,8 @@ class ContactController extends BaseController
             $model = $this->model->findOrFail($itemId);
             $model->{$field} = $status;
             $model->save();
-
-            return response()->json([
-                'status' => 'success',
-                'message' => __('label.notification.success')
-            ]);
+            return $this->success();
         }
-
-        return response()->json([
-            'status' => 'error',
-            'message' => trans('label.something_went_wrong')
-        ]);
+        return $this->error();
     }
 }

@@ -63,6 +63,7 @@
 
         <div class="form-group mb-3">
             <input type="text" name="captcha" class="form-control @error('captcha') is-invalid @enderror"
+                   autocomplete="off"
                    placeholder="{{ __('backend.captcha') }}" title="">
 
             @error('captcha')
@@ -87,6 +88,11 @@
                         {{ __('adminlte::adminlte.remember_me') }}
                     </label>
                 </div>
+            </div>
+            <div class="col-5 text-center">
+                <a href="/">
+                    {{trans('menu.frontpage')}}
+                </a>
             </div>
         </div>
 

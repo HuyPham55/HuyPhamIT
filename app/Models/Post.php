@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Enums\CommonStatus;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -19,6 +18,9 @@ use Spatie\Translatable\HasTranslations;
  * @property bool|mixed $status
  * @property mixed $created_at
  * @property \Illuminate\Support\Carbon|mixed|null $publish_date
+ * @property mixed $updated_by
+ * @property mixed $user_id
+ * @property mixed $id
  */
 class Post extends BaseModel
 {
@@ -39,6 +41,13 @@ class Post extends BaseModel
     public function category(): BelongsTo
     {
         return $this->belongsTo(PostCategory::class, 'category_id');
+    }
+
+    public function author() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function updater() {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 
     public static function saveModel(self $model, Request $request)
@@ -70,6 +79,13 @@ class Post extends BaseModel
             $model->publish_date = $request->date('publish_date', 'Y-m-d');
 
             $model->status = $request->boolean('status', true);
+
+            $userID = auth()->guard('web')->user()->id;
+            if ($userID) {
+                $model->id
+                    ? $model->updated_by = $userID
+                    : $model->user_id = $userID;
+            }
             $model->save();
             DB::commit();
             return $model;

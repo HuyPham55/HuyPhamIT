@@ -148,7 +148,6 @@ return [
         'permissions' => [
             'update_home_page' => 'Update home page',
             'update_about_page' => 'Update about page',
-            'update_blog_index' => 'Update blog index',
             'update_contact_page' => 'Update update contact page',
             'update_404_page' => 'Update 404 page',
         ]

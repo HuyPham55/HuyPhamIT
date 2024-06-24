@@ -33,7 +33,7 @@
                                 'inputName' => "{$langKey}[image]",
                                 'inputValue' => old("$langKey.image") ?? $page->getTranslation('image', $langKey, false),
                                 'lfmType' => 'image',
-                                'note' => 'height x width',
+                                'note' => '',
                             ])
                         </div>
 
@@ -74,4 +74,5 @@
 </div>
 
 @include('components.tinymce')
+@include('components.form_elements.alertUnsavedChange')
 

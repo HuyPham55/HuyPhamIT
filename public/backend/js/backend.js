@@ -69,6 +69,8 @@ function postData(route, dataPost) {
                         toastr.error(value, 'Error');
                     });
                 }
+            } else {
+                toastr.error(data.statusText, 'Error');
             }
         });
 }

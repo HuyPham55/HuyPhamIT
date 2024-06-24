@@ -24,9 +24,11 @@
         <div class="col-12">
             @includeIf('components.notification')
             @can('add_home_slides')
-                @includeIf('components.buttons.add', ['route' => route('home_slides.add')])
+                <div class="btn-group mb-2">
+                    @includeIf('components.buttons.add', ['route' => route('home_slides.add')])
+                </div>
             @endcan
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <div class="card-title">
                         <h4>{{trans('label.total')}}: {{$data->total()}}</h4>

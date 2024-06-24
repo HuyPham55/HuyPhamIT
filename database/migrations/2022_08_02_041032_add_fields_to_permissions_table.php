@@ -16,6 +16,8 @@ return new class extends Migration {
             //
             $table->integer('permission_group_id')->nullable();
             $table->string('title')->after('name')->nullable();
+            $table->boolean('status')->default(true);
+            $table->integer('sorting')->default(0);
         });
     }
 
@@ -30,6 +32,8 @@ return new class extends Migration {
             //
             $table->dropColumn('permission_group_id');
             $table->dropColumn('title');
+            $table->dropColumn('status');
+            $table->dropColumn('sorting');
         });
     }
 };

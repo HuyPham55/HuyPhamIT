@@ -23,7 +23,7 @@ class PermissionGroupController extends BaseController
 
     public function getList()
     {
-        $data = PermissionGroup::orderBy('name')->get();
+        $data = PermissionGroup::orderBy('name')->where('status', true)->get();
 
         return view("{$this->pathView}.list", compact('data'));
     }

@@ -22,7 +22,9 @@
         <div class="col-12">
             @includeIf('components.notification')
             @can('add_post_categories')
-                @includeIf('components.buttons.add', ['route' => route('post_categories.add')])
+                <div class="btn-group mb-2">
+                    @includeIf('components.buttons.add', ['route' => route('post_categories.add')])
+                </div>
             @endcan
             <div class="card">
                 <div class="card-header">

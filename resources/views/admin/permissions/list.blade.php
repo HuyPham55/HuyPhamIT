@@ -23,7 +23,9 @@
         <div class="col-12">
             @includeIf('components.notification')
             @can('add_permissions')
-                @includeIf('components.buttons.add', ['route' => route('permissions.add')])
+                <div class="btn-group mb-2">
+                    @includeIf('components.buttons.add', ['route' => route('permissions.add')])
+                </div>
             @endcan
 
             @foreach($data as $permissionGroup)

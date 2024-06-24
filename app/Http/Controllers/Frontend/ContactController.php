@@ -9,6 +9,7 @@ use App\Mail\CustomerContactMail;
 use App\Models\Contact;
 use App\Models\StaticPage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class ContactController extends BaseController
@@ -41,6 +42,7 @@ class ContactController extends BaseController
                 'message' => __('frontend.contact_success_message')
             ]);
         } catch (\Exception $exception) {
+            Log::error($exception);
             return response()->json([
                 'status' => 'error',
                 'message' => env("APP_DEBUG")
@@ -61,6 +63,7 @@ class ContactController extends BaseController
 
     private function sendMail(array $data)
     {
+        if (empty(env('MAIL_USERNAME'))) return;
         $adminEmails = cachedOption('emails_receive_notification');
         $arrayEmails = explode(',', $adminEmails);
         if (!empty($arrayEmails)) {
