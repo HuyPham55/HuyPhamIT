@@ -35,7 +35,7 @@ class BannerController extends BaseController
         return view('admin.settings.banners', ['bannerKeys' => $this->optionKeys]);
     }
 
-    public function putEdit(Request $request): \Illuminate\Http\RedirectResponse
+    public function putEdit(Request $request, int $id = 0): \Illuminate\Http\RedirectResponse
     {
         foreach ($this->optionKeys as $optionKey => $optionTitle) {
             if ($request->has($optionKey)) {

@@ -66,7 +66,7 @@ class MemberController extends BaseController
         return view("{$this->pathView}.edit", compact('member'));
     }
 
-    public function putEdit($id, MemberEditRequest $request)
+    public function putEdit(MemberEditRequest $request, int $id = 0)
     {
         $model = $this->model->findOrFail($id);
         $flag = $this->model::saveModel($model, $request);

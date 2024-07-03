@@ -44,7 +44,7 @@ class StaticPageController extends BaseController
         ]);
     }
 
-    private function forgetCache($key)
+    protected function forgetCache($key = '')
     {
         if ($key) {
             Cache::forget($key);

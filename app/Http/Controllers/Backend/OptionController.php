@@ -38,7 +38,7 @@ class OptionController extends BaseController
         return view('admin.settings.options');
     }
 
-    public function putEdit(Request $request)
+    public function putEdit(Request $request, $id = 0)
     {
         foreach ($this->optionKeys() as $optionKey) {
             if ($request->has($optionKey)) {
