@@ -42,7 +42,6 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                            <tr>
                                 <th scope="col">{{ __('label.name') }}</th>
                                 <th>{{ __('label.username') }}</th>
                                 <th>{{ __('label.email') }}</th>
@@ -53,8 +52,8 @@
                             <tbody>
                             @forelse($data as $user)
                                 <tr id="row-id-{{ $user->id }}">
-                                    <td>{{ $user->username }}</td>
                                     <td>{{ $user->name }}</td>
+                                    <td>{{ $user->username }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->phone }}</td>
                                     <td>

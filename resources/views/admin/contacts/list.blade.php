@@ -66,12 +66,12 @@
                                         />
                                     </td>
                                     <td>
+                                        <button type="button"
+                                                class="btn show-detail-contact {{$item->is_read?'btn-info':'btn-outline-info'}}"
+                                                data-contact-id="{{ $item->id }}">
+                                            <i class="fas fa-fw fa-eye"></i> {{ __('label.action.show') }}
+                                        </button>
                                         @can('delete_contacts')
-                                            <button type="button"
-                                                    class="btn show-detail-contact {{$item->is_read?'btn-info':'btn-outline-info'}}"
-                                                    data-contact-id="{{ $item->id }}">
-                                                <i class="fas fa-fw fa-eye"></i> {{ __('label.action.show') }}
-                                            </button>
                                             @includeIf('components.buttons.delete', ['route' => route('contacts.delete'), 'id' => $item->id])
                                         @endcan
                                     </td>
