@@ -39,4 +39,6 @@ return array (
   'industry' => 'Industry',
   'department' => 'Department',
   'share_to_community' => 'Share to social media',
+  'search_results' => 'Search results',
+  'view_all' => 'View all',
 );

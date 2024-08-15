@@ -36,4 +36,8 @@ return array (
   'dashboard' => 'Dashboard',
   'statistics' => 'Statistics',
   'tags' => 'Tags',
+  'articles' => 'Articles',
+  'equipments' => 'Equipments',
+  'partners' => 'Partners',
+  'regions' => 'Regions',
 );
