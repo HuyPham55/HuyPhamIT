@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\MemberObserver;
 use EloquentFilter\Filterable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -30,6 +31,12 @@ class Member extends Authenticatable implements CanResetPasswordContract
     use Notifiable;
     use CanResetPassword;
     use Filterable;
+
+    protected static function boot()
+    {
+        parent::boot();
+        self::observe(MemberObserver::class);;
+    }
 
     public static function saveModel(self $model, Request $request)
     {

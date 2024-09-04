@@ -43,6 +43,9 @@ return array (
     'restore' => 'Restore',
     'preview' => 'Preview',
     'submit' => 'Submit',
+    'notify' => 'Notify',
+    'sign_in' => 'Sign in',
+    'verify_email' => 'Verify email',
   ),
   'home' => 'Home',
   'blog' => 'Blog',
@@ -99,4 +102,6 @@ return array (
   'created_by' => 'Created by',
   'updated_by' => 'Updated by',
   'role_name' => 'Role name',
+  'profile_picture' => 'Profile picture',
+  'documents' => 'Documents',
 );

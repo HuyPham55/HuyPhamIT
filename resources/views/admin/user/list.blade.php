@@ -28,6 +28,7 @@
                     @includeIf('components.buttons.add', ['route' => route('users.add')])
                 </div>
             @endcan
+            @include('admin.user.filter_bar')
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
@@ -38,7 +39,6 @@
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
-                            <tr>
                             <tr>
                                 <th>{{ __('label.name') }}</th>
                                 <th>{{__('label.roles')}}</th>

@@ -24,9 +24,11 @@ class UserController extends BaseController
         $this->routeList = 'users.list';
     }
 
-    public function getList()
+    public function getList(Request $request)
     {
-        $data = User::orderBy('created_at', 'DESC')->paginate();
+        $data = User::orderBy('created_at', 'DESC')
+            ->filter($request->only(['keyword', 'status']))
+            ->paginate();
         return view('admin.user.list', compact('data'));
     }
 

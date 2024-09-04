@@ -34,7 +34,6 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                            <tr>
                                 <th scope="col">{{ __('label.title') }}</th>
                                 <th scope="col">{{ __('label.action.action') }}</th>
                             </tr>

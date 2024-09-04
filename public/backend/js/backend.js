@@ -48,8 +48,8 @@ function resetInput(id) {
     jQuery("#image-preview-" + id).find('img').attr("src", "/images/no-image.png");
 }
 
-function postData(route, dataPost) {
-    jQuery.post(route, dataPost)
+async function postData(route, dataPost) {
+    return await jQuery.post(route, dataPost)
         .done(function (data) {
             if (typeof toastr != 'undefined') {
                 if (data.status && data.status === 'success') {
@@ -73,4 +73,29 @@ function postData(route, dataPost) {
                 toastr.error(data.statusText, 'Error');
             }
         });
+}
+
+async function confirmAction(callback) {
+    return await Swal.fire({
+        title: labels.action.confirm_action,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'OK',
+        cancelButtonText: labels.cancel,
+        closeOnConfirm: false,
+        closeOnCancel: false
+    }).then(callback)
+}
+
+async function confirmOpen(url) {
+    let callback = (isConfirm) => {
+        if (isConfirm.value) {
+            window.location.href = url
+        } else {
+            Swal.fire(labels.status.canceled, '', "error");
+        }
+    }
+    return await confirmAction(callback)
 }

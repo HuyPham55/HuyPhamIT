@@ -39,7 +39,6 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                            <tr>
                                 <th scope="col">{{ __('label.image') }}</th>
                                 <th scope="col">{{ __('backend.sorting') }}</th>
                                 <th scope="col">{{ __('label.status.status') }}</th>
