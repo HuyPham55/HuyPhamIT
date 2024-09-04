@@ -45,7 +45,7 @@ class UserController extends BaseController
             //Insert data
             $user->name = $request->input('name');
             $user->email = $request->input('email');
-            $user->password = bcrypt($request->input('password'));
+            $user->password = Hash::make($request->input('password'));
             $user->status = $request->input('status');
             $user->save();
             $user->assignRole($request->input('role'));
@@ -72,7 +72,7 @@ class UserController extends BaseController
 
         //Update data
         if (!empty($request->input('password'))) {
-            $user->password = bcrypt($request->input('password'));
+            $user->password = Hash::make($request->input('password'));
         }
         $user->name = $request->input('name');
         $user->email = $request->input('email');
@@ -166,7 +166,7 @@ class UserController extends BaseController
                 'password' => 'required|confirmed|min:6',
                 'password_confirmation' => 'required',
             ]);
-            $user->password = bcrypt($request->input('password'));
+            $user->password = Hash::make($request->input('password'));
             $user->save();
             return redirect()->back()->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
         }

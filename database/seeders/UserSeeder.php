@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => "admin@laravel.com",
                 'email_verified_at' => now(),
-                'password' => bcrypt('12345678'),
+                'password' => '12345678',
                 'status' => CommonStatus::Active
             ]);
         }
