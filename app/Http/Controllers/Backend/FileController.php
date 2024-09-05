@@ -23,12 +23,13 @@ class FileController extends BaseController
         $disk = $this->disk;
         $directoryPrefix = config("filesystems.disks." . $disk . ".url");
 
-        if (!$request->hasFile('image')) {
-            return $this->error([]);
-        }
+        $this->validate($request, [
+            'image' => 'required|image|mimes:jpeg,jpg,png,gif,ico,svg'
+        ]);
+
         $file = $request->file('image');
 
-        $fileName = $file->getClientOriginalName();
+        $fileName = alphanumericFileName($file->getClientOriginalName());
 
         $directory = $request->has('path')
             ? $request->input('path')

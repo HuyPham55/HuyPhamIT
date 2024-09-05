@@ -81,3 +81,11 @@ function normalizeImageUrl($url)
 {
     return isValidUrl($url) ? $url : asset($url);
 }
+
+function alphanumericFileName(string $fileName): string
+{
+    // Regular expression to match all non-alphanumeric characters except dots
+    $pattern = '/[^a-zA-Z0-9.]/';
+    // Replace all matched characters with an underscore
+    return preg_replace($pattern, '_', $fileName);
+}
