@@ -6,6 +6,7 @@ use App\Http\Requests\User\UserAddRequest;
 use App\Http\Requests\User\UserEditProfileRequest;
 use App\Http\Requests\User\UserEditRequest;
 use App\Models\User;
+use App\Traits\BackendTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,7 @@ use Spatie\Permission\Models\Role;
 class UserController extends BaseController
 {
     //
+    use BackendTrait;
     private $routeList;
 
     public function __construct()
@@ -63,6 +65,7 @@ class UserController extends BaseController
 
     public function postEdit(UserEditRequest $request, $id)
     {
+        //$request->validate((new UserEditRequest())->rules());
         $user = User::findOrFail($id);
         $this->__validateUniqueEmailRequest($user, $request);
 

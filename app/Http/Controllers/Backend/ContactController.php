@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use App\Traits\BackendTrait;
 use Illuminate\Http\Request;
 
 class ContactController extends BaseController
 {
     //
-
+    use BackendTrait;
     protected $model, $pathView;
 
     public function __construct()

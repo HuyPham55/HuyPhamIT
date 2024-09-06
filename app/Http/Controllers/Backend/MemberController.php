@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Requests\MemberAddRequest;
 use App\Http\Requests\MemberEditRequest;
 use App\Models\Member;
+use App\Traits\BackendTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
 class MemberController extends BaseController
 {
     //
-
+    use BackendTrait;
     protected Member $model;
     protected string $routeList;
     protected string $pathView;

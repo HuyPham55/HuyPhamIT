@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use App\Models\Post;
 use App\Services\CategoryService;
+use App\Traits\BackendTrait;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -15,6 +16,7 @@ use Yajra\DataTables\Facades\DataTables;
 class PostController extends BaseController
 {
     //
+    use BackendTrait;
     protected Post $model;
     protected string $routeList;
     protected string $pathView;

@@ -3,16 +3,17 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 trait BackendTrait
 {
-    public function postAdd(Request $request)
+    public function postAdd(Request $request): RedirectResponse
     {
         $begin = microtime(true);
-        $flag = $this->model::saveModel($this->model, $request);
+        $flag = $this->model->saveModel($this->model, $request);
         $duration = microtime(true) - $begin;
         $ms = round($duration * 1000, 1);
         if ($flag instanceof \Exception) {
@@ -31,11 +32,11 @@ trait BackendTrait
         ]);
     }
 
-    public function putEdit(Request $request, int $id)
+    public function putEdit(Request $request, int $id): RedirectResponse
     {
         $begin = microtime(true);
-        $model = $this->model::findOrFail($id);
-        $flag = $this->model::saveModel($model, $request);
+        $model = $this->model->findOrFail($id);
+        $flag = $this->model->saveModel($model, $request);
         $duration = microtime(true) - $begin;
         $ms = round($duration * 1000, 1);
         if ($flag instanceof \Exception) {
@@ -118,7 +119,7 @@ trait BackendTrait
 
     }
 
-    protected function success(string $title = "", string $message = "")
+    protected function success(string $title = "", string $message = ""): JsonResponse
     {
         $title = $title ?: __('label.notification.success');
         $message = $message ?: __('label.notification.success');
@@ -129,7 +130,7 @@ trait BackendTrait
         ]);
     }
 
-    protected function error(string $title = "", string $message = "")
+    protected function error(string $title = "", string $message = ""): JsonResponse
     {
         $title = $title ?: __('label.error');
         $message = $message ?: trans('label.something_went_wrong');

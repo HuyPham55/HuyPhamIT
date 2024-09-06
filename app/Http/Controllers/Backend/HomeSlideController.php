@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\Slide;
+use App\Traits\BackendTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class HomeSlideController extends BaseController
 {
     //
+    use BackendTrait;
     const CACHE_NAME = '';
     protected string $pathView;
     protected string $routeList;

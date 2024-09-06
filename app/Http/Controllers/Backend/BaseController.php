@@ -14,7 +14,6 @@ use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 class BaseController extends Controller
 {
     //
-    use BackendTrait;
     public array $lang;
 
     public function __construct()

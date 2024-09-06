@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use App\Services\CategoryService;
 use App\Services\NestedSetService;
+use App\Traits\BackendTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PostCategoryController extends BaseController
 {
     //
+    use BackendTrait;
     private CategoryService $categoryService;
     private string $pathView;
     protected string $routeList;

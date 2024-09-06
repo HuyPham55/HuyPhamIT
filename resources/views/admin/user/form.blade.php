@@ -28,7 +28,7 @@
                class="col-sm-2 control-label col-form-label">{{ __('label.password') }}</label>
         <div class="col-sm-10">
             <input type="password" id="password" name="password" value="{{ old('password') }}"
-                   class="form-control" minlength="8" required>
+                   class="form-control" minlength="8">
             @error('password')
             <p class="text-danger">{{ $message }}</p>
             @enderror
@@ -40,8 +40,7 @@
                class="col-sm-2 control-label col-form-label">{{ __('label.password_confirmation') }}</label>
         <div class="col-sm-10">
             <input type="password" id="password_confirmation" name="password_confirmation"
-                   value="{{ old('password_confirmation') }}" class="form-control" minlength="8"
-                   required>
+                   value="{{ old('password_confirmation') }}" class="form-control" minlength="8">
             @error('password_confirmation')
             <p class="text-danger">{{ $message }}</p>
             @enderror

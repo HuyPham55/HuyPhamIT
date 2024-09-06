@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Faq;
+use App\Traits\BackendTrait;
 use Illuminate\Http\Request;
 
 class FaqController extends BaseController
 {
     //
+    use BackendTrait;
     protected string $pathView;
     protected string $routeList;
     protected Faq $model;
