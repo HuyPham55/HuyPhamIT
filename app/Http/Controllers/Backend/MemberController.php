@@ -48,9 +48,8 @@ class MemberController extends BaseController
         return view("{$this->pathView}.add", compact('member'));
     }
 
-    public function postAdd(Request $request)
+    public function postAdd(MemberAddRequest $request)
     {
-        $request->validate((new MemberAddRequest())->rules());
         $flag = $this->model->saveModel($this->model, $request);
         if ($flag instanceof \Exception) {
             return redirect()->back()->with([
@@ -67,9 +66,8 @@ class MemberController extends BaseController
         return view("{$this->pathView}.edit", compact('member'));
     }
 
-    public function putEdit(Request $request, int $id = 0)
+    public function putEdit(MemberEditRequest $request, int $id = 0)
     {
-        $request->validate((new MemberEditRequest())->rules());
         $model = $this->model->findOrFail($id);
         $flag = $this->model::saveModel($model, $request);
 

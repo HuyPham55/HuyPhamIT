@@ -39,9 +39,8 @@ class UserController extends BaseController
         return view('admin.user.add', compact('roles', 'data'));
     }
 
-    public function postAdd(Request $request)
+    public function postAdd(UserAddRequest $request)
     {
-        $request->validate((new UserAddRequest())->rules());
         DB::transaction(function () use ($request) {
             $user = new User;
             //Insert data
@@ -64,7 +63,6 @@ class UserController extends BaseController
 
     public function postEdit(UserEditRequest $request, $id)
     {
-        $request->validate((new UserEditRequest())->rules());
         $user = User::findOrFail($id);
         $this->__validateUniqueEmailRequest($user, $request);
 
