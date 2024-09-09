@@ -12,19 +12,14 @@ class HomeSlideController extends BaseController
     //
     use BackendTrait;
     const CACHE_NAME = '';
-    protected string $pathView;
-    protected string $routeList;
-    protected Slide $model;
-    protected string $key;
-
-    public function __construct()
+    public function __construct(
+        protected Slide  $model,
+        protected string $routeList = 'home_slides.list',
+        protected string $pathView = 'admin.home_slides',
+        protected string $key = 'HOME',
+    )
     {
         parent::__construct();
-
-        $this->model = new Slide();
-        $this->key = 'HOME';
-        $this->routeList = 'home_slides.list';
-        $this->pathView = 'admin.home_slides';
     }
 
     public function index()

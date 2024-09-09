@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use App\Services\CategoryService;
 use App\Services\NestedSetService;
@@ -14,18 +13,17 @@ class PostCategoryController extends BaseController
 {
     //
     use BackendTrait;
-    private CategoryService $categoryService;
-    private string $pathView;
-    protected string $routeList;
-    protected PostCategory $model;
 
-    public function __construct()
+    private CategoryService $categoryService;
+
+    public function __construct(
+        protected PostCategory $model,
+        protected string       $routeList = 'post_categories.list',
+        protected string       $pathView = 'admin.posts.categories',
+    )
     {
         parent::__construct();
-        $this->model = new PostCategory();
         $this->categoryService = new CategoryService(new PostCategory());
-        $this->routeList = 'post_categories.list';
-        $this->pathView = 'admin.posts.categories';
     }
 
     public function index()
