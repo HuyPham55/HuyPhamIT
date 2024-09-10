@@ -18,12 +18,12 @@ class UserController extends BaseController
 {
     //
     use BackendTrait;
-    private $routeList;
 
-    public function __construct()
+    public function __construct(
+        protected string $routeList = 'users.list',
+    )
     {
         parent::__construct();
-        $this->routeList = 'users.list';
     }
 
     public function getList(Request $request)

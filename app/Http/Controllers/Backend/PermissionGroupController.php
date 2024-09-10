@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\PermissionGroup;
 use Illuminate\Http\Request;
 
 class PermissionGroupController extends BaseController
 {
     //
-    private string $pathView;
-    public string $routeList;
-    private PermissionGroup $groupModel;
-
-    public function __construct()
+    public function __construct(
+        protected PermissionGroup $groupModel,
+        protected string          $routeList = 'permission_groups.list',
+        protected string          $pathView = 'admin.permission_groups',
+    )
     {
         parent::__construct();
-        $this->pathView = 'admin.permission_groups';
-        $this->routeList = 'permission_groups.list';
-        $this->groupModel = new PermissionGroup();
     }
 
     public function getList()

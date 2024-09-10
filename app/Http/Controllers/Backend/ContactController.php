@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Traits\BackendTrait;
 use Illuminate\Http\Request;
@@ -11,13 +10,13 @@ class ContactController extends BaseController
 {
     //
     use BackendTrait;
-    protected $model, $pathView;
 
-    public function __construct()
+    public function __construct(
+        protected Contact $model,
+        protected string  $pathView = 'admin.contacts',
+    )
     {
         parent::__construct();
-        $this->model = new Contact();
-        $this->pathView = 'admin.contacts';
     }
 
     public function index(Request $request)

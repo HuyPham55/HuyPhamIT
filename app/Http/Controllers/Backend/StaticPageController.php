@@ -9,12 +9,11 @@ use Illuminate\Support\Facades\Cache;
 class StaticPageController extends BaseController
 {
     //
-    private StaticPage $model;
-
-    public function __construct()
+    public function __construct(
+        protected StaticPage $model,
+    )
     {
         parent::__construct();
-
         $this->model = new StaticPage();
     }
 

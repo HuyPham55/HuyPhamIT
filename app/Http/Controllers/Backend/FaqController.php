@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Faq;
 use App\Traits\BackendTrait;
 use Illuminate\Http\Request;
@@ -11,16 +10,14 @@ class FaqController extends BaseController
 {
     //
     use BackendTrait;
-    protected string $pathView;
-    protected string $routeList;
-    protected Faq $model;
 
-    public function __construct()
+    public function __construct(
+        protected Faq    $model,
+        protected string $routeList = 'faqs.list',
+        protected string $pathView = 'admin.faqs',
+    )
     {
         parent::__construct();
-        $this->model = new Faq();
-        $this->routeList = 'faqs.list';
-        $this->pathView = 'admin.faqs';
     }
 
     public function index(Request $request)

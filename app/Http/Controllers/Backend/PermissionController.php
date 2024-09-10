@@ -5,28 +5,21 @@ namespace App\Http\Controllers\Backend;
 use App\Models\PermissionGroup;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class PermissionController extends BaseController
 {
     //
-    private $roles;
-    private Permission $permissionModel;
-    private PermissionGroup $groupModel;
-    private string $pathView;
-    public string $routeList;
+    //protected $roles;
 
-    public function __construct()
+    public function __construct(
+        protected PermissionGroup $groupModel,
+        protected Permission      $permissionModel,
+        protected string          $routeList = 'permissions.list',
+        protected string          $pathView = 'admin.permissions',
+    )
     {
         parent::__construct();
-
-        $this->groupModel = new PermissionGroup();
-        $this->permissionModel = new Permission();
-        $this->pathView = 'admin.permissions';
-        $this->routeList = 'permissions.list';
-
-
-        $this->roles = Role::where('name', '<>', 'Admin')->get();
+        //$this->roles = Role::where('name', '<>', 'Admin')->get();
     }
 
     public function getList()
@@ -44,9 +37,8 @@ class PermissionController extends BaseController
     {
 
         $permissionGroups = $this->groupModel->get();
-        $roles = $this->roles;
         $data = $this->permissionModel;
-        return view("{$this->pathView}.add", compact('data', 'permissionGroups', 'roles'));
+        return view("{$this->pathView}.add", compact('data', 'permissionGroups'));
     }
 
     public function postAdd(Request $request)
@@ -77,9 +69,8 @@ class PermissionController extends BaseController
     {
         $permissionGroups = $this->groupModel->get();
         $data = $this->permissionModel->findOrFail($id);
-        $roles = $this->roles;
-
-        return view("{$this->pathView}.edit", compact('permissionGroups', 'data', 'roles'));
+        //$roles = $this->roles;
+        return view("{$this->pathView}.edit", compact('permissionGroups', 'data'));
     }
 
     public function putEdit(Request $request, $id)
@@ -117,7 +108,7 @@ class PermissionController extends BaseController
     {
         $id = $request->post('item_id');
 
-        $permission = Permission::findOrFail($id);
+        $permission = $this->permissionModel->findOrFail($id);
 
         $permission->roles()->detach();
 

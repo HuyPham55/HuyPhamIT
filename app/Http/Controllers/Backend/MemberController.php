@@ -13,16 +13,14 @@ class MemberController extends BaseController
 {
     //
     use BackendTrait;
-    protected Member $model;
-    protected string $routeList;
-    protected string $pathView;
 
-    public function __construct()
+    public function __construct(
+        protected Member $model,
+        protected string $routeList = 'members.list',
+        protected string $pathView = 'admin.members',
+    )
     {
         parent::__construct();
-        $this->model = new Member();
-        $this->pathView = 'admin.members';
-        $this->routeList = 'members.list';
         $genders = [
             '1' => __("label.gender.male"),
             '0' => __("label.gender.female"),
@@ -30,7 +28,6 @@ class MemberController extends BaseController
         View::share([
             'genders' => $genders
         ]);
-
     }
 
     public function index(Request $request)
@@ -77,9 +74,9 @@ class MemberController extends BaseController
                 ->back()
                 ->withInput()
                 ->with([
-                'status' => 'danger',
-                'flash_message' => env("APP_DEBUG") ? $flag->getMessage() : trans('label.something_went_wrong')
-            ]);
+                    'status' => 'danger',
+                    'flash_message' => env("APP_DEBUG") ? $flag->getMessage() : trans('label.something_went_wrong')
+                ]);
         }
         return redirect()->intended(route($this->routeList))->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
     }
