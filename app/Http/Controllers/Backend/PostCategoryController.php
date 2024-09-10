@@ -70,28 +70,18 @@ class PostCategoryController extends BaseController
                 $category->delete();
             }
 
-            //delete translations
-
-            //Nested model again
-            $nestedSetService = new NestedSetService($this->model->getTable());
-            $nestedSetService->doNested();
-
-            // delete all posts where category_id in $subCategories
+            /*
+             * Nested model again - not necessary because it's done in PostCategoryObserver
+             */
+            //$nestedSetService = new NestedSetService($this->model->getTable());
+            //$nestedSetService->doNested();
 
             DB::commit();
 
-            return response()->json([
-                'status' => 'success',
-                'title' => trans('label.deleted'),
-                'message' => trans('label.notification.success')
-            ]);
+            return $this->success(trans('label.deleted'));
         } catch (\Exception $exception) {
             DB::rollback();
-            return response()->json([
-                'status' => 'error',
-                'title' => trans('label.error'),
-                'message' => trans('label.something_went_wrong')
-            ]);
+            return $this->error();
         }
     }
 }
