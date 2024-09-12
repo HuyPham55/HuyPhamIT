@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Contracts\Services\PostCategoryServiceInterface;
 use App\Models\PostCategory;
 use App\Services\CategoryService;
-use App\Services\NestedSetService;
-use App\Traits\BackendTrait;
+use App\Traits\HttpBackendResponses;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PostCategoryController extends BaseController
 {
     //
-    use BackendTrait;
+    use HttpBackendResponses;
 
-    private CategoryService $categoryService;
+    protected CategoryService $categoryService;
 
     public function __construct(
-        protected PostCategory $model,
-        protected string       $routeList = 'post_categories.list',
-        protected string       $pathView = 'admin.posts.categories',
+        protected PostCategoryServiceInterface $service,
+        protected PostCategory                 $model,
+        protected string                       $routeList = 'post_categories.list',
+        protected string                       $pathView = 'admin.posts.categories',
     )
     {
         parent::__construct();
@@ -29,12 +31,8 @@ class PostCategoryController extends BaseController
     public function index()
     {
         session(['url.intended' => url()->full()]);
-        $categories = $this->model
-            ->withCount('posts')
-            ->orderBy('sorting')
-            ->orderBy('id')
-            ->get();
-        $total_count = $this->model->count();
+        $categories = $this->service->getAll();
+        $total_count = $this->service->getCount();
         $categories = $this->categoryService->nestedMenu($categories);
         return view("{$this->pathView}.list", compact('categories', 'total_count'));
     }
@@ -43,43 +41,108 @@ class PostCategoryController extends BaseController
     {
         $category = $this->model;
         $categories = $this->categoryService->dropdown(trans('label.root_category'));
-
         return view("{$this->pathView}.add", compact('categories', 'category'));
+    }
+
+    public function postAdd(Request $request): RedirectResponse
+    {
+        $begin = microtime(true);
+        $result = $this->service->create($request->all());
+        $duration = microtime(true) - $begin;
+        $ms = round($duration * 1000, 1);
+        if ($result) {
+            $this->forgetCache();
+            return redirect()->route($this->routeList)->with([
+                'status' => 'success',
+                'flash_message' => trans('label.notification.success') . " ({$ms}ms)"
+            ]);
+        }
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with([
+                'status' => 'danger',
+                'flash_message' => trans('label.something_went_wrong')
+            ]);
     }
 
     public function getEdit(int $id)
     {
-        $category = $this->model->findOrFail($id);
+        $category = $this->service->getByID($id);
         $categories = $this->categoryService->dropdown(trans('label.root_category'), $id);
-
         return view("{$this->pathView}.edit", compact('category', 'categories'));
+    }
+
+    public function putEdit(Request $request, int $id): RedirectResponse
+    {
+        $begin = microtime(true);
+        $model = $this->service->getByID($id);
+        $result = $this->service->update($model, $request->all());
+        $duration = microtime(true) - $begin;
+        $ms = round($duration * 1000, 1);
+        if ($result) {
+            $this->forgetCache();
+            return redirect()->route($this->routeList)->with([
+                'status' => 'success',
+                'flash_message' => trans('label.notification.success') . " ({$ms}ms)"
+            ]);
+        }
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with([
+                'status' => 'danger',
+                'flash_message' => trans('label.something_went_wrong')
+            ]);
+    }
+
+    public function changeStatus(Request $request): JsonResponse
+    {
+        $this->validate($request, [
+            'field' => 'required|in:status',
+            'status' => 'required|integer|in:0,1',
+        ]);
+
+        $field = $request->post('field');
+        $itemId = $request->post('item_id');
+        $status = $request->post('status');
+
+        $model = $this->service->getByID($itemId);
+        $result = $this->service->changeStatus($model, $field, $status);
+        if ($result) {
+            $this->forgetCache();
+            return $this->success();
+        }
+        return $this->error();
+    }
+
+    public function changeSorting(Request $request): JsonResponse
+    {
+        $this->validate($request, [
+            'item_id' => 'required|integer',
+            'sorting' => 'required|integer|min:0|integer',
+        ]);
+        $itemId = $request->post('item_id');
+        $model = $this->service->getByID($itemId);
+        $result = $this->service->changeSorting(model: $model, sorting: $request->integer('sorting'));
+        if ($result) {
+            $this->forgetCache();
+            return $this->success();
+        }
+        return $this->error();
     }
 
     public function delete(Request $request)
     {
         $id = $request->post('item_id');
-        DB::beginTransaction();
-        try {
-            $category = $this->model->findOrFail($id);
-            $subCategories = $this->categoryService->getArrayChildrenId($category->lft, $category->rgt);
+        $category = $this->service->getByID($id);
+        $result = $this->service->delete($category);
+        return $result
+            ? $this->success(trans('label.deleted'))
+            : $this->error(trans('label.something_went_wrong'));
+    }
 
-            //delete all categories where id in $subCategories
-            foreach ($this->model->whereIn('id', $subCategories)->get() as $category) {
-                $category->delete();
-            }
-
-            /*
-             * Nested model again - not necessary because it's done in PostCategoryObserver
-             */
-            //$nestedSetService = new NestedSetService($this->model->getTable());
-            //$nestedSetService->doNested();
-
-            DB::commit();
-
-            return $this->success(trans('label.deleted'));
-        } catch (\Exception $exception) {
-            DB::rollback();
-            return $this->error();
-        }
+    private function forgetCache()
+    {
     }
 }

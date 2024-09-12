@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Observers\PostCategoryObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -16,6 +15,7 @@ use Spatie\Translatable\HasTranslations;
  * @property mixed $parent_id
  * @property int|mixed $sorting
  * @property bool|mixed $status
+ * @property mixed|string $hash
  */
 class PostCategory extends BaseModel
 {
@@ -29,6 +29,8 @@ class PostCategory extends BaseModel
         'seo_title',
         'seo_description',
     ];
+
+    protected $guarded = [];
 
     public static function boot()
     {

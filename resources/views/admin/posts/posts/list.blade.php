@@ -139,9 +139,8 @@
                 let isChecked = event.target.checked;
 
                 if (itemId) {
-                    postData("{{route('posts.change_status')}}", {
+                    patchData("{{route('posts.change_status')}}" + `/${itemId}`, {
                         'field': field,
-                        'item_id': itemId,
                         'status': isChecked ? 1 : 0,
                         '_token': '{{ csrf_token() }}'
                     });
@@ -157,7 +156,7 @@
                 let sorting = jQuery(this).val();
 
                 if (itemId) {
-                    postData("{{ route('posts.change_sorting') }}", {
+                    patchData("{{ route('posts.change_sorting') }}" + `/${itemId}`, {
                         'item_id': itemId,
                         'sorting': sorting,
                         '_token': '{{ csrf_token() }}'

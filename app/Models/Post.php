@@ -6,9 +6,7 @@ use App\Enums\CommonStatus;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -38,6 +36,8 @@ class Post extends BaseModel
         'seo_description',
     ];
 
+    protected $guarded = [];
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(PostCategory::class, 'category_id');
@@ -48,51 +48,6 @@ class Post extends BaseModel
     }
     public function updater() {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public static function saveModel(self $model, Request $request)
-    {
-        DB::beginTransaction();
-        try {
-            foreach (config('lang') as $langKey => $langTitle) {
-                $title = trim($request->input("$langKey.title"));
-                $newSlug = simple_slug($title);
-                $defaultSlug = simple_slug("");
-                $inputSlug = $request->input("$langKey.slug");
-                if (!empty($inputSlug) && ($inputSlug !== $defaultSlug)) {
-                    $newSlug = simple_slug($inputSlug);
-                }
-                $model->setTranslation('image', $langKey, $request->input("$langKey.image"));
-                $model->setTranslation('title', $langKey, $title);
-                $model->setTranslation('slug', $langKey, !empty($newSlug) ? $newSlug : 'post-detail');
-                $model->setTranslation('content', $langKey, $request->input("$langKey.content"));
-                $model->setTranslation('short_description', $langKey, $request->input("$langKey.short_description"));
-
-                $model->setTranslation('seo_title', $langKey, $request->input("$langKey.seo_title"));
-                $model->setTranslation('seo_description', $langKey, $request->input("$langKey.seo_description"));
-            }
-            $model->category_id = $request->input('category', 0);
-            $model->sorting = $request->input('sorting') | 0;
-
-            $model->is_popular = $request->boolean('is_popular', true);
-
-            $model->publish_date = $request->date('publish_date', 'Y-m-d');
-
-            $model->status = $request->boolean('status', true);
-
-            $userID = auth()->guard('web')->user()->id;
-            if ($userID) {
-                $model->id
-                    ? $model->updated_by = $userID
-                    : $model->user_id = $userID;
-            }
-            $model->save();
-            DB::commit();
-            return $model;
-        } catch (\Exception $exception) {
-            DB::rollback();
-            return $exception;
-        }
     }
 
     public function getDateFormatAttribute()
@@ -121,5 +76,13 @@ class Post extends BaseModel
             ->where('status', CommonStatus::Active)
             ->orderBy('id', 'DESC')
             ->first();
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'hash';
     }
 }

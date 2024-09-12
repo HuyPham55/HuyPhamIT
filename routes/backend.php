@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\Backend\BannerController;
-use App\Http\Controllers\Backend\PostCategoryController;
-use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\ContactController;
 use App\Http\Controllers\Backend\DashBoardController;
 use App\Http\Controllers\Backend\FaqController;
@@ -13,6 +11,8 @@ use App\Http\Controllers\Backend\MemberController;
 use App\Http\Controllers\Backend\OptionController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\PermissionGroupController;
+use App\Http\Controllers\Backend\PostCategoryController;
+use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\StaticPageController;
 use App\Http\Controllers\Backend\UserController;
@@ -229,13 +229,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::post('add', [PostController::class, 'postAdd']);
             });
             Route::group(['middleware' => 'permission:edit_posts'], function () {
-                Route::get('edit/{id}', [PostController::class, 'getEdit'])->name('posts.edit');
-                Route::put('edit/{id}', [PostController::class, 'putEdit']);
+                Route::get('edit/{post}', [PostController::class, 'getEdit'])->name('posts.edit');
+                Route::put('edit/{post}', [PostController::class, 'putEdit']);
 
-                Route::post('change-status', [PostController::class, 'changeStatus'])->name('posts.change_status');
-                Route::post('change-sorting', [PostController::class, 'changeSorting'])->name('posts.change_sorting');
+                Route::patch('change-status/{post?}', [PostController::class, 'changeStatus'])->name('posts.change_status');
+                Route::patch('change-sorting/{post?}', [PostController::class, 'changeSorting'])->name('posts.change_sorting');
             });
-            Route::post('delete', [PostController::class, 'delete'])
+            Route::delete('delete/{post}', [PostController::class, 'delete'])
                 ->middleware('permission:delete_posts')->name('posts.delete');
         });
     });
