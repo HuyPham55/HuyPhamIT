@@ -89,3 +89,8 @@ function alphanumericFileName(string $fileName): string
     // Replace all matched characters with an underscore
     return preg_replace($pattern, '_', $fileName);
 }
+
+function formatDate($date)
+{
+    return $date ? date_format($date, "Y-m-d") : "";
+}
