@@ -2,11 +2,11 @@
 
 return array (
   'faqs' => 'FAQs',
-  'notification' => 
+  'notification' =>
   array (
     'success' => 'Success',
   ),
-  'status' => 
+  'status' =>
   array (
     'active' => 'Active',
     'inactive' => 'Inactive',
@@ -19,7 +19,7 @@ return array (
   'deleted' => 'Delete success',
   'error' => 'Error',
   'category' => 'Category',
-  'action' => 
+  'action' =>
   array (
     'add' => 'Add',
     'edit' => 'Edit',
@@ -78,7 +78,7 @@ return array (
   'password_confirmation' => 'Password confirmation',
   'old_password' => 'Old password',
   'new_password' => 'New password',
-  'gender' => 
+  'gender' =>
   array (
     'male' => 'Male',
     'female' => 'Female',
@@ -104,4 +104,7 @@ return array (
   'role_name' => 'Role name',
   'profile_picture' => 'Profile picture',
   'documents' => 'Documents',
+  'next_page' => 'Next page',
+  'previous_page' => 'Previous page',
+  'remember_me' => 'Remember me',
 );

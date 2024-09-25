@@ -38,7 +38,6 @@ return array (
   'thumbnail' => 'Thumbnail',
   'footer' => 'Footer',
   'header' => 'Header',
-  'open_in_new_tab' => 'Open in new tab',
   'slug' => 'Slug',
   'updated_at' => 'Updated at',
   'last_login' => 'Last login',
@@ -50,4 +49,7 @@ return array (
   'footer_logo' => 'Footer logo',
   'slogan' => 'Slogan',
   'history' => 'History',
+  'login_message' => 'Please login to begin your session',
+  'open_in_new_tab' => 'Open in new tab',
+  'tags' => 'Tags',
 );
