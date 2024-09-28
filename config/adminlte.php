@@ -342,6 +342,13 @@ return [
             ],
         ],
         [
+            'text' => 'tags',
+            'route' => 'tags.list',
+            'icon' => 'fas fa-fw fa-tag',
+            'can' => ['show_list_tags'],
+            'active' => ['admin/tags/*'],
+        ],
+        [
             'text' => 'posts',
             'icon' => 'fas fa-fw fa-rss',
             'can' => ['show_list_post_categories', 'show_list_posts'],

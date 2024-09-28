@@ -2,17 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\PostRepositoryInterface;
+use App\Contracts\Repositories\TagRepositoryInterface;
 use App\Enums\CommonStatus;
-use App\Models\Post;
-use Hashids\Hashids;
+use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class PostRepository implements PostRepositoryInterface
+class TagRepository implements TagRepositoryInterface
 {
     public function __construct(
-        public Post $model
+        public Tag $model
     )
     {
     }
@@ -27,17 +26,17 @@ class PostRepository implements PostRepositoryInterface
         return $this->model->query()->findOrFail($id);
     }
 
+    public function findByString(string $keyword)
+    {
+        return $this->model->findFromString($keyword);
+    }
     public function create(array $data): bool
     {
         $model = $this->model;
         DB::beginTransaction();
         try {
             $this->fillContent($data, $model);
-            $model->user_id = $data['user_id'];
-            $hashids = new Hashids();
-            $model->hash = $hashids->encode(time());
             $model->save();
-            $model->tags()->sync($data['tags'] ?? []);
             DB::commit();
             return true;
         } catch (\Exception $exception) {
@@ -54,7 +53,6 @@ class PostRepository implements PostRepositoryInterface
             $this->fillContent($data, $model);
             $model->updated_by = $data['updated_by'];
             $model->save();
-            $model->tags()->sync($data['tags'] ?? []);
             DB::commit();
             return true;
         } catch (\Exception $exception) {
@@ -95,35 +93,16 @@ class PostRepository implements PostRepositoryInterface
 
     /**
      * @param array $data
-     * @param Post $model
+     * @param Tag $model
      * @return void
      */
-    public function fillContent(array $data, Post $model): void
+    public function fillContent(array $data, Tag $model): void
     {
         foreach (config('lang') as $langKey => $langTitle) {
-            $title = $data[$langKey]["title"];
-            $newSlug = simple_slug($title);
-            $defaultSlug = simple_slug("");
-            $inputSlug = $data[$langKey]["slug"];
-            if (!empty($inputSlug) && ($inputSlug !== $defaultSlug)) {
-                $newSlug = simple_slug($inputSlug);
-            }
-            $model->setTranslation('image', $langKey, $data[$langKey]["image"]);
-            $model->setTranslation('title', $langKey, $title);
-            $model->setTranslation('slug', $langKey, !empty($newSlug) ? $newSlug : 'post-detail');
-            $model->setTranslation('content', $langKey, $data[$langKey]["content"]);
-            $model->setTranslation('short_description', $langKey, $data[$langKey]["short_description"]);
-
-            $model->setTranslation('seo_title', $langKey, $data[$langKey]["seo_title"]);
-            $model->setTranslation('seo_description', $langKey, $data[$langKey]["seo_description"]);
+            $title = $data[$langKey]["name"];
+            $model->setTranslation('name', $langKey, $title);
+            //$model->setTranslation('slug', $langKey, Str::slug($title)); //auto-generated
         }
-        $model->category_id = $data['category'] | 0;
-
-        $model->sorting = $data['sorting'] | 0;
-
-        $model->publish_date = $data['publish_date'];
-
-        $model->status = $data['status'];
     }
 
     public function updateByArray($model, array $data): bool

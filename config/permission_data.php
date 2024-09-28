@@ -123,6 +123,17 @@ return [
     ],
 
 
+    'tags' => [
+        'title' => "Tags",
+        'permissions' => [
+            'show_list_tags' => 'Show',
+            'add_tags' => 'Add',
+            'edit_tags' => 'Edit',
+            'delete_tags' => 'Delete',
+        ]
+    ],
+
+
     'faqs' => [
         'title' => 'Faqs',
         'permissions' => [

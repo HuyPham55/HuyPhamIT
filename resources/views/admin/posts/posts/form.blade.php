@@ -115,6 +115,29 @@
 
         <div class="col-md-4">
             <div class="form-group">
+                <label for="category" class="control-label">
+                    {{ __('menu.tags') }}
+                </label>
+                @php
+                $arrTags = $post->tags->pluck('id')->toArray();
+                @endphp
+                <select id="tags" name="tags[]" class="form-control select2" multiple>
+                    @forelse($tags as $tag)
+                        <option value="{{ $tag->id }}" @if(in_array($tag->id, $arrTags)) selected @endif>
+                            {{ $tag->name }}
+                        </option>
+                    @empty
+                        <option value="">{{ __('label.none')}}</option>
+                    @endforelse
+                </select>
+                @error('tags')
+                <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
                 <label for="publish_date" class="control-label">{{ __('label.publish_date') }}</label>
                 <div>
                     <input type="text" name="publish_date" id="publish_date"

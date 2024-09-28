@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Enums\CommonStatus;
+use App\Observers\PostObserver;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Spatie\Tags\HasTags;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -25,6 +27,7 @@ class Post extends BaseModel
     use HasFactory;
     use HasTranslations;
     use Filterable;
+    use HasTags;
 
     public array $translatable = [
         'image',
@@ -37,6 +40,12 @@ class Post extends BaseModel
     ];
 
     protected $guarded = [];
+
+    public static function boot()
+    {
+        parent::boot(); //
+        self::observe(PostObserver::class);
+    }
 
     public function category(): BelongsTo
     {
@@ -58,6 +67,11 @@ class Post extends BaseModel
     public function getPublishFormatAttribute()
     {
         return $this->publish_date ? date_format(Carbon::parse($this->publish_date), 'Y-m-d') : null;
+    }
+
+    public static function getTagClassName(): string
+    {
+        return Tag::class;
     }
 
     public function next()

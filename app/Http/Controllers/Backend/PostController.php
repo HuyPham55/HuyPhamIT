@@ -6,6 +6,7 @@ use App\Contracts\Services\PostServiceInterface;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Services\CategoryService;
+use App\Services\TagService;
 use App\Traits\HttpBackendResponses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -28,7 +29,6 @@ class PostController extends BaseController
     {
         parent::__construct();
         $this->cacheName = '';
-        $this->service = $service;
     }
 
     public function index()
@@ -48,11 +48,12 @@ class PostController extends BaseController
         return $this->service->datatables($request->all());
     }
 
-    public function getAdd()
+    public function getAdd(TagService $tagService)
     {
         $post = $this->model;
         $categories = (new CategoryService(new PostCategory()))->dropdown();
-        return view("{$this->pathView}.add", compact('post', 'categories'));
+        $tags = $tagService->getAll();
+        return view("{$this->pathView}.add", compact('post', 'categories', 'tags'));
     }
 
     public function postAdd(Request $request): RedirectResponse
@@ -77,10 +78,11 @@ class PostController extends BaseController
             ]);
     }
 
-    public function getEdit(Request $request, Post $post)
+    public function getEdit(Request $request, Post $post, TagService $tagService)
     {
         $categories = (new CategoryService(new PostCategory()))->dropdown();
-        return view("{$this->pathView}.edit", compact('post', 'categories'));
+        $tags = $tagService->getAll();
+        return view("{$this->pathView}.edit", compact('post', 'categories', 'tags'));
     }
 
     public function putEdit(Request $request, Post $post): RedirectResponse

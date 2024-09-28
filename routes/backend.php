@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\PostCategoryController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\StaticPageController;
+use App\Http\Controllers\Backend\TagController;
 use App\Http\Controllers\Backend\UserController;
 use App\Models\StaticPage;
 use Illuminate\Support\Facades\Route;
@@ -287,6 +288,28 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::post('delete', [ContactController::class, 'delete'])
             ->middleware('permission:delete_contacts')->name('contacts.delete');
         Route::post('change-favourite', [ContactController::class, 'changeFavourite'])->name('contacts.change_favourite');
+    });
+
+
+    //Tag
+    Route::group(['prefix' => 'tags'], function () {
+        Route::get('/', [TagController::class, 'index'])->middleware('permission:show_list_tags')->name('tags.list');
+        Route::get('/datatables', [TagController::class, 'datatables'])
+            ->middleware('permission:show_list_tags')
+            ->name('tags.datatables');
+
+        Route::group(['middleware' => 'permission:add_tags'], function () {
+            Route::get('add', [TagController::class, 'getAdd'])->name('tags.add');
+            Route::post('add', [TagController::class, 'postAdd']);
+        });
+        Route::group(['middleware' => 'permission:edit_tags'], function () {
+            Route::get('edit/{tag}', [TagController::class, 'getEdit'])
+                ->name('tags.edit');
+            Route::put('edit/{tag}', [TagController::class, 'putEdit']);
+        });
+        Route::delete('delete/{tag}', [TagController::class, 'delete'])
+            ->middleware('permission:delete_tags')
+            ->name('tags.delete');
     });
 
 });
