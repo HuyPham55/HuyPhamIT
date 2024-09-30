@@ -21,6 +21,8 @@ use Spatie\Translatable\HasTranslations;
  * @property mixed $updated_by
  * @property mixed $user_id
  * @property mixed $id
+ * @property int|null $reading_time
+ * @property string $hash
  */
 class Post extends BaseModel
 {

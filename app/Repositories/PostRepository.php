@@ -100,6 +100,7 @@ class PostRepository implements PostRepositoryInterface
      */
     public function fillContent(array $data, Post $model): void
     {
+        $readingTime = 0;
         foreach (config('lang') as $langKey => $langTitle) {
             $title = $data[$langKey]["title"];
             $newSlug = simple_slug($title);
@@ -112,6 +113,10 @@ class PostRepository implements PostRepositoryInterface
             $model->setTranslation('title', $langKey, $title);
             $model->setTranslation('slug', $langKey, !empty($newSlug) ? $newSlug : 'post-detail');
             $model->setTranslation('content', $langKey, $data[$langKey]["content"]);
+            $temp = $this->calculateReadingTime(strip_tags($data[$langKey]["content"]));
+            if ($temp > $readingTime) {
+                $readingTime = $temp;
+            }
             $model->setTranslation('short_description', $langKey, $data[$langKey]["short_description"]);
 
             $model->setTranslation('seo_title', $langKey, $data[$langKey]["seo_title"]);
@@ -124,6 +129,8 @@ class PostRepository implements PostRepositoryInterface
         $model->publish_date = $data['publish_date'];
 
         $model->status = $data['status'];
+
+        $model->reading_time = $readingTime;
     }
 
     public function updateByArray($model, array $data): bool
@@ -138,5 +145,11 @@ class PostRepository implements PostRepositoryInterface
             DB::rollback();
             return false;
         }
+    }
+
+    private function calculateReadingTime(string $string): int
+    {
+        $wordCount = str_word_count($string);
+        return round($wordCount / 200); //minute
     }
 }
