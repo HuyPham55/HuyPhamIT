@@ -11,6 +11,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @property mixed $name
+ * @property mixed $email
+ * @property mixed $password
+ * @property mixed $status
+ * @property mixed $username
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -27,6 +34,8 @@ class User extends Authenticatable
         'email',
         'password',
         'last_login',
+        'profile_picture',
+        'description',
     ];
 
     /**

@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
         $user = User::where('email', "admin@laravel.com")->first();
         if (!$user) {
             $user = User::create([
+                'username' => 'admin',
                 'user_code' => '88888888',
                 'name' => 'Admin',
                 'email' => "admin@laravel.com",

@@ -28,7 +28,7 @@
                                    class="col-sm-2 control-label col-form-label">{{ trans('label.old_password') }}</label>
                             <div class="col-sm-10">
                                 <input type="password" id="old_password" name="old_password" value=""
-                                       class="form-control" minlength="8">
+                                       autocomplete="off" class="form-control" minlength="8">
                                 @error('old_password')
                                 <p class="text-danger">{{ $message }}</p>
                                 @enderror
@@ -40,7 +40,7 @@
                                    class="col-sm-2 control-label col-form-label">{{ __('label.new_password') }}</label>
                             <div class="col-sm-10">
                                 <input type="password" id="password" name="password" value="{{ old('password') }}"
-                                       class="form-control" minlength="8">
+                                       autocomplete="off" class="form-control" minlength="8">
                                 @error('password')
                                 <p class="text-danger">{{ $message }}</p>
                                 @enderror

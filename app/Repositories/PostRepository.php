@@ -149,7 +149,8 @@ class PostRepository implements PostRepositoryInterface
 
     private function calculateReadingTime(string $string): int
     {
+        $readingSpeed = 200;
         $wordCount = str_word_count($string);
-        return round($wordCount / 200); //minute
+        return round($wordCount / $readingSpeed); //minute
     }
 }

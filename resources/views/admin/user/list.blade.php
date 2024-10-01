@@ -70,7 +70,7 @@
                                     <td>
                                         @if($user->id <> Auth::id())
                                             @can('edit_users')
-                                                @includeIf('components.buttons.edit', ['route' => route('users.edit', $user->id)])
+                                                @includeIf('components.buttons.edit', ['route' => route('users.edit', $user)])
                                             @endcan
 
                                             @can('delete_users')

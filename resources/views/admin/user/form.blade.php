@@ -1,14 +1,49 @@
 <div class="card-body">
+
+    <div class="form-group">
+        <label class="control-label">{{ __('label.image') }}</label>
+        @includeIf('components.select_file', [
+            'keyId' => "profile_picture",
+            'inputName' => "profile_picture",
+            'inputValue' => old("profile_picture") ?? $data->profile_picture,
+            'lfmType' => 'image',
+            'note' => '',
+        ])
+    </div>
+
+    <div class="form-group row">
+        <label for="username"
+               class="col-sm-2 control-label col-form-label">{{ __('label.username') }}</label>
+        <div class="col-sm-10">
+            <input type="text" id="username" name="username" value="{{ old('username') ?? $data->username}}"
+                   autocomplete="off" class="form-control" required>
+            @error('username')
+            <p class="text-danger">{{ $message }}</p>
+            @enderror
+        </div>
+    </div>
+
     <div class="form-group row">
         <label for="name"
                class="col-sm-2 control-label col-form-label">{{ __('label.name') }}</label>
         <div class="col-sm-10">
             <input type="text" id="name" name="name" value="{{ old('name') ?? $data->name}}"
-                   class="form-control" required>
+                   autocomplete="off" class="form-control" required>
             @error('name')
             <p class="text-danger">{{ $message }}</p>
             @enderror
         </div>
+    </div>
+
+    <div class="form-group">
+        <label for="description"
+               class="control-label">{{ __('backend.short_description') }}</label>
+        <textarea id="description" name="description"
+                  class="form-control" rows="5" maxlength="300"
+        >{{ old("site_description") ?? $data->description }}</textarea>
+        @error('description')
+        <p class="text-danger">{{ $message }}</p>
+        @enderror
     </div>
 
     <div class="form-group row">
@@ -16,7 +51,7 @@
                class="col-sm-2 control-label col-form-label">{{ __('label.email') }}</label>
         <div class="col-sm-10">
             <input type="email" id="email" name="email" value="{{ old('email') ?? $data->email }}"
-                   class="form-control" required>
+                   autocomplete="off" class="form-control" required>
             @error('email')
             <p class="text-danger">{{ $message }}</p>
             @enderror
@@ -28,7 +63,7 @@
                class="col-sm-2 control-label col-form-label">{{ __('label.password') }}</label>
         <div class="col-sm-10">
             <input type="password" id="password" name="password" value="{{ old('password') }}"
-                   class="form-control" minlength="8">
+                   autocomplete="off" class="form-control" minlength="8">
             @error('password')
             <p class="text-danger">{{ $message }}</p>
             @enderror

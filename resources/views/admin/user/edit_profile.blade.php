@@ -24,6 +24,17 @@
                     @csrf
                     @method('PUT')
                     <div class="card-body">
+                        <div class="form-group">
+                            <label class="control-label">{{ __('label.image') }}</label>
+                            @includeIf('components.select_file', [
+                                'keyId' => "profile_picture",
+                                'inputName' => "profile_picture",
+                                'inputValue' => old("profile_picture") ?? $data->profile_picture,
+                                'lfmType' => 'image',
+                                'note' => '',
+                            ])
+                        </div>
+
                         <div class="form-group row">
                             <label for="name"
                                    class="col-sm-2 control-label col-form-label">{{ __('label.name') }}</label>
@@ -34,6 +45,17 @@
                                 <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description"
+                                   class="control-label">{{ __('backend.short_description') }}</label>
+                            <textarea id="description" name="description"
+                                      class="form-control" rows="5" maxlength="300"
+                            >{{ old("site_description") ?? $data->description }}</textarea>
+                            @error('description')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="form-group row">

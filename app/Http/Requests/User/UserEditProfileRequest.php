@@ -24,7 +24,10 @@ class UserEditProfileRequest extends FormRequest
     public function rules()
     {
         return [
+            'profile_picture' => 'nullable|string|max:255',
             'name' => 'required',
+            'description' => 'nullable|string|max:255',
+            'email' => 'required|email|unique:users,email,' . auth()->user()->id . ',id',
             'old_password' => 'required|min:6',
         ];
     }

@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Contracts\Services\UserServiceInterface;
 use App\Http\Requests\User\UserAddRequest;
 use App\Http\Requests\User\UserEditProfileRequest;
 use App\Http\Requests\User\UserEditRequest;
+use App\Http\Requests\UserChangePasswordRequest;
 use App\Models\User;
 use App\Traits\BackendTrait;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 
 class UserController extends BaseController
@@ -20,7 +21,10 @@ class UserController extends BaseController
     use BackendTrait;
 
     public function __construct(
-        protected string $routeList = 'users.list',
+        protected UserServiceInterface $service,
+        protected User                 $model,
+        protected string               $routeList = 'users.list',
+        protected string               $pathView = 'admin.user',
     )
     {
         parent::__construct();
@@ -37,64 +41,68 @@ class UserController extends BaseController
     public function getAdd()
     {
         $roles = Role::orderBy('name')->get();
-        $data = new User();
+        $data = $this->model;
         return view('admin.user.add', compact('roles', 'data'));
     }
 
     public function postAdd(UserAddRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            $user = new User;
-            //Insert data
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->password = Hash::make($request->input('password'));
-            $user->status = $request->input('status');
-            $user->save();
-            $user->assignRole($request->input('role'));
-        });
-        return redirect()->route($this->routeList)->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
+        $result = $this->service->create($request->validated());
+
+        if ($result) {
+            $this->forgetCache();
+            return redirect()->route($this->routeList)->with([
+                'status' => 'success',
+                'flash_message' => trans('label.notification.success')
+            ]);
+        }
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with([
+                'status' => 'danger',
+                'flash_message' => trans('label.something_went_wrong')
+            ]);
     }
 
-    public function getEdit($id = 0)
+    public function getEdit(Request $request, User $user)
     {
-        $data = User::findOrFail($id);
         $roles = Role::orderBy('name')->get();
-        return view('admin.user.edit', compact('data', 'roles'));
+        return view('admin.user.edit', array_merge(compact('roles'), [
+            'data' => $user
+        ]));
     }
 
-    public function postEdit(UserEditRequest $request, $id)
+    public function postEdit(UserEditRequest $request, User $user)
     {
-        //$request->validate((new UserEditRequest())->rules());
-        $user = User::findOrFail($id);
-        $this->__validateUniqueEmailRequest($user, $request);
-
-        if ($id === Auth::id()) {
+        if ($user->id === Auth::id()) {
             return redirect()->back()->with(['status' => 'danger', 'flash_message' => trans('label.something_went_wrong')]);
         }
-
         //Update data
         if (!empty($request->input('password'))) {
             $user->password = Hash::make($request->input('password'));
         }
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->status = $request->input('status');
-        $user->save();
-
-        $user->syncRoles($request->input('role'));
-
-        return redirect()->route($this->routeList)->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
+        $result = $this->service->update($user, $request->validated());
+        if ($result) {
+            return redirect()->route($this->routeList)->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
+        }
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with([
+                'status' => 'danger',
+                'flash_message' => trans('label.something_went_wrong')
+            ]);
     }
 
     //Edit profile
-    public function getEditProfile(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function getEditProfile()
     {
-        $data = Auth::user();
+        $data = Auth::guard('web')->user();
         return view('admin.user.edit_profile', compact('data'));
     }
 
-    public function postEditProfile(UserEditProfileRequest $request): \Illuminate\Http\RedirectResponse
+    public function postEditProfile(UserEditProfileRequest $request): RedirectResponse
     {
         $user = Auth::guard('web')->user();
         $oldPassword = $request->input('old_password');
@@ -103,12 +111,17 @@ class UserController extends BaseController
         if (!Hash::check($oldPassword, $user->password)) {
             return redirect()->back()->with(['status' => 'danger', 'flash_message' => trans('validation.current_password')]);
         }
-        $this->__validateUniqueEmailRequest($user, $request);
-
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->save();
-        return redirect()->back()->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
+        $result = $this->service->updateByArray($user, $request->validated());
+        if ($result) {
+            return redirect()->back()->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
+        }
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with([
+                'status' => 'danger',
+                'flash_message' => trans('label.something_went_wrong')
+            ]);
     }
 
     public function delete(Request $request)
@@ -137,40 +150,22 @@ class UserController extends BaseController
         ]);
     }
 
-    /**
-     * @throws ValidationException
-     */
-    private function __validateUniqueEmailRequest($user, $request)
-    {
-        if ($request->input('email') <> $user->email) {
-            $this->validate($request, [
-                'email' => 'required|email|unique:users,email',
-            ]);
-        }
-    }
 
-    public function getChangePassword(Request $request)
+    public function getChangePassword()
     {
         return view('admin.user.change_password');
     }
 
-    public function postChangePassword(Request $request): \Illuminate\Http\RedirectResponse
+    public function postChangePassword(UserChangePasswordRequest $request): RedirectResponse
     {
         $user = Auth::guard('web')->user();
         $oldPassword = $request->input('old_password');
-
         //check password
         if (!Hash::check($oldPassword, $user->password)) {
             return redirect()->back()->with(['status' => 'danger', 'flash_message' => trans('validation.current_password')]);
         }
-
-        if (!empty($request->input('password')) || !empty($request->input('password_confirmation'))) {
-            $this->validate($request, [
-                'password' => 'required|confirmed|min:6',
-                'password_confirmation' => 'required',
-            ]);
-            $user->password = Hash::make($request->input('password'));
-            $user->save();
+        $result = $this->service->changeUserPassword($user, $request->input('password'));
+        if ($result) {
             return redirect()->back()->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
         }
         return redirect()->back()->with(['status' => 'danger', 'flash_message' => trans('label.something_went_wrong')]);

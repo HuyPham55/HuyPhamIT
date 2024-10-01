@@ -24,11 +24,12 @@ class UserAddRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'profile_picture' => 'nullable|string|max:255',
+            'username' => 'required|string|max:255|unique:users',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:6',
-            'password_confirmation' => 'required',
-//            'position' => 'required',
             'role' => 'required',
             'status' => 'required',
         ];

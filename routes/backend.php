@@ -121,10 +121,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('add', [UserController::class, 'postAdd']);
         });
         Route::group(['middleware' => 'can:edit_users'], function () {
-            Route::get('edit/{id}', [UserController::class, 'getEdit'])->name('users.edit')
-                ->where(['id' => '[0-9]+']);
-            Route::put('edit/{id}', [UserController::class, 'postEdit'])
-                ->where(['id' => '[0-9]+']);
+            Route::get('edit/{user}', [UserController::class, 'getEdit'])->name('users.edit');
+            Route::put('edit/{user}', [UserController::class, 'postEdit']);
         });
         Route::post('delete', [UserController::class, 'delete'])->middleware('can:delete_users')->name('users.delete');
     });
