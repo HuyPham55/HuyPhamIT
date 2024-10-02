@@ -51,6 +51,9 @@ class UserController extends BaseController
 
         if ($result) {
             $this->forgetCache();
+            if ($request->wantsJson()) {
+                return $this->success($result);
+            }
             return redirect()->route($this->routeList)->with([
                 'status' => 'success',
                 'flash_message' => trans('label.notification.success')
