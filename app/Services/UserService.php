@@ -4,19 +4,22 @@ namespace App\Services;
 
 use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Contracts\Services\UserServiceInterface;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
-class UserService implements UserServiceInterface {
+class UserService implements UserServiceInterface
+{
 
     public function __construct(
-        private UserRepositoryInterface $repository
+        private readonly UserRepositoryInterface $repository
     )
     {
     }
 
     public function getCount()
     {
-        return $this->repository->getCount();
+        return $this->repository->query()->count();
     }
 
     public function getByID($id)
@@ -26,21 +29,54 @@ class UserService implements UserServiceInterface {
 
     public function create(array $data): bool
     {
-        $data['password'] = Hash::make($data['password']);
-        return $this->repository->create($data);
+        DB::beginTransaction();
+        try {
+            $data['password'] = Hash::make($data['password']);
+            $model = $this->repository->create($data);
+            $model->assignRole($data['role']);
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
     }
 
     public function update($model, array $data): bool
     {
-        $data['password'] = empty($data['password'])
-            ? $model->password
-            : Hash::make($data['password']);
-        return $this->repository->update($model, $data);
+        DB::beginTransaction();
+        try {
+            $data['password'] = empty($data['password'])
+                ? $model->password
+                : Hash::make($data['password']);
+            $this->repository->update($model, $data);
+            $model->assignRole($data['role']);
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
     }
 
     public function delete($model): bool
     {
-        return $this->repository->delete($model);
+        DB::beginTransaction();
+        try {
+            $result = $this->repository->delete($model);
+            if ($result) {
+                DB::commit();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
     }
 
     public function getAll()
@@ -48,15 +84,25 @@ class UserService implements UserServiceInterface {
         return $this->repository->all();
     }
 
-    public function updateByArray($model, array $data): bool
+    public function changeUserPassword($model, $newPassword): bool
     {
-        return $this->repository->updateByArray($model, $data);
+        return $this->repository->update($model, [
+            'password' => Hash::make($newPassword)
+        ]);
     }
 
-    public function changeUserPassword($model, $password): bool
+
+    public function updateProfile($model, array $data): bool
     {
-        return $this->repository->updateByArray($model, [
-            'password' => Hash::make($password)
-        ]);
+        DB::beginTransaction();
+        try {
+            $this->repository->update($model, $data);
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
     }
 }

@@ -17,6 +17,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property mixed $password
  * @property mixed $status
  * @property mixed $username
+ * @property mixed $profile_picture
  */
 class User extends Authenticatable
 {
@@ -36,6 +37,8 @@ class User extends Authenticatable
         'last_login',
         'profile_picture',
         'description',
+        'username',
+        'status'
     ];
 
     /**

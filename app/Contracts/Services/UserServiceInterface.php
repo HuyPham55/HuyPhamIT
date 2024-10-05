@@ -8,7 +8,7 @@ interface UserServiceInterface extends ServiceInterface
 {
     public function getAll();
 
-    public function updateByArray($model, array $data): bool;
+    public function changeUserPassword($model, string $newPassword): bool;
 
-    public function changeUserPassword($model, array $data): bool;
+    public function updateProfile($model, array $data): bool;
 }

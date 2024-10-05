@@ -25,7 +25,7 @@ class UserAddRequest extends FormRequest
     {
         return [
             'profile_picture' => 'nullable|string|max:255',
-            'username' => 'required|string|min:3|max:255|unique:users',
+            'username' => 'required|alpha_dash|string|min:3|max:255|unique:users',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'email' => 'required|email|unique:users,email',

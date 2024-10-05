@@ -114,7 +114,7 @@ class UserController extends BaseController
         if (!Hash::check($oldPassword, $user->password)) {
             return redirect()->back()->with(['status' => 'danger', 'flash_message' => trans('validation.current_password')]);
         }
-        $result = $this->service->updateByArray($user, $request->validated());
+        $result = $this->service->updateProfile($user, $request->validated());
         if ($result) {
             return redirect()->back()->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
         }
@@ -129,7 +129,7 @@ class UserController extends BaseController
 
     public function delete(Request $request)
     {
-        $user = User::findOrFail($request->post('item_id') | 0);
+        $user = $this->service->getByID($request->integer('item_id'));
         if ($user->id == Auth::id()) {
             return response()->json([
                 'status' => 'error',
@@ -137,8 +137,8 @@ class UserController extends BaseController
                 'message' => trans('label.something_went_wrong')
             ]);
         }
-        $flag = $user->delete();
-        if ($flag) {
+        $result = $this->service->delete($user);
+        if ($result) {
             return response()->json([
                 'status' => 'success',
                 'title' => trans('label.deleted'),

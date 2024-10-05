@@ -4,8 +4,6 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -13,6 +11,11 @@ class UserRepository implements UserRepositoryInterface
         public User $model
     )
     {
+    }
+
+    public function query()
+    {
+        return $this->model->query();
     }
 
     public function all()
@@ -24,83 +27,20 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->model->query()->findOrFail($id);
     }
-    public function create(array $data): bool
+
+    public function create(array $data)
     {
-        $model = $this->model;
-        DB::beginTransaction();
-        try {
-            $this->fillContent($data, $model);
-            $model->save();
-            $model->assignRole($data['role']);
-            DB::commit();
-            return true;
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            DB::rollback();
-            return false;
-        }
+        return $this->model->create($data);
     }
 
     public function update($model, array $data): bool
     {
-        DB::beginTransaction();
-        try {
-            $this->fillContent($data, $model);
-            $model->save();
-            $model->assignRole($data['role']);
-            DB::commit();
-            return true;
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            DB::rollback();
-            return false;
-        }
+        return !!$model->update($data);
     }
 
     public function delete($model): bool
     {
-        DB::beginTransaction();
-        try {
-            $result = $model->delete();
-            DB::commit();
-            return $result;
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            DB::rollback();
-            return false;
-        }
-    }
+        return !!$model->delete();
 
-    public function query()
-    {
-        return $this->model->query();
-    }
-
-    public function getCount()
-    {
-        return $this->model->count();
-    }
-
-    public function fillContent(array $data, User $model): void
-    {
-        $model->username = $data['username'];
-        $model->name = $data['name'];
-        $model->email = $data['email'];
-        $model->password = $data['password'];
-        $model->status = $data['status'];
-    }
-
-    public function updateByArray($model, array $data): bool
-    {
-        DB::beginTransaction();
-        try {
-            $result = $model->update($data);
-            DB::commit();
-            return !!$result;
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            DB::rollback();
-            return false;
-        }
     }
 }

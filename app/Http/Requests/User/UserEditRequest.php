@@ -25,8 +25,8 @@ class UserEditRequest extends FormRequest
     {
         return [
             'profile_picture' => 'nullable|string|max:255',
-            'username' => 'required|string|min:3|max:255|unique:users,username,' . $this->route('user')->id . ',id',
-            'name' => 'required',
+            'username' => 'required|string|alpha_dash|min:3|max:255|unique:users,username,' . $this->route('user')->id . ',id',
+            'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'email' => 'required|email|unique:users,email,' . $this->route('user')->id . ',id',
             'password' => 'nullable|confirmed|min:6',
