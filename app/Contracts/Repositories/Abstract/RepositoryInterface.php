@@ -10,7 +10,7 @@ interface RepositoryInterface
 
     public function findByID(int $id);
 
-    public function create(array $data);
+    public function create(array $data = []);
 
     public function update($model, array $data): bool;
 

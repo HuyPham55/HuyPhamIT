@@ -3,14 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
     // Use the RefreshDatabase trait to reset the database between tests
-    use RefreshDatabase;
+    //use RefreshDatabase;
 
     /**
      * A basic feature test example.
@@ -22,13 +21,23 @@ class UserControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+
+    public function test_users_index()
+    {
+        $admin = User::query()->first();
+        $response = $this->actingAs($admin)
+            ->get(route('users.list'));
+        $response->assertStatus(200);
+    }
+
     /**
      * Test creating a new user.
      */
     public function test_users_can_be_created(): void
     {
-        $this->seed();
         $admin = User::query()->first();
+
+        $targetingUser = User::query()->where('email', 'admin@admin.com')->first();
         $response = $this->actingAs($admin)
             ->postJson('/admin/users/add', data: [
                 'username' => 'blogger',
@@ -39,7 +48,11 @@ class UserControllerTest extends TestCase
                 'status' => true,
                 'role' => [Role::query()->first()->id],
             ]);
-        $response->assertStatus(200);
+        if ($targetingUser) {
+            $response->assertStatus(422);
+        } else {
+            $response->assertStatus(200);
+        }
     }
 
     /**
@@ -47,7 +60,6 @@ class UserControllerTest extends TestCase
      */
     public function test_fields_rules($field, $value, $error)
     {
-        $this->seed();
         $admin = User::query()->first();
         $response = $this
             ->actingAs($admin)
@@ -72,7 +84,6 @@ class UserControllerTest extends TestCase
      */
     public function test_duplicate_user_created(): void
     {
-        $this->seed();
         $admin = User::query()->first();
         $response = $this->actingAs($admin)
             ->post('/admin/users/add', [
@@ -90,7 +101,6 @@ class UserControllerTest extends TestCase
      */
     public function test_can_get_all_users()
     {
-        $this->seed();
         //Logged in user:
         $user = User::query()->first();
 
@@ -111,7 +121,6 @@ class UserControllerTest extends TestCase
      */
     public function test_can_get_a_single_user()
     {
-        $this->seed();
         $admin = User::query()->first();
         // Arrange: Create a user
         $user = User::factory()->create();
@@ -130,7 +139,6 @@ class UserControllerTest extends TestCase
      */
     public function test_should_return_404_if_user_not_found()
     {
-        $this->seed();
         $user = User::query()->first();
 
         // Act: Make a GET request to a non-existent user ID

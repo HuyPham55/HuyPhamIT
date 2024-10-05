@@ -28,7 +28,7 @@ class UserRepository implements UserRepositoryInterface
         return $this->model->query()->findOrFail($id);
     }
 
-    public function create(array $data)
+    public function create(array $data = [])
     {
         return $this->model->create($data);
     }

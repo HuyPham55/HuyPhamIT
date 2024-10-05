@@ -4,19 +4,23 @@ namespace App\Services;
 
 use App\Contracts\Repositories\TagRepositoryInterface;
 use App\Contracts\Services\TagServiceInterface;
+use App\Models\Tag;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
-class TagService implements TagServiceInterface {
+class TagService implements TagServiceInterface
+{
 
     public function __construct(
-        private TagRepositoryInterface $repository
+        private readonly TagRepositoryInterface $repository
     )
     {
     }
 
     public function getCount()
     {
-        return $this->repository->getCount();
+        return $this->repository->query()->count();
     }
 
     public function getByID($id)
@@ -26,17 +30,48 @@ class TagService implements TagServiceInterface {
 
     public function create(array $data): bool
     {
-        return $this->repository->create($data);
+        DB::beginTransaction();
+        try {
+            $model = $this->repository->create();
+            $this->fillContent($data, $model);
+            $model->save();
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
     }
 
     public function update($model, array $data): bool
     {
-        return $this->repository->update($model, $data);
+        DB::beginTransaction();
+        try {
+            $this->fillContent($data, $model);
+            $model->updated_by = $data['updated_by'];
+            $model->save();
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
     }
 
     public function delete($model): bool
     {
-        return $this->repository->delete($model);
+        DB::beginTransaction();
+        try {
+            $result = $this->repository->delete($model);
+            DB::commit();
+            return $result;
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
     }
 
     public function datatables(array $filters)
@@ -67,5 +102,19 @@ class TagService implements TagServiceInterface {
     public function getAll()
     {
         return $this->repository->all();
+    }
+
+    /**
+     * @param array $data
+     * @param Tag $model
+     * @return void
+     */
+    public function fillContent(array $data, Tag $model): void
+    {
+        foreach (config('lang') as $langKey => $langTitle) {
+            $title = $data[$langKey]["name"];
+            $model->setTranslation('name', $langKey, $title);
+            //$model->setTranslation('slug', $langKey, Str::slug($title)); //auto-generated
+        }
     }
 }

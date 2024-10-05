@@ -4,6 +4,11 @@ namespace App\Services;
 
 use App\Contracts\Repositories\PostRepositoryInterface;
 use App\Contracts\Services\PostServiceInterface;
+use App\Enums\CommonStatus;
+use App\Models\Post;
+use Hashids\Hashids;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class PostService implements PostServiceInterface
@@ -61,50 +66,150 @@ class PostService implements PostServiceInterface
 
     public function create(array $data): bool
     {
-        $userID = auth()->guard('web')->user()->id;
-        $data['user_id'] = $userID;
-        return $this->repository->create($data);
+        DB::beginTransaction();
+        try {
+            $model = $this->repository->create();
+            $this->fillContent($data, $model);
+            $model->user_id = auth()->guard('web')->user()->id;
+            $hashids = new Hashids();
+            $model->save();
+            $this->update($model, [
+                'hash' => $hashids->encode($model->id)
+            ]);
+            $model->tags()->sync($data['tags'] ?? []);
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
     }
 
     public function update($model, array $data): bool
     {
-        $userID = auth()->guard('web')->user()->id;
-        $data['updated_by'] = $userID;
-        return $this->repository->update($model, $data);
+        DB::beginTransaction();
+        try {
+            $this->fillContent($data, $model);
+            $model->updated_by = auth()->guard('web')->user()->id;
+            $model->save();
+            $model->tags()->sync($data['tags'] ?? []);
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
     }
 
     public function delete($model): bool
     {
-        return $this->repository->delete($model);
+        DB::beginTransaction();
+        try {
+            $this->repository->delete($model);
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
     }
 
     public function getCount()
     {
-        return $this->repository->getCount();
+        return $this->repository->query()->count();
     }
 
     public function getInactiveCount()
     {
-        return $this->repository->getInactiveCount();
+        return $this->repository->query()->where('status', CommonStatus::Inactive)->count();
     }
 
     public function changeStatus($model, string $field, int $status): bool
     {
-        $userID = auth()->guard('web')->user()->id;
-        $data = [
-            'status' => $status,
-            'updated_by' => $userID,
-        ];
-        return $this->repository->updateByArray($model, $data);
+        DB::beginTransaction();
+        try {
+            $userID = auth()->guard('web')->user()->id;
+            $data = [
+                'status' => $status,
+                'updated_by' => $userID,
+            ];
+            $result = $model->update($data);
+            DB::commit();
+            return !!$result;
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
     }
 
     public function changeSorting($model, string $field = 'sorting', int $sorting = 0): bool
     {
-        $userID = auth()->guard('web')->user()->id;
-        $data = [
-            $field => $sorting,
-            'updated_by' => $userID,
-        ];
-        return $this->repository->updateByArray($model, $data);
+        DB::beginTransaction();
+        try {
+            $userID = auth()->guard('web')->user()->id;
+            $data = [
+                $field => $sorting,
+                'updated_by' => $userID,
+            ];
+            $result = $model->update($data);
+            DB::commit();
+            return !!$result;
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            DB::rollback();
+            return false;
+        }
+    }
+
+
+    /**
+     * @param array $data
+     * @param Post $model
+     * @return void
+     */
+    public function fillContent(array $data, Post $model): void
+    {
+        $readingTime = 0;
+        foreach (config('lang') as $langKey => $langTitle) {
+            $title = $data[$langKey]["title"];
+            $newSlug = simple_slug($title);
+            $defaultSlug = simple_slug("");
+            $inputSlug = $data[$langKey]["slug"];
+            if (!empty($inputSlug) && ($inputSlug !== $defaultSlug)) {
+                $newSlug = simple_slug($inputSlug);
+            }
+            $model->setTranslation('image', $langKey, $data[$langKey]["image"]);
+            $model->setTranslation('title', $langKey, $title);
+            $model->setTranslation('slug', $langKey, !empty($newSlug) ? $newSlug : 'post-detail');
+            $model->setTranslation('content', $langKey, $data[$langKey]["content"]);
+            $temp = $this->calculateReadingTime(strip_tags($data[$langKey]["content"]));
+            if ($temp > $readingTime) {
+                $readingTime = $temp;
+            }
+            $model->setTranslation('short_description', $langKey, $data[$langKey]["short_description"]);
+
+            $model->setTranslation('seo_title', $langKey, $data[$langKey]["seo_title"]);
+            $model->setTranslation('seo_description', $langKey, $data[$langKey]["seo_description"]);
+        }
+        $model->category_id = $data['category'] | 0;
+
+        $model->sorting = $data['sorting'] | 0;
+
+        $model->publish_date = $data['publish_date'];
+
+        $model->status = $data['status'];
+
+        $model->reading_time = $readingTime;
+    }
+
+    protected function calculateReadingTime(string $string): int
+    {
+        $readingSpeed = 200;
+        $wordCount = str_word_count($string);
+        return round($wordCount / $readingSpeed); //minute
     }
 }
