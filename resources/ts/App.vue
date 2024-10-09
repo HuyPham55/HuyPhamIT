@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import {ref} from "vue";
-
-const message = ref("Hello World");
+import Layout from "@/layout/Layout.vue";
 </script>
 
 <template>
-    <h1>
-        {{message}}
-    </h1>
+    <Layout/>
 </template>
 
 <style scoped>
-
 </style>
