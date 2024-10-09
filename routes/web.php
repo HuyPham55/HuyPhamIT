@@ -16,11 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
-Route::get('lang/{lang}', [LanguageController::class, 'changeLanguage'])->name('change_language');
+//Route::get('lang/{lang}', [LanguageController::class, 'changeLanguage'])->name('change_language');
 
 Auth::routes(['register' => false, 'verify' => false]);
 
