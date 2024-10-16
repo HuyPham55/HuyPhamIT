@@ -37,11 +37,13 @@ class PostCategoryService implements PostCategoryServiceInterface
     public function create(array $data): bool
     {
         DB::beginTransaction();
+        $hashids = new Hashids();
         try {
             $model = $this->repository->create();
+            $model->hash = $hashids->encode(time());
+            //Hash must have a initial value
             $this->fillContent($data, $model);
             $model->save();
-            $hashids = new Hashids();
             $model->hash = $hashids->encode($model->id);
             $model->save();
             DB::commit();
@@ -121,21 +123,21 @@ class PostCategoryService implements PostCategoryServiceInterface
     protected function fillContent(array $data, PostCategory $model): void
     {
         foreach (config('lang') as $langKey => $langTitle) {
-            $title = $data[$langKey]["title"];
+            $title = data_get($data, "$langKey.title");
             $newSlug = simple_slug($title);
             $defaultSlug = simple_slug("");
-            $inputSlug = $data[$langKey]["slug"];
+            $inputSlug = data_get($data, "$langKey.slug");
             if (!empty($inputSlug) && ($inputSlug !== $defaultSlug)) {
                 $newSlug = simple_slug($inputSlug);
             }
-            $model->setTranslation('image', $langKey, $data[$langKey]["image"]);
+            $model->setTranslation('image', $langKey, data_get($data, "$langKey.image"));
             $model->setTranslation('title', $langKey, $title);
             $model->setTranslation('slug', $langKey, !empty($newSlug) ? $newSlug : 'post-detail');
-            $model->setTranslation('seo_title', $langKey, $data[$langKey]["seo_title"]);
-            $model->setTranslation('seo_description', $langKey, $data[$langKey]["seo_description"]);
+            $model->setTranslation('seo_title', $langKey, data_get($data, "$langKey.seo_title"));
+            $model->setTranslation('seo_description', $langKey, data_get($data, "$langKey.seo_description"));
         }
-        $model->parent_id = $data['parent_category'] | 0;
-        $model->sorting = $data['sorting'] | 0;
-        $model->status = $data['status'];
+        $model->parent_id = data_get($data, "parent_category") | 0;
+        $model->sorting = data_get($data, "sorting") | 0;
+        $model->status = data_get($data, "status");
     }
 }

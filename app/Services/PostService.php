@@ -67,11 +67,12 @@ class PostService implements PostServiceInterface
     public function create(array $data): bool
     {
         DB::beginTransaction();
+        $hashids = new Hashids();
         try {
             $model = $this->repository->create();
             $this->fillContent($data, $model);
             $model->user_id = auth()->guard('web')->user()->id;
-            $hashids = new Hashids();
+            $model->hash = $hashids->encode(time());
             $model->save();
             $this->update($model, [
                 'hash' => $hashids->encode($model->id)
@@ -175,33 +176,33 @@ class PostService implements PostServiceInterface
     {
         $readingTime = 0;
         foreach (config('lang') as $langKey => $langTitle) {
-            $title = $data[$langKey]["title"];
+            $title = data_get($data, "$langKey.title");
             $newSlug = simple_slug($title);
             $defaultSlug = simple_slug("");
-            $inputSlug = $data[$langKey]["slug"];
+            $inputSlug = data_get($data, "$langKey.slug");
             if (!empty($inputSlug) && ($inputSlug !== $defaultSlug)) {
                 $newSlug = simple_slug($inputSlug);
             }
-            $model->setTranslation('image', $langKey, $data[$langKey]["image"]);
+            $model->setTranslation('image', $langKey, data_get($data, "$langKey.image"));
             $model->setTranslation('title', $langKey, $title);
             $model->setTranslation('slug', $langKey, !empty($newSlug) ? $newSlug : 'post-detail');
-            $model->setTranslation('content', $langKey, $data[$langKey]["content"]);
-            $temp = $this->calculateReadingTime(strip_tags($data[$langKey]["content"]));
+            $content = data_get($data, "$langKey.content");
+            $model->setTranslation('content', $langKey, $content);
+            $temp = $this->calculateReadingTime(strip_tags($content));
             if ($temp > $readingTime) {
                 $readingTime = $temp;
             }
-            $model->setTranslation('short_description', $langKey, $data[$langKey]["short_description"]);
-
-            $model->setTranslation('seo_title', $langKey, $data[$langKey]["seo_title"]);
-            $model->setTranslation('seo_description', $langKey, $data[$langKey]["seo_description"]);
+            $model->setTranslation('short_description', $langKey, data_get($data, "$langKey.short_description"));
+            $model->setTranslation('seo_title', $langKey, data_get($data, "$langKey.seo_title"));
+            $model->setTranslation('seo_description', $langKey, data_get($data, "$langKey.seo_description"));
         }
-        $model->category_id = $data['category'] | 0;
+        $model->category_id = data_get($data, "category") | 0;
 
-        $model->sorting = $data['sorting'] | 0;
+        $model->sorting = data_get($data, "sorting") | 0;
 
-        $model->publish_date = $data['publish_date'];
+        $model->publish_date = data_get($data, "publish_date");
 
-        $model->status = $data['status'];
+        $model->status = data_get($data, "status") | 0;
 
         $model->reading_time = $readingTime;
     }

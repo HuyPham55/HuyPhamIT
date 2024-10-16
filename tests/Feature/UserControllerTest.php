@@ -39,7 +39,7 @@ class UserControllerTest extends TestCase
 
         $targetingUser = User::query()->where('email', 'admin@admin.com')->first();
         $response = $this->actingAs($admin)
-            ->postJson('/admin/users/add', data: [
+            ->post('/admin/users/add', data: [
                 'username' => 'blogger',
                 'name' => 'Blogger',
                 'email' => 'admin@admin.com',
