@@ -50,7 +50,7 @@ const onMouseOver = function (event: any) {
       <span class="text-sm">14 days ago</span>
     </div>
     <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-      <router-link :to="{name: 'post_detail'}">How to quickly deploy a static website</router-link>
+      <router-link :to="{name: 'home'}">How to quickly deploy a static website</router-link>
     </h2>
     <p class="mb-5 font-light text-gray-500 dark:text-gray-400">Static websites are now used to bootstrap lots of
       websites and are becoming the basis for a variety of tools that even influence both web designers and

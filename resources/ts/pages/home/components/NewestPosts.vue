@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 
 import Pagination from "@/pages/home/components/components/Pagination.vue";
-import NewsItem from "@/pages/home/components/components/NewsItem.vue";
 
 // onMounted(() => {
 //   initFlowbite();
@@ -52,7 +51,7 @@ import NewsItem from "@/pages/home/components/components/NewsItem.vue";
 
         <div class="mt-6 flow-root sm:mt-8">
           <div class="divide-y divide-gray-200 dark:divide-gray-700">
-            <NewsItem/>
+<!--            <NewsItem/>-->
             <div class="grid gap-4 py-4 md:grid-cols-10 md:gap-6 md:py-6">
               <a class="content-center font-semibold text-gray-900 hover:underline dark:text-white sm:col-span-10 lg:col-span-3"
                  href="#">Apple

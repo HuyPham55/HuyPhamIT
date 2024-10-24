@@ -43,6 +43,10 @@ class Post extends BaseModel
 
     protected $guarded = [];
 
+    protected $casts = [
+        'publish_date' => 'datetime',
+    ];
+
     public static function boot()
     {
         parent::boot(); //
