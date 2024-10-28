@@ -8,7 +8,7 @@ import SimplePopover from "@/components/popover/SimplePopover.vue";
   <SimplePopover name="bookmark-post">
     <template #trigger="{target}">
       <button class="transition hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-lg inline-flex" :data-popover-target="target">
-        <BookmarkIcon/>
+        <BookmarkIcon class="w-5 h-5"/>
       </button>
     </template>
     <template #body>

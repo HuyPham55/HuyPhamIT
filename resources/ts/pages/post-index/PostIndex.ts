@@ -1,4 +1,5 @@
 import {TagType} from "@/pages/post-detail/PostDetail";
+import {PaginationType} from "@/components/paginations/Pagination";
 
 declare type PostItem = {
     id: number;
@@ -13,6 +14,7 @@ declare type PostItem = {
 declare type PostList = {
     data: Array<PostItem>;
     loading: Boolean;
+    meta?: PaginationType;
 }
 
 declare type Author = {

@@ -8,7 +8,7 @@ import FacebookIcon from "@/icons/FacebookIcon.vue";
   <SimplePopover name="facebook-share">
     <template #trigger="{target}">
       <button class="transition hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-lg inline-flex" :data-popover-target="target">
-        <FacebookIcon/>
+        <FacebookIcon class="w-5 h-5"/>
       </button>
     </template>
     <template #body>

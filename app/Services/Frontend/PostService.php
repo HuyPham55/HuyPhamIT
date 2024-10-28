@@ -18,15 +18,20 @@ class PostService implements PostServiceInterface
         return $this->repository
             ->query()
             ->with(['author', 'tags'])
-            ->paginate($size);
+            ->simplePaginate($size);
     }
 
     public function getByHash(string $hash)
     {
-        return $this->repository
+        $post = $this->repository
             ->query()
             ->with(['author', 'tags'])
             ->where('hash', $hash)
             ->firstOrFail();
+
+        $this->repository->update($post, [
+            'view_count' => $post->view_count + 1,
+        ]);
+        return $post;
     }
 }

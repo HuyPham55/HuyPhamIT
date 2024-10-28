@@ -17,12 +17,13 @@ class PostDetailResource extends JsonResource
     {
         //return parent::toArray($request);
         return [
-            'id' => $this->id,
-            'hash' => $this->hash,
-            'title' => $this->title,
-            'short_description' => $this->short_description,
-            'content' => $this->content,
-            'publish_date' => formatDate($this->publish_date),
+            'id' => data_get($this, 'id'),
+            'hash' => data_get($this, 'hash'),
+            'title' => data_get($this, 'title'),
+            'short_description' => data_get($this, 'short_description'),
+            'content' => data_get($this, 'content'),
+            'publish_date' => formatDate(data_get($this, 'publish_date')),
+            'reading_time' => data_get($this, 'reading_time'),
             'author' => new UserResource($this->whenLoaded('author')),
             'tags' => new TagResource($this->whenLoaded('tags')),
         ];

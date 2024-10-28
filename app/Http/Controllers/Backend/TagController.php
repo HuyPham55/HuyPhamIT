@@ -16,8 +16,8 @@ class TagController extends BaseController
     public function __construct(
         protected TagServiceInterface $service,
         protected Tag                 $model,
-        protected string               $routeList = 'tags.list',
-        protected string               $pathView = 'admin.tags',
+        protected string              $routeList = 'tags.list',
+        protected string              $pathView = 'admin.tags',
     )
     {
         parent::__construct();
@@ -66,10 +66,10 @@ class TagController extends BaseController
         return view("{$this->pathView}.edit", ['model' => $tag]);
     }
 
-    public function putEdit(TagEditRequest $request, Tag $model): RedirectResponse
+    public function putEdit(TagEditRequest $request, Tag $tag): RedirectResponse
     {
         $begin = microtime(true);
-        $result = $this->service->update($model, $request->all());
+        $result = $this->service->update($tag, $request->all());
         $duration = microtime(true) - $begin;
         $ms = round($duration * 1000, 1);
         if ($result) {

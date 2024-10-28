@@ -45,7 +45,6 @@
                         <table class="table table-hover" id="datatables">
                             <thead>
                             <tr>
-                                <th scope="col">ID</th>
                                 <th scope="col">{{ __('label.title') }}</th>
                                 <th scope="col">{{ __('label.created_at') }}</th>
                                 <th scope="col">{{ __('label.updated_at') }}</th>
@@ -94,7 +93,6 @@
                         data: filterData
                     },
                     columns: [
-                        {data: 'id', name: 'id'},
                         {data: 'name', name: 'name'},
                         {data: 'created_at', name: 'created_at'},
                         {data: 'updated_at', name: 'updated_at'},

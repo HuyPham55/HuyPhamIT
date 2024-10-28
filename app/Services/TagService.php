@@ -49,7 +49,6 @@ class TagService implements TagServiceInterface
         DB::beginTransaction();
         try {
             $this->fillContent($data, $model);
-            $model->updated_by = $data['updated_by'];
             $model->save();
             DB::commit();
             return true;

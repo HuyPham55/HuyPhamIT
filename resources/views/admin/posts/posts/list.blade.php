@@ -45,7 +45,6 @@
                         <table class="table table-hover" id="datatables">
                             <thead>
                             <tr>
-                                <th scope="col">ID</th>
                                 <th scope="col">{{ __('label.image') }}</th>
                                 <th scope="col">{{ __('label.title') }}</th>
                                 <th scope="col">{{ __('backend.sorting') }}</th>
@@ -98,7 +97,6 @@
                         data: filterData
                     },
                     columns: [
-                        {data: 'id', name: 'id'},
                         {data: 'image', name: 'image', orderable: false, render: imageContainer},
                         {data: 'title', name: 'title'},
                         {data: 'sorting', name: 'sorting', render: sortingContainer},
