@@ -223,6 +223,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 ->middleware('permission:show_list_posts')
                 ->name('posts.datatables');
 
+            Route::put('/', [PostController::class, 'updateStaticPage']);
+
             Route::group(['middleware' => 'permission:add_posts'], function () {
                 Route::get('add', [PostController::class, 'getAdd'])->name('posts.add');
                 Route::post('add', [PostController::class, 'postAdd']);

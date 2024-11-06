@@ -153,4 +153,25 @@ class PostController extends BaseController
     {
         Cache::forget($this->cacheName);
     }
+
+    public function updateStaticPage(Request $request)
+    {
+        try {
+            $multiLangKeys = [
+                'post_add_template',
+            ];
+            foreach (config('lang') as $langKey => $langTitle) {
+                foreach ($multiLangKeys as $optionKey) {
+                    $key = $optionKey . "_" . $langKey;
+                    option([$key => $request->input($key)]);
+                }
+            }
+            return redirect()->back()->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
+        } catch (\Exception $exception) {
+            return redirect()->back()->with([
+                'status' => 'danger',
+                'flash_message' => trans('label.something_went_wrong')
+            ]);
+        }
+    }
 }

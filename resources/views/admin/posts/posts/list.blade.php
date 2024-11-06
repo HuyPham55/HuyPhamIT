@@ -61,6 +61,7 @@
                 </div>
             </div>
         </div>
+        @include('admin.posts.posts.components.template')
     </div>
 @endsection()
 @include('components.toastr')

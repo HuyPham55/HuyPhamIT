@@ -52,4 +52,5 @@ return array (
   'login_message' => 'Please login to begin your session',
   'open_in_new_tab' => 'Open in new tab',
   'tags' => 'Tags',
+  'template' => 'Template',
 );

@@ -72,12 +72,16 @@
                             >{{ old("$langKey.short_description") ?? $post->getTranslation('short_description', $langKey, false) }}</textarea>
                         </div>
 
+
+                        @php
+                        $postTemplate = request()->url() === route('posts.add') ? option("post_add_template_".$langKey) : null;
+                        @endphp
                         <div class="form-group">
                             <label for="{{ $langKey }}[content]"
                                    class="control-label">{{ __('backend.content') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <textarea id="{{ $langKey }}[content]" name="{{ $langKey }}[content]"
-                                      class="form-control tinymce" rows="25"
-                            >{{ old("$langKey.content") ?? $post->getTranslation('content', $langKey, false) }}</textarea>
+                                      class="form-control editor" rows="25"
+                            >{{ old("$langKey.content") ?? $postTemplate ?? $post->getTranslation('content', $langKey, false) }}</textarea>
                         </div>
 
                     </div>
@@ -174,7 +178,7 @@
     </div>
 </div>
 
-@include('components.tinymce')
+@include('components.ckeditor')
 @include('components.Select2')
 @include('components.BootstrapDatePicker')
 @include('components.form_elements.alertUnsavedChange')
