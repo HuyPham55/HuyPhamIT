@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import Layout from "@/layout/Layout.vue";
 </script>
 
 <template>
-    <Layout/>
+  <RouterView v-slot="{Component}">
+    <Transition name="fade">
+      <Component :is="Component"/>
+    </Transition>
+  </RouterView>
 </template>
 
 <style scoped>

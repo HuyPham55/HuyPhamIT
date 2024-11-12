@@ -1,23 +1,22 @@
 <script lang="ts" setup>
 import Header from "@/layout/components/Header.vue";
-import Footer from "@/layout/components/Footer.vue";
 import SearchModal from "@/layout/components/SearchModal.vue";
-import {useLayoutStore} from "@/stores/layout";
-import GetToTop from "@/layout/components/GetToTop.vue";
+import {onUpdated} from "vue";
+import {initFlowbite} from "flowbite";
 
-useLayoutStore().fetch();
-
+onUpdated(() => {
+  initFlowbite()
+  console.log("Updated")
+})
 </script>
 <template>
   <div>
     <SearchModal/>
     <Header/>
     <RouterView v-slot="{Component}">
-      <Transition name="fade-transform">
+      <Transition name="slide">
         <Component :is="Component"/>
       </Transition>
     </RouterView>
-    <GetToTop/>
-    <Footer/>
   </div>
 </template>

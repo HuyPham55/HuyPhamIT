@@ -1,57 +1,58 @@
 //fade
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+    transition: opacity .5s;
 }
 
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
 {
-  opacity: 0;
+    opacity: 0;
 }
 
 //slide
 .slide-leave-active,
 .slide-enter-active {
-  transition: 1s;
+    transition: all .5s;
 }
 
 .slide-enter {
-  transform: translate(100%, 0);
-  transition: opacity .5s;
+    transform: translate(100%, 0);
+    transition: all .3s;
+    //transition-timing-function: ;
 }
 
 .slide-leave-to {
-  transform: translate(-100%, 0);
-  opacity: 0;
+    transform: translate(-100%, 0);
+    opacity: 0;
 }
 
 //slide-fade
 .slide-fade-enter-active {
-  transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
 }
 
 .slide-fade-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+    transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translateX(-20px);
-  opacity: 0;
+    transform: translateX(-20px);
+    opacity: 0;
 }
 
 
 /*fade-transform*/
 .fade-transform-leave-active,
 .fade-transform-enter-active {
-  transition: all .5s;
+    transition: all .3s;
 }
 
 .fade-transform-enter {
-  opacity: 0;
-  transform: translateX(30px);
+    opacity: 0;
+    transform: translateX(30px);
 }
 
 .fade-transform-leave-to {
-  opacity: 0;
-  transform: translateX(-30px);
+    opacity: 0;
+    transform: translateX(-30px);
 }

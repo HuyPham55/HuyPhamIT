@@ -40,7 +40,7 @@ fetch()
       <div
         class="flex justify-between p-4 mx-2 lg:mx-auto max-w-screen-xl lg:p-10 dark:bg-gray-800 rounded-lg lg:rounded gap-8 flex-col lg:flex-row">
         <article v-if="!loading"
-          class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert xl:max-w-4xl order-1">
+          class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert xl:max-w-4xl lg:order-1">
           <PostHeader :post="post"/>
           {{ post?.content }}
           <PostAuthor :post="post"/>
