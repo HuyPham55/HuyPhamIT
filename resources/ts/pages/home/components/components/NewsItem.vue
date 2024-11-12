@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import {PostItem} from "@/pages/post-index/PostIndex";
 import {computed, toRefs} from "vue";
-import CommentIcon from "@/icons/CommentIcon.vue";
 import VoteIcon from "@/icons/VoteIcon.vue";
 import PostItemAction from "@/pages/home/components/components/components/PostItemAction.vue";
 
@@ -59,11 +58,15 @@ const computedShowDescription = computed(() => !!post.value.short_description.le
       </span>
       <div class="flex flex-grow space-x-2 justify-end">
         <span class="font-medium text-gray-500 dark:text-gray-400 inline-flex items-center">
-          <CommentIcon class="self-end mr-1 w-4 h-4"/>
+          <i class="fa fa-comment mr-1 h-3"></i>
           12
         </span>
         <span class="font-medium text-gray-500 dark:text-gray-400 inline-flex items-center">
-          <VoteIcon class="self-end mr-1 w-5 h-5"/>
+          <VoteIcon class="self-end w-5 h-5"/>
+          14
+        </span>
+        <span class="font-medium text-gray-500 dark:text-gray-400 inline-flex items-center">
+          <i class="fa fa-eye mr-1 h-3"></i>
           14
         </span>
       </div>

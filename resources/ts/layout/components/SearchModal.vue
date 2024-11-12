@@ -53,6 +53,7 @@ const eventBus = useEventBusStore();
 
 eventBus.on('openSearchModal', () => {
   openModal();
+  eventBus.off('openSearchModal', () => null);
 });
 </script>
 

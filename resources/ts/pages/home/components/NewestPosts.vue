@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 
-import Pagination from "@/pages/home/components/components/Pagination.vue";
-
 // onMounted(() => {
 //   initFlowbite();
 // })
@@ -56,7 +54,7 @@ import Pagination from "@/pages/home/components/components/Pagination.vue";
         </div>
 
         <nav aria-label="Page navigation example" class="mt-6 flex items-center justify-center sm:mt-8">
-          <Pagination/>
+<!--          <Pagination/>-->
         </nav>
       </div>
     </div>
