@@ -15,8 +15,8 @@ import Sorting from "@/pages/post-index/components/Sorting.vue";
 const posts = reactive<PostList>({
   data: [],
   loading: false,
-  orderBy: null,
-  order: null,
+  orderBy: '',
+  order: '',
 })
 
 const loading = computed(() => posts.loading)
@@ -42,7 +42,6 @@ const fetch = async function () {
   posts.data = data
   posts.meta = meta
 }
-fetch();
 
 const updateSorting = function (payload) {
   const {orderBy, order} = payload;
@@ -50,7 +49,7 @@ const updateSorting = function (payload) {
   posts.order = order;
 }
 
-watch(() => !!posts.orderBy || !!posts.order, fetch)
+watch(() => posts.orderBy + posts.order, fetch)
 
 </script>
 

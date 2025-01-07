@@ -25,7 +25,7 @@ const options = ref([
 
 let defaultValue = computed(() => {
   let firstOption = options.value.find(() => true);
-  return firstOption ? firstOption.id : null;
+  return firstOption ? firstOption.id : '';
 });
 
 const modelValue = ref(defaultValue);

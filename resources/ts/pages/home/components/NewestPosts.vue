@@ -8,7 +8,8 @@ import {PostList} from "@/pages/post-index/PostIndex";
 const posts = reactive<PostList>({
   data: [],
   loading: true,
-  orderBy: null,
+  orderBy: '',
+  order: '',
 })
 const fetchRecentPosts = async function () {
   posts.loading = true;
