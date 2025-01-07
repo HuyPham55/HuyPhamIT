@@ -41,7 +41,7 @@ class PostCategoryService implements PostCategoryServiceInterface
         try {
             $model = $this->repository->create();
             $model->hash = $hashids->encode(time());
-            //Hash must have a initial value
+            //Hash must have an initial value
             $this->fillContent($data, $model);
             $model->save();
             $model->hash = $hashids->encode($model->id);

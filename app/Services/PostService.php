@@ -70,13 +70,14 @@ class PostService implements PostServiceInterface
         $hashids = new Hashids();
         try {
             $model = $this->repository->create();
+            $model->hash = $hashids->encode(time());
             $this->fillContent($data, $model);
             $model->user_id = auth()->guard('web')->user()->id;
+            $model->category_id = data_get($data, "category") | 0;
             $model->hash = $hashids->encode(time());
             $model->save();
-            $this->update($model, [
-                'hash' => $hashids->encode($model->id)
-            ]);
+            $model->hash = $hashids->encode($model->id);
+            $model->save();
             $model->tags()->sync($data['tags'] ?? []);
             DB::commit();
             return true;
@@ -92,6 +93,7 @@ class PostService implements PostServiceInterface
         DB::beginTransaction();
         try {
             $this->fillContent($data, $model);
+            $model->category_id = data_get($data, "category") | 0;
             $model->updated_by = auth()->guard('web')->user()->id;
             $model->save();
             $model->tags()->sync($data['tags'] ?? []);
@@ -196,7 +198,6 @@ class PostService implements PostServiceInterface
             $model->setTranslation('seo_title', $langKey, data_get($data, "$langKey.seo_title"));
             $model->setTranslation('seo_description', $langKey, data_get($data, "$langKey.seo_description"));
         }
-        $model->category_id = data_get($data, "category") | 0;
 
         $model->sorting = data_get($data, "sorting") | 0;
 
