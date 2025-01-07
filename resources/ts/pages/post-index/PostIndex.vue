@@ -50,7 +50,7 @@ const updateSorting = function (payload) {
   posts.order = order;
 }
 
-watch(() => posts.sorting + posts.order, fetch)
+watch(() => !!posts.orderBy || !!posts.order, fetch)
 
 </script>
 

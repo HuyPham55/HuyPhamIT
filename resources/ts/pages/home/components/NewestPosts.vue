@@ -3,11 +3,12 @@
 import {computed, onMounted, reactive} from "vue";
 import axios from "axios";
 import NewsItem from "@/pages/home/components/components/NewsItem.vue";
+import {PostList} from "@/pages/post-index/PostIndex";
 
 const posts = reactive<PostList>({
   data: [],
   loading: true,
-  sorting: null,
+  orderBy: null,
 })
 const fetchRecentPosts = async function () {
   posts.loading = true;

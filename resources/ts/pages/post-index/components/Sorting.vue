@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, watch} from "vue";
+import {ref, watch, computed} from "vue";
 
 const emits = defineEmits(["updateSorting"])
 const options = ref([
@@ -23,7 +23,10 @@ const options = ref([
   },
 ]);
 
-let defaultValue = options.value.find(() => true).id
+let defaultValue = computed(() => {
+  let firstOption = options.value.find(() => true);
+  return firstOption ? firstOption.id : null;
+});
 
 const modelValue = ref(defaultValue);
 

@@ -15,6 +15,8 @@ declare type PostList = {
     data: Array<PostItem>;
     loading: Boolean;
     meta?: PaginationType;
+    orderBy?: null|string;
+    order?: null|string;
 }
 
 declare type Author = {
