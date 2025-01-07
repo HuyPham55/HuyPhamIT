@@ -41,20 +41,18 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover" id="datatables">
-                            <thead>
-                            <tr>
-                                <th scope="col">{{ __('label.title') }}</th>
-                                <th scope="col">{{ __('label.created_at') }}</th>
-                                <th scope="col">{{ __('label.updated_at') }}</th>
-                                <th scope="col">{{ __('label.action.action') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table table-hover" id="datatables">
+                        <thead>
+                        <tr>
+                            <th scope="col">{{ __('label.title') }}</th>
+                            <th scope="col">{{ __('label.created_at') }}</th>
+                            <th scope="col">{{ __('label.updated_at') }}</th>
+                            <th scope="col">{{ __('label.action.action') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
