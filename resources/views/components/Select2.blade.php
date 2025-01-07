@@ -4,7 +4,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             $('select.select2').select2({
-                theme: "classic",
+                theme: "bootstrap4", //classic
             });
         })
     </script>
