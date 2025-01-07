@@ -16,6 +16,7 @@ class PostResource extends JsonResource
     public function toArray(Request $request): array
     {
         //return parent::toArray($request);
+        /** @var \App\Models\Post $this */
         return [
             'id' => $this->id,
             'hash' => $this->hash,
@@ -23,7 +24,7 @@ class PostResource extends JsonResource
             'short_description' => $this->short_description,
             'publish_date' => formatDate($this->publish_date),
             'author' => new UserResource($this->whenLoaded('author')),
-            'tags' => new TagResource($this->whenLoaded('tags')),
+            'tags' => new TagCollection($this->whenLoaded('tags')),
         ];
     }
 }
