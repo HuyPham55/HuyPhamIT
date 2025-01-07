@@ -2,6 +2,14 @@
 import {ref, watch, computed} from "vue";
 
 const emits = defineEmits(["updateSorting"])
+const props = defineProps({
+  disabled: {
+    type: Boolean,
+    default: false,
+    required: false,
+  }
+})
+
 const options = ref([
   {
     id: 'created_at-asc',
@@ -28,7 +36,7 @@ let defaultValue = computed(() => {
   return firstOption ? firstOption.id : '';
 });
 
-const modelValue = ref(defaultValue);
+const modelValue = ref(defaultValue.value);
 
 watch(modelValue, function (value, oldValue, onCleanup) {
   let match = options.value.find((item) => item.id === value);
@@ -47,6 +55,7 @@ watch(modelValue, function (value, oldValue, onCleanup) {
              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
              name="order_by" type="radio"
              v-model="modelValue"
+             :disabled="disabled"
              :value="option.id">
       <label :for="'radio-' + index"
              :class="['ms-2 text-sm text-gray-900 dark:text-gray-300 text-nowrap select-none cursor-pointer', option.id === modelValue ? 'font-bold' : 'font-medium']">

@@ -19,7 +19,7 @@ const posts = reactive<PostList>({
   order: '',
 })
 
-const loading = computed(() => posts.loading)
+const loading = computed<boolean>(() => !!posts.loading)
 
 const isEmpty = computed<boolean>(() => !posts.data.length)
 
@@ -67,7 +67,7 @@ watch(() => posts.orderBy + posts.order, fetch)
       </div>
 
       <div class="mt-4 flex justify-between gap-x-2 flex-wrap">
-        <Sorting @updateSorting="updateSorting"/>
+        <Sorting @updateSorting="updateSorting" :disabled="loading"/>
         <DisplayMode @change-display-mode="changeDisplayMode" :current-mode="detailedMode"/>
       </div>
 
