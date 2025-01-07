@@ -25,7 +25,7 @@ class PostDetailResource extends JsonResource
             'publish_date' => formatDate(data_get($this, 'publish_date')),
             'reading_time' => data_get($this, 'reading_time'),
             'author' => new UserResource($this->whenLoaded('author')),
-            'tags' => new TagResource($this->whenLoaded('tags')),
+            'tags' => new TagCollection($this->whenLoaded('tags')),
         ];
     }
 }
