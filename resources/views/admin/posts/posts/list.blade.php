@@ -41,23 +41,20 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover" id="datatables">
-                            <thead>
-                            <tr>
-                                <th scope="col">{{ __('label.image') }}</th>
-                                <th scope="col">{{ __('label.title') }}</th>
-                                <th scope="col">{{ __('backend.sorting') }}</th>
-                                <th scope="col">{{ __('label.status.status') }}</th>
-                                <th scope="col">{{ __('label.created_at') }}</th>
-                                <th scope="col">{{ __('backend.updated_at') }}</th>
-                                <th scope="col">{{ __('label.action.action') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table table-hover" id="datatables">
+                        <thead>
+                        <tr>
+                            <th scope="col">{{ __('label.title') }}</th>
+                            <th scope="col">{{ __('backend.sorting') }}</th>
+                            <th scope="col">{{ __('label.status.status') }}</th>
+                            <th scope="col">{{ __('label.created_at') }}</th>
+                            <th scope="col">{{ __('backend.updated_at') }}</th>
+                            <th scope="col">{{ __('label.action.action') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -98,7 +95,6 @@
                         data: filterData
                     },
                     columns: [
-                        {data: 'image', name: 'image', orderable: false, render: imageContainer},
                         {data: 'title', name: 'title'},
                         {data: 'sorting', name: 'sorting', render: sortingContainer},
                         {data: 'status', name: 'status'},
