@@ -2,7 +2,7 @@
 
 import NewsItem from "@/pages/home/components/components/NewsItem.vue";
 import Pagination from "@/pages/home/components/components/Pagination.vue";
-import {computed, reactive, ref} from "vue";
+import {computed, reactive, ref, watch} from "vue";
 import axios from "axios";
 import {PostList} from "@/pages/post-index/PostIndex";
 import PostListLoading from "@/pages/post-index/components/PostListLoading.vue";
@@ -15,6 +15,8 @@ import Sorting from "@/pages/post-index/components/Sorting.vue";
 const posts = reactive<PostList>({
   data: [],
   loading: false,
+  orderBy: null,
+  order: null,
 })
 
 const loading = computed(() => posts.loading)
@@ -29,13 +31,26 @@ const changeDisplayMode = (value: boolean) => {
 
 const fetch = async function () {
   posts.loading = true;
-  let response = await axios.get('/posts');
+  let response = await axios.get('/posts', {
+    params: {
+      orderBy: posts.orderBy,
+      order: posts.order,
+    }
+  });
   posts.loading = false;
   let {data, meta} = response.data;
   posts.data = data
   posts.meta = meta
 }
 fetch();
+
+const updateSorting = function (payload) {
+  const {orderBy, order} = payload;
+  posts.orderBy = orderBy;
+  posts.order = order;
+}
+
+watch(() => posts.sorting + posts.order, fetch)
 
 </script>
 
@@ -53,7 +68,7 @@ fetch();
       </div>
 
       <div class="mt-4 flex justify-between gap-x-2 flex-wrap">
-        <Sorting/>
+        <Sorting @updateSorting="updateSorting"/>
         <DisplayMode @change-display-mode="changeDisplayMode" :current-mode="detailedMode"/>
       </div>
 

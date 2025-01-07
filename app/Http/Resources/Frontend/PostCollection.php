@@ -30,6 +30,7 @@ class PostCollection extends ResourceCollection
         //return parent::toArray($request);
         return [
             'data' => $this->collection,
+            'queries' => $request->query(),
         ];
     }
 }

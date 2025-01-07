@@ -1,8 +1,30 @@
 <script lang="ts" setup>
 
-// onMounted(() => {
-//   initFlowbite();
-// })
+import {computed, onMounted, reactive} from "vue";
+import axios from "axios";
+import NewsItem from "@/pages/home/components/components/NewsItem.vue";
+
+const posts = reactive<PostList>({
+  data: [],
+  loading: true,
+  sorting: null,
+})
+const fetchRecentPosts = async function () {
+  posts.loading = true;
+  let response = await axios.get('/posts', {
+
+  });
+  posts.loading = false;
+  let {data, meta} = response.data;
+  posts.data = data
+  posts.meta = meta
+}
+
+onMounted(() => {
+  fetchRecentPosts()
+})
+
+const loading = computed(() => posts.loading)
 </script>
 
 <template>
@@ -23,25 +45,12 @@
             <div>
               <label class="sr-only mb-2 block text-sm font-medium text-gray-900 dark:text-white" for="warranty-status">Warranty
                 status</label>
-              <select id="warranty-status"
-                      class="block w-full min-w-[8rem] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500">
-                <option selected>All</option>
-                <option value="pending">Pending</option>
-                <option value="active">Active</option>
-                <option value="expired">Expired</option>
-              </select>
-            </div>
-            <span class="inline-block text-gray-500 dark:text-gray-400"> from </span>
-            <div>
-              <label class="sr-only mb-2 block text-sm font-medium text-gray-900 dark:text-white" for="warranty-length">Select
-                warranty length</label>
-              <select id="warranty-length"
-                      class="block w-full min-w-[10rem] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500">
-                <option selected>Warranty length</option>
-                <option value="12">12 months</option>
-                <option value="24">24 months</option>
-                <option value="48">48 months</option>
-                <option value="60">60 months</option>
+              <select id="warranty-status" class="block w-full min-w-[8rem] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500">
+                <option value="pending" selected>
+                  Recently opened
+                </option>
+                <option value="pending">Reading</option>
+                <option value="active">Bookmarked</option>
               </select>
             </div>
           </div>
@@ -49,12 +58,12 @@
 
         <div class="mt-6 flow-root sm:mt-8">
           <div class="divide-y divide-gray-200 dark:divide-gray-700">
-<!--            <NewsItem/>-->
+            <NewsItem v-for="post in posts.data" :post="post"/>
           </div>
         </div>
 
         <nav aria-label="Page navigation example" class="mt-6 flex items-center justify-center sm:mt-8">
-<!--          <Pagination/>-->
+          <Pagination/>
         </nav>
       </div>
     </div>

@@ -4,21 +4,34 @@ namespace App\Services\Frontend;
 
 use App\Contracts\Repositories\PostRepositoryInterface;
 use App\Contracts\Services\Frontend\PostServiceInterface;
+use App\Enums\CommonStatus;
+use App\Models\Post;
 
 class PostService implements PostServiceInterface
 {
+    protected array $sortableFields = [
+        'id',
+        'created_at',
+        'updated_at',
+        'view_count',
+    ];
     public function __construct(
         public PostRepositoryInterface $repository
     )
     {
     }
 
-    public function getAll($size = 15)
+    public function getAll($size = 15, $orderBy = null, $order = null)
     {
-        return $this->repository
+        $query = $this->repository
             ->query()
             ->with(['author', 'tags'])
-            ->simplePaginate($size);
+            ->where('status', CommonStatus::Active);
+        $order = in_array($order, ['asc', 'desc']) ? $order : null;
+        if ($orderBy && in_array($orderBy, $this->sortableFields)) {
+            $query->orderBy($orderBy, $order);
+        }
+        return $query->simplePaginate($size);
     }
 
     public function getByHash(string $hash)
