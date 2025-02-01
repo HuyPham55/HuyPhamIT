@@ -60,7 +60,7 @@ const loading = computed(() => posts.loading)
 
         <div class="mt-6 flow-root sm:mt-8">
           <div class="divide-y divide-gray-200 dark:divide-gray-700">
-            <NewsItem v-for="post in posts.data" :post="post"/>
+            <NewsItem v-for="(post, index) in posts.data" :post="post" :class="index===0 ?'':'py-4'"/>
           </div>
         </div>
 
