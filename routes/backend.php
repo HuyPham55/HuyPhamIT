@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\StaticPageController;
 use App\Http\Controllers\Backend\TagController;
+use App\Http\Controllers\Backend\TwoFactorAuthenticationController;
 use App\Http\Controllers\Backend\UserController;
 use App\Models\StaticPage;
 use Illuminate\Support\Facades\Route;
@@ -132,6 +133,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::put('edit-profile', [UserController::class, 'postEditProfile']);
         Route::get('change-password', [UserController::class, 'getChangePassword'])->name('users.change_password');
         Route::post('change-password', [UserController::class, 'postChangePassword']);
+
+        //2FA
+        Route::get('/two-factor-authentication', [TwoFactorAuthenticationController::class, 'enable'])
+            ->name('users.two-factor-authentication.enable');
+        Route::post('confirmed-two-factor-authentication', [TwoFactorAuthenticationController::class, 'confirmed'])
+            ->name('users.two-factor-authentication.confirmed');
+        Route::get('two-factor-recovery-codes', [TwoFactorAuthenticationController::class, 'showRecoveryCodeForm'])
+            ->name('users.two-factor-recovery-codes.show');
+        Route::delete('two-factor-authentication', [TwoFactorAuthenticationController::class, 'remove'])
+            ->name('users.two-factor-authentication.remove');
     });
 
     //Members

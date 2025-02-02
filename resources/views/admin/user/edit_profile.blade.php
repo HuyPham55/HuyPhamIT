@@ -95,4 +95,42 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="jumbotron">
+                        <h1>
+                            @lang('2fa.title')
+                        </h1>
+                        <p class="lead">
+                            @lang('2fa.description')
+                        </p>
+                        @if(request()->user()->hasEnabledTwoFactorAuthentication())
+                            <a class="btn btn-lg btn-danger remove-authenticator" href="{{route('users.two-factor-authentication.remove')}}"
+                               role="button">
+                                @lang('2fa.remove')
+                            </a>
+                        @else
+                            <a class="btn btn-lg btn-primary" href="{{route('users.two-factor-authentication.enable')}}"
+                               role="button">
+                                @lang('2fa.setup')
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection()
+
+@push('script')
+    <script>
+        jQuery(() => {
+            jQuery(".remove-authenticator").on('click', function () {
+
+            })
+        })
+    </script>
+@endpush
