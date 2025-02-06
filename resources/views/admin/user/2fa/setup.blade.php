@@ -48,7 +48,7 @@
                         <p>
                             @lang('2fa.scan_the_code_desc')
                         </p>
-                        {{ request()->user()->twoFactorQrCodeUrl() }}
+                        {{ decrypt(request()->user()->two_factor_secret) }}
                     </div>
                 @else
                 @endif

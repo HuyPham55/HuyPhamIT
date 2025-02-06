@@ -58,7 +58,11 @@ class FortifyServiceProvider extends ServiceProvider
 
         // https://laravel.com/docs/11.x/fortify#password-confirmation
         Fortify::confirmPasswordView(function () {
-            return view('auth.confirm-password');
+            return view('auth.passwords.confirm');
         });
+
+        // https://laravel.com/docs/11.x/fortify#authenticating-with-two-factor-authentication
+        # Target [Laravel\Fortify\Contracts\TwoFactorChallengeViewResponse] is not instantiable.
+        Fortify::twoFactorChallengeView(fn() => view('auth.two-factor-challenge'));
     }
 }

@@ -36,11 +36,24 @@
                     </p>
                     <div class="row">
                         <div class="col-md-3">
-                            <ul class="list-group">
+                            <ul class="list-group mb-4">
                                 @foreach (Auth::user()->recoveryCodes() as $code)
                                     <li class="list-group-item list-group-item-danger">{{ $code }}</li>
                                 @endforeach
                             </ul>
+                            <div class="form-group">
+                                <label>
+                                    <input class="form-check-inline" name="confirm" type="checkbox"/>
+                                    <span>
+                                        {{trans('2fa.recovery_codes_confirm')}}
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-danger btn--complete" data-href="{{route('users.edit_profile')}}" disabled>
+                                    @lang('label.my_profile')
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,3 +61,25 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        jQuery(() => {
+            jQuery("input[name=confirm]").on('change', function() {
+                let value = !!jQuery(this).prop('checked');
+                if (value) {
+                    jQuery(".btn--complete").removeAttr('disabled');
+                } else {
+                    jQuery(".btn--complete").attr('disabled', '');
+                }
+            })
+
+            jQuery(".btn--complete").on('click', function() {
+                let href = jQuery(this).data('href');
+                if (href) {
+                    location.href = href;
+                }
+            })
+        })
+    </script>
+@endpush

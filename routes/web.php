@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('lang/{lang}', [LanguageController::class, 'changeLanguage'])->name('change_language');
 
-Auth::routes(['register' => false, 'verify' => false]);
+//Auth::routes(['register' => false, 'verify' => false]);
 
 
 
