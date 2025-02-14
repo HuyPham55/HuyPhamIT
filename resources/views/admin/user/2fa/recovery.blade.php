@@ -23,6 +23,12 @@
 @section('content')
     <div class="row">
         <div class="col-12">
+            @php
+                if (session('status') == 'two-factor-authentication-confirmed') {
+                    session()->flash('status', 'success');
+                    session()->flash('flash_message', 'Two factor authentication confirmed and enabled successfully.');
+                }
+            @endphp
             @includeIf('components.notification')
             <div class="card">
                 <div class="card-header">

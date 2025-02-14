@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('users.two-factor-authentication.confirmed')}}" method="POST">
+                    <form action="{{route('two-factor.confirm')}}" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-6">

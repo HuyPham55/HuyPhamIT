@@ -135,12 +135,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::post('change-password', [UserController::class, 'postChangePassword']);
 
         //2FA
-        Route::get('/two-factor-authentication', [TwoFactorAuthenticationController::class, 'enable'])
-            ->name('users.two-factor-authentication.enable');
-        Route::post('confirmed-two-factor-authentication', [TwoFactorAuthenticationController::class, 'confirmed'])
-            ->name('users.two-factor-authentication.confirmed');
-        Route::get('two-factor-recovery-codes', [TwoFactorAuthenticationController::class, 'showRecoveryCodeForm'])
-            ->name('users.two-factor-recovery-codes.show');
+        Route::get('two-factor-authentication', [TwoFactorAuthenticationController::class, 'enable'])
+            ->name('users.two-factor-authentication.enable')
+            ->middleware(['password.confirm']);
         Route::delete('two-factor-authentication', [TwoFactorAuthenticationController::class, 'remove'])
             ->name('users.two-factor-authentication.remove');
     });

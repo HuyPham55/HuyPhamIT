@@ -86,7 +86,7 @@ return [
     |
     */
 
-    'prefix' => '',
+    'prefix' => 'admin',
 
     'domain' => null,
 
@@ -150,11 +150,11 @@ return [
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         Features::twoFactorAuthentication([
-            // 'confirm' => true,
-            // 'confirmPassword' => true,
+            'confirm' => true,
+            'confirmPassword' => true,
             // https://stackoverflow.com/questions/71722513/laravel-fortify-not-triggering-2fa-challenge
-            'confirm' => false,
-            'confirmPassword' => false,
+            //'confirm' => false,
+            //'confirmPassword' => false,
             // 'window' => 0,
         ]),
     ],
