@@ -1,3 +1,4 @@
+@php use Laravel\Fortify\Fortify; @endphp
 @extends('admin.layout')
 
 @section('title',__('label.action.update'))
@@ -18,6 +19,12 @@
 @section('content')
     <div class="row">
         <div class="col-12">
+            @php
+            if (session('status') === Fortify::TWO_FACTOR_AUTHENTICATION_DISABLED) {
+                session()->flash('status', 'success');
+                session()->flash('flash_message', trans('label.notification.success'));
+            }
+            @endphp
             @includeIf('components.notification')
             <div class="card">
                 <form action="" method="POST" class="form-horizontal pt-3">
@@ -108,10 +115,13 @@
                             @lang('2fa.description')
                         </p>
                         @if(request()->user()->hasEnabledTwoFactorAuthentication())
-                            <a class="btn btn-lg btn-danger remove-authenticator" href="{{route('users.two-factor-authentication.remove')}}"
+                            <button type="button" class="btn btn-lg btn-danger remove-authenticator" href="{{route('users.two-factor-authentication.remove')}}" onclick="document.getElementById('remove-form').submit();"
                                role="button">
                                 @lang('2fa.remove')
-                            </a>
+                            </button>
+                            <form id="remove-form" action="{{route('users.two-factor-authentication.remove')}}" method="POST">
+                                @csrf
+                            </form>
                         @else
                             <a class="btn btn-lg btn-primary" href="{{route('users.two-factor-authentication.enable')}}"
                                role="button">
@@ -124,13 +134,3 @@
         </div>
     </div>
 @endsection()
-
-@push('script')
-    <script>
-        jQuery(() => {
-            jQuery(".remove-authenticator").on('click', function () {
-
-            })
-        })
-    </script>
-@endpush

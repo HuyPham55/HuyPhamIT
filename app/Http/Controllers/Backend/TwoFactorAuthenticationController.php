@@ -28,26 +28,16 @@ class TwoFactorAuthenticationController extends BaseController
     }
 
     /**
-     * Enable two factor authentication for the user.
-     * \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::store
+     * Disable two factor authentication for the user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Fortify\Actions\DisableTwoFactorAuthentication  $disable
+     * @return \Laravel\Fortify\Contracts\TwoFactorDisabledResponse
      */
-    public function confirmed(Request $request, ConfirmTwoFactorAuthentication $confirm)
+    public function destroy(Request $request, DisableTwoFactorAuthentication $disable)
     {
-        $confirm($request->user(), $request->input('code'));
-        return view('admin.user.2fa.recovery')
-            ->with([
-                'status' => 'success',
-                'flash_message' => trans('label.notification.success')
-            ]);
-    }
+        $disable($request->user());
 
-    public function showRecoveryCodeForm()
-    {
-        return view('admin.user.2fa.recovery');
-    }
-
-    public function remove(Request $request)
-    {
-
+        return app(TwoFactorDisabledResponse::class);
     }
 }
