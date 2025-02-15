@@ -138,9 +138,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('two-factor-authentication', [TwoFactorAuthenticationController::class, 'enable'])
             ->name('users.two-factor-authentication.enable')
             ->middleware(['password.confirm']);
-        
+
         Route::post('two-factor-authentication', [TwoFactorAuthenticationController::class, 'destroy'])
-            ->name('users.two-factor-authentication.remove');
+            ->name('users.two-factor-authentication.remove')
+            ->middleware(['password.confirm']);
     });
 
     //Members
