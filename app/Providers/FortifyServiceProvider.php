@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -53,5 +54,13 @@ class FortifyServiceProvider extends ServiceProvider
         // https://laravel.com/docs/11.x/fortify#authenticating-with-two-factor-authentication
         # Target [Laravel\Fortify\Contracts\TwoFactorChallengeViewResponse] is not instantiable.
         Fortify::twoFactorChallengeView(fn() => view('auth.two-factor-challenge'));
+
+        // https://laravel.com/docs/11.x/fortify#customizing-authentication-redirects
+        $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
+            public function toResponse($request)
+            {
+                return redirect(route('login'));
+            }
+        });
     }
 }
