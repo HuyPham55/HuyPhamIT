@@ -105,6 +105,14 @@
         <span class="fas fa-sign-in-alt"></span>
         {{ __('adminlte::adminlte.sign_in') }}
     </button>
+    {{-- Password reset link --}}
+    @if($password_reset_url)
+        <p class="my-0 text-center">
+            <a href="{{ $password_reset_url }}">
+                {{ __('adminlte::adminlte.i_forgot_my_password') }}
+            </a>
+        </p>
+    @endif
 @stop
 
 @push('js')
