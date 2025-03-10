@@ -11,7 +11,7 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{name: 'post_list'}" aria-current="page" class="nav-link">
+        <router-link :to="{name: 'posts'}" aria-current="page" class="nav-link">
           Posts
         </router-link>
       </li>
