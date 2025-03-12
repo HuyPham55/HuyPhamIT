@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends BaseController
 {
@@ -105,6 +106,17 @@ class PostController extends BaseController
                 'status' => 'danger',
                 'flash_message' => trans('label.something_went_wrong')
             ]);
+    }
+
+    public function publish(Request $request, Post $post)
+    {
+        try {
+            $this->service->publish($post);
+            return $this->success();
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            return $this->error($exception->getMessage());
+        }
     }
 
     public function changeStatus(Request $request, Post $post = null): JsonResponse

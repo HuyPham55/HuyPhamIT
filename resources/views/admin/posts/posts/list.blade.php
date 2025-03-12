@@ -49,6 +49,7 @@
                             <th scope="col">{{ __('label.status.status') }}</th>
                             <th scope="col">{{ __('label.created_at') }}</th>
                             <th scope="col">{{ __('backend.updated_at') }}</th>
+                            <th scope="col">{{ __('label.publish_date') }}</th>
                             <th scope="col">{{ __('label.action.action') }}</th>
                         </tr>
                         </thead>
@@ -73,6 +74,18 @@
             let sortingContainer = (data) => `<input class="update-sorting form-control" style="max-width: 125px;" type="number" value="${data}" max="e9"/>`;
             let datatablesCallback = () => {
                 jQuery(".bt-switch input[type='checkbox']").bootstrapSwitch();
+                jQuery(".btn--publish").on('click', async function() {
+                    let $button = $(this);
+                    $($button).attr("disabled", "")
+                    let route = $($button).data('route');
+                    await confirmAction(() => postData(route, {
+                        '_token': '{{ csrf_token() }}'
+                    }))
+                    if (typeof initialize !== 'undefined' && typeof initialize === 'function') {
+                        initialize()
+                    }
+                    $($button).removeAttr("disabled")
+                })
             }
             let filter = jQuery("#filter")
             let refreshBtn = jQuery("button.refresh")
@@ -100,6 +113,7 @@
                         {data: 'status', name: 'status'},
                         {data: 'created_at', name: 'created_at'},
                         {data: 'updated_at', name: 'updated_at'},
+                        {data: 'publish_date', name: 'publish_date'},
                         {data: 'action', name: 'action', orderable: false}
                     ],
                     order: [[0, 'desc']],

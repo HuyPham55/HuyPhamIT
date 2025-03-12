@@ -43,6 +43,14 @@ class PostService implements PostServiceInterface
             ->editColumn('updated_at', function ($item) {
                 return $item->formatDate('updated_at');
             })
+            ->editColumn('publish_date', fn($item) => $item->publish_date
+                ? $item->formatDate('publish_date')
+                : view('components.buttons.datatables.publish_button', [
+                    'data' => $item,
+                    'permission' => 'publish_posts',
+                    'route' => route('posts.publish', ['post' => $item]),
+                ])
+            )
             ->addColumn('action', function ($item) {
                 return view('components.buttons.edit', ['route' => route('posts.edit', ['post' => $item])])
                     . ' ' .
@@ -213,5 +221,16 @@ class PostService implements PostServiceInterface
         $readingSpeed = 200;
         $wordCount = str_word_count($string);
         return round($wordCount / $readingSpeed); //minute
+    }
+
+    public function publish(Post $post)
+    {
+        $userID = auth()->guard('web')->user()->id;
+        $data = [
+            'status' => CommonStatus::Active,
+            'publish_date' => now(),
+            'updated_by' => $userID,
+        ];
+        return $post->update($data);
     }
 }
