@@ -7,6 +7,7 @@ use App\Contracts\Services\PostServiceInterface;
 use App\Enums\CommonStatus;
 use App\Models\Post;
 use Hashids\Hashids;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
@@ -184,7 +185,9 @@ class PostService implements PostServiceInterface
 
         $model->sorting = data_get($data, "sorting") | 0;
 
-        $model->publish_date = data_get($data, "publish_date");
+        if (auth('web')->user()->can('publish_posts')) {
+            $model->publish_date = data_get($data, "publish_date");
+        }
 
         $model->status = data_get($data, "status") | 0;
 
