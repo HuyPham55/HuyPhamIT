@@ -82,7 +82,7 @@
                         '_token': '{{ csrf_token() }}'
                     }))
                     if (typeof initialize !== 'undefined' && typeof initialize === 'function') {
-                        initialize()
+                        $("#datatables").DataTable().ajax.reload()
                     }
                     $($button).removeAttr("disabled")
                 })
@@ -132,7 +132,8 @@
             })
 
             jQuery(refreshBtn).on("click", function () {
-                initialize()
+                //vhttps://datatables.net/forums/discussion/38969/reload-refresh-table-after-event
+                $("#datatables").DataTable().ajax.reload()
                 jQuery(this).attr("disabled", "")
                 setTimeout(() => {
                     jQuery(this).removeAttr('disabled')
