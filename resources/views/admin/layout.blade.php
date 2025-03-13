@@ -22,6 +22,6 @@
         $('.lfm-image').filemanager('image');
         $('.lfm-file').filemanager('file');
     </script>
-    <script src="{{asset('/backend/js/backend.js')}}"></script>
+    <script src="{{asset('/backend/js/backend.js'). '?version=' . filemtime(public_path('js/places.js'))}}"></script>
 @endpush
 @section('plugins.Sweetalert2', true)
