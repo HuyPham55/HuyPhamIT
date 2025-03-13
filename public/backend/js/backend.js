@@ -55,7 +55,7 @@ function resetInput(id) {
     jQuery("#image-preview-" + id).find('img').attr("src", "/images/no-image.png");
 }
 
-async function postData(route, dataPost) {
+async function postData(route, dataPost = {}) {
     if (!dataPost.hasOwnProperty('_token')) {
         dataPost['_token'] = jQuery('meta[name="csrf-token"]').attr('content');
     }
