@@ -71,7 +71,6 @@
                         'field': field,
                         'item_id': itemId,
                         'status': isChecked ? 1 : 0,
-                        '_token': '{{ csrf_token() }}'
                     });
                 }
             });
@@ -84,7 +83,6 @@
                     postData("{{ route('post_categories.change_sorting') }}", {
                         'item_id': itemId,
                         'sorting': sorting,
-                        '_token': '{{ csrf_token() }}'
                     });
                 }
             });

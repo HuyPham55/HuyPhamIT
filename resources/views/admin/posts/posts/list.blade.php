@@ -78,9 +78,7 @@
                     let $button = $(this);
                     $($button).attr("disabled", "")
                     let route = $($button).data('route');
-                    await confirmAction(() => postData(route, {
-                        '_token': '{{ csrf_token() }}'
-                    }))
+                    await confirmAction(() => postData(route))
                     if (typeof initialize !== 'undefined' && typeof initialize === 'function') {
                         $("#datatables").DataTable().ajax.reload()
                     }
@@ -152,7 +150,6 @@
                     patchData("{{route('posts.change_status')}}" + `/${itemId}`, {
                         'field': field,
                         'status': isChecked ? 1 : 0,
-                        '_token': '{{ csrf_token() }}'
                     });
                 }
             });
@@ -169,7 +166,6 @@
                     patchData("{{ route('posts.change_sorting') }}" + `/${itemId}`, {
                         'item_id': itemId,
                         'sorting': sorting,
-                        '_token': '{{ csrf_token() }}'
                     });
                 }
             });
