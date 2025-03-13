@@ -67,7 +67,7 @@ const computedShowDescription = computed(() => !!post.value.short_description.le
         </span>
         <span class="font-medium text-gray-500 dark:text-gray-400 inline-flex items-center">
           <i class="fa fa-eye mr-1 h-3"></i>
-          14
+          {{post.view_count}}
         </span>
       </div>
     </div>
