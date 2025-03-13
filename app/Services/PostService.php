@@ -54,7 +54,10 @@ class PostService implements PostServiceInterface
             ->addColumn('action', function ($item) {
                 return view('components.buttons.edit', ['route' => route('posts.edit', ['post' => $item])])
                     . ' ' .
-                    view('components.buttons.datatables.delete', ['route' => route('posts.delete', ['post' => $item]), 'key' => $item->hash]);
+                    view('components.buttons.datatables.delete', [
+                        'route' => route('posts.delete', ['post' => $item]),
+                        'key' => $item->hash
+                    ]);
             })
             ->setRowId(function ($item) {
                 return 'row-id-' . $item->hash;
@@ -72,65 +75,47 @@ class PostService implements PostServiceInterface
         return $this->repository->findByID($id);
     }
 
-    public function create(array $data): bool
+    public function create(array $data)
     {
         DB::beginTransaction();
         $hashids = new Hashids();
-        try {
-            $model = $this->repository->create();
-            $model->hash = $hashids->encode(time());
-            $this->fillContent($data, $model);
-            $model->user_id = auth()->guard('web')->user()->id;
-            $model->category_id = data_get($data, "category") | 0;
-            $model->hash = $hashids->encode(time());
-            $model->save();
-            $model->hash = $hashids->encode($model->id);
-            $model->save();
-            $model->tags()->sync($data['tags'] ?? []);
-            DB::commit();
-            return true;
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            DB::rollback();
-            return false;
-        }
+        $model = $this->repository->create();
+        $model->hash = $hashids->encode(time());
+        $this->fillContent($data, $model);
+        $model->user_id = auth()->guard('web')->user()->id;
+        $model->category_id = data_get($data, "category") | 0;
+        $model->hash = $hashids->encode(time());
+        $model->save();
+        $model->hash = $hashids->encode($model->id);
+        $model->save();
+        $model->tags()->sync($data['tags'] ?? []);
+        DB::commit();
+        return $model;
     }
 
-    public function update($model, array $data): bool
+    public function update($model, array $data)
     {
         DB::beginTransaction();
-        try {
-            $this->fillContent($data, $model);
-            $model->category_id = data_get($data, "category") | 0;
-            $model->updated_by = auth()->guard('web')->user()->id;
-            $model->save();
-            $model->tags()->sync($data['tags'] ?? []);
-            DB::commit();
-            return true;
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            DB::rollback();
-            return false;
-        }
+        $this->fillContent($data, $model);
+        $model->category_id = data_get($data, "category") | 0;
+        $model->updated_by = auth()->guard('web')->user()->id;
+        $model->save();
+        $model->tags()->sync($data['tags'] ?? []);
+        DB::commit();
+        return $model;
     }
 
     public function delete($model): bool
     {
         DB::beginTransaction();
-        try {
-            $this->repository->delete($model);
-            DB::commit();
-            return true;
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            DB::rollback();
-            return false;
-        }
+        $this->repository->delete($model);
+        DB::commit();
+        return true;
     }
 
-    public function getCount()
+    public function getCount(): int
     {
-        return $this->repository->query()->count();
+        return $this->repository->query()->count() | 0;
     }
 
     public function getInactiveCount()
@@ -138,42 +123,32 @@ class PostService implements PostServiceInterface
         return $this->repository->query()->where('status', CommonStatus::Inactive)->count();
     }
 
-    public function changeStatus($model, string $field, int $status): bool
+    public function changeStatus($model, string $field, int $status)
     {
         DB::beginTransaction();
-        try {
-            $userID = auth()->guard('web')->user()->id;
-            $data = [
-                'status' => $status,
-                'updated_by' => $userID,
-            ];
-            $result = $model->update($data);
-            DB::commit();
-            return !!$result;
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            DB::rollback();
-            return false;
-        }
+        $userID = auth()->guard('web')->user()->id;
+        $data = [
+            'status' => $status,
+            'updated_by' => $userID,
+        ];
+        /** @var Post $model */
+        $result = $model->update($data);
+        DB::commit();
+        return !!$result;
     }
 
-    public function changeSorting($model, string $field = 'sorting', int $sorting = 0): bool
+    public function changeSorting($model, string $field = 'sorting', int $sorting = 0)
     {
         DB::beginTransaction();
-        try {
-            $userID = auth()->guard('web')->user()->id;
-            $data = [
-                $field => $sorting,
-                'updated_by' => $userID,
-            ];
-            $result = $model->update($data);
-            DB::commit();
-            return !!$result;
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            DB::rollback();
-            return false;
-        }
+        $userID = auth()->guard('web')->user()->id;
+        $data = [
+            $field => $sorting,
+            'updated_by' => $userID,
+        ];
+        /** @var Post $model */
+        $result = $model->update($data);
+        DB::commit();
+        return $result;
     }
 
 
@@ -225,12 +200,14 @@ class PostService implements PostServiceInterface
 
     public function publish(Post $post)
     {
+        DB::beginTransaction();
         $userID = auth()->guard('web')->user()->id;
         $data = [
             'status' => CommonStatus::Active,
             'publish_date' => now(),
             'updated_by' => $userID,
         ];
+        DB::commit();
         return $post->update($data);
     }
 }
