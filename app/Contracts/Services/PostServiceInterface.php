@@ -10,8 +10,8 @@ interface PostServiceInterface extends ServiceInterface
 
     public function getAll();
 
-    public function changeStatus($model, string $field, int $status): bool;
+    public function changeStatus($model, string $field, int $status);
 
-    public function changeSorting($model, string $field, int $sorting = 0): bool;
+    public function changeSorting($model, string $field, int $sorting = 0);
 
 }
