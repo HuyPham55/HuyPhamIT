@@ -21,6 +21,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'hash' => $this->hash,
             'title' => $this->title,
+            'view_count' => $this->view_count,
             'short_description' => $this->short_description,
             'publish_date' => formatDate($this->publish_date),
             'author' => new UserResource($this->whenLoaded('author')),

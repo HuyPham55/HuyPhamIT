@@ -23,6 +23,9 @@ use Spatie\Translatable\HasTranslations;
  * @property mixed $id
  * @property int|null $reading_time
  * @property string $hash
+ * @property int $view_count
+ * @property string $title
+ * @property string $short_description
  */
 class Post extends BaseModel
 {
@@ -45,6 +48,7 @@ class Post extends BaseModel
 
     protected $casts = [
         'publish_date' => 'datetime',
+        'view_count' => 'integer',
     ];
 
     public static function boot()
