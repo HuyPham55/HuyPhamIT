@@ -21,6 +21,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/sanctum/csrf-cookie', function (Request $request) {
+    // Laravel\Sanctum › CsrfCookieController@show
+    # https://laravel.com/docs/10.x/sanctum#csrf-protection
+    return redirect()->route('sanctum.csrf-cookie');
+});
 
 Route::get('/layout', [LayoutController::class, 'index']);
 
