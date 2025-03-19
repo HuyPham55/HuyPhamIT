@@ -4,6 +4,10 @@ import GoogleIcon from "@/icons/GoogleIcon.vue";
 import AppleIcon from "@/icons/AppleIcon.vue";
 
 //73px: Header height
+
+axios.get('/sanctum/csrf-cookie').then(response => {
+  // Login...
+});
 </script>
 
 <template>
