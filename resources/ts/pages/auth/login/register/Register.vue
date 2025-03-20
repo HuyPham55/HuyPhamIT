@@ -2,6 +2,7 @@
 
 import GoogleIcon from "@/icons/GoogleIcon.vue";
 import AppleIcon from "@/icons/AppleIcon.vue";
+import AuthInput from "@/pages/auth/components/AuthInput.vue";
 </script>
 
 <template>
@@ -27,29 +28,9 @@ import AppleIcon from "@/icons/AppleIcon.vue";
             <div class="px-5 text-center text-gray-500 dark:text-gray-400">or</div>
             <div class="w-full h-0.5 bg-gray-200 dark:bg-gray-700"></div>
           </div>
-          <div>
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                   for="full-name">What should we call
-              you?</label>
-            <input id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" name="full-name"
-                   placeholder="e.g. Bonnie Green"
-                   type="text">
-          </div>
-          <div>
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="email">Your
-              email</label>
-            <input id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" name="email"
-                   placeholder="name@company.com"
-                   type="email">
-          </div>
-          <div>
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                   for="password">Your
-              password</label>
-            <input id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" name="password" placeholder="••••••••"
-                   type="password"
-            >
-          </div>
+          <AuthInput name="full-name" type="text" label="What should we call you?" placeholder="e.g. Bonnie Green"/>
+          <AuthInput name="email" label="Your email" type="email" placeholder="name@company.com"/>
+          <AuthInput name="password" label="Your password" type="password" placeholder="••••••••"/>
           <div class="space-y-3">
             <div class="flex items-start">
               <div class="flex items-center h-5">
