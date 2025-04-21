@@ -41,8 +41,29 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            /**
+             * @Error
+             * Sanctum throws "Session store not set on request"
+             * @For \Illuminate\Session\Middleware\StartSession::class
+             * You are free to write your own /login endpoint; however, you should ensure that it authenticates the user
+             * using the standard, session based authentication services that Laravel provides. Typically, this means
+             * using the web authentication guard.
+             *
+             * @Comment
+             * Just adding the session middleware to your API routes is not not the solution. It’s omitted for a reason:
+             * API routes should be stateless (i.e. not rely on state between the server and the client). This includes
+             * sessions and cookies.
+             *
+             * @Comment
+             * The issue is that in \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful, the actions for
+             * this middleware are only applied if the function fromFrontend() returns true.
+             *
+             * To solve this issue, simply investigate and understand why fromFrontend()returns false in your case, and
+             * rectify this.
+             */
+            //\Illuminate\Session\Middleware\StartSession::class,
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];

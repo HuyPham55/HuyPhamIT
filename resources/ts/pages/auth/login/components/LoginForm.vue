@@ -6,7 +6,17 @@ import AppleIcon from "@/icons/AppleIcon.vue";
 import {Form} from "vee-validate";
 
 const onSubmit = function(values) {
-  console.log(values);
+  axios.post("/auth/login", values)
+    .then(response => {
+      // Handle success
+      console.log("Login successful:", response.data);
+      // Redirect or show success message
+    })
+    .catch(error => {
+      // Handle error
+      console.error("Login failed:", error.response.data);
+      // Show error message
+    });
 }
 </script>
 
