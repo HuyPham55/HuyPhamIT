@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {toRefs, computed} from "vue";
+import {computed, toRefs} from "vue";
 import {ErrorMessage, Field} from "vee-validate";
 
 const props = defineProps({
@@ -50,7 +50,7 @@ const computedClass = computed(() => {
         :class="computedClass"
         :autocomplete="autocomplete">
     </Field>
-    <ErrorMessage :name="name" as="small"/>
+    <ErrorMessage :name="name" as="p" class="mt-2 text-sm text-red-600 dark:text-red-500"/>
   </div>
 </template>
 

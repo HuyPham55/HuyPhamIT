@@ -10,18 +10,37 @@ import {watch} from "vue";
 import {useRouter} from "vue-router";
 
 const authStore = useAuthStore();
-const router = useRouter()
+const router = useRouter();
 
-const onSubmit = async function (values) {
-  await attempt(values);
+const onSubmit = async function (values, actions) {
+  try {
+    await attempt(values);
+  } catch (error) {
+    console.log(error.message);
+    if (error.fieldErrors) {
+      for (const fieldName in error.fieldErrors) {
+        actions.setFieldError(fieldName, error.fieldErrors[fieldName]);
+      }
+    } else if (error.message) {
+      // Optional: set a general error
+      // actions.setStatus(error.message);
+    }
+  }
 }
 const attempt = async function (credentials) {
   await axios.post('/auth/login', credentials)
     .then(response => {
       authStore.fetchUser()
     })
-    .catch(error => {
-      console.error(error);
+    .catch(res => {
+      if (res.status === 422) {
+        let data = res.response.data
+        const error = new Error(res.response.statusText);
+        error.fieldErrors = data.errors;
+        throw error;
+      } else {
+        console.error(res);
+      }
     });
 }
 
@@ -33,7 +52,7 @@ watch(() => authStore.isAuthenticated, (isAuthenticated) => {
 </script>
 
 <template>
-  <Form @submit="onSubmit" action="#" class="w-full max-w-md space-y-4 md:space-y-6 xl:max-w-xl">
+  <Form @submit="onSubmit" class="w-full max-w-md space-y-4 md:space-y-6 xl:max-w-xl">
     <h1 class="text-xl font-bold text-gray-900 dark:text-white">Welcome back</h1>
     <div class="items-center space-x-0 space-y-3 sm:flex sm:space-x-4 sm:space-y-0">
       <a class="w-full inline-flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
