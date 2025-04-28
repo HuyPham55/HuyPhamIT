@@ -4,10 +4,10 @@ import AuthInput from "@/pages/auth/components/AuthInput.vue";
 import GoogleIcon from "@/icons/GoogleIcon.vue";
 import AppleIcon from "@/icons/AppleIcon.vue";
 import {Form} from "vee-validate";
-import axios from "axios";
 import {useAuthStore} from "@/stores/modules/auth";
 import {watch} from "vue";
 import {useRouter} from "vue-router";
+import {attempt} from "@/pages/auth/login/components/LoginForm";
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -17,31 +17,15 @@ const onSubmit = async function (values, actions) {
     await attempt(values);
   } catch (error) {
     console.log(error.message);
-    if (error.fieldErrors) {
-      for (const fieldName in error.fieldErrors) {
-        actions.setFieldError(fieldName, error.fieldErrors[fieldName]);
+    if (error.errors) {
+      for (const fieldName in error.errors) {
+        actions.setFieldError(fieldName, error.errors[fieldName]);
       }
     } else if (error.message) {
       // Optional: set a general error
       // actions.setStatus(error.message);
     }
   }
-}
-const attempt = async function (credentials) {
-  await axios.post('/auth/login', credentials)
-    .then(response => {
-      authStore.fetchUser()
-    })
-    .catch(res => {
-      if (res.status === 422) {
-        let data = res.response.data
-        const error = new Error(res.response.statusText);
-        error.fieldErrors = data.errors;
-        throw error;
-      } else {
-        console.error(res);
-      }
-    });
 }
 
 watch(() => authStore.isAuthenticated, (isAuthenticated) => {
