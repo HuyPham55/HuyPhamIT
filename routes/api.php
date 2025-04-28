@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Api\Auth\RegisteredUserController;
 use App\Http\Controllers\Frontend\LayoutController;
 use App\Http\Controllers\Frontend\PostDetailController;
 use App\Http\Controllers\Frontend\PostListController;
@@ -40,6 +41,8 @@ Route::group(['prefix' => '/posts'], function () {
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthenticatedSessionController::class, 'store'])
+        ->middleware("guest:member");
+    Route::post('register', [RegisteredUserController::class, 'store'])
         ->middleware("guest:member");
 });
 
