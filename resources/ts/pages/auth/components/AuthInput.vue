@@ -50,7 +50,9 @@ const computedClass = computed(() => {
         :class="computedClass"
         :autocomplete="autocomplete">
     </Field>
-    <ErrorMessage :name="name" as="p" class="mt-2 text-sm text-red-600 dark:text-red-500"/>
+    <Transition name="fade-slide">
+      <ErrorMessage :name="name" as="p" class="text-sm text-red-600 dark:text-red-500"/>
+    </Transition>
   </div>
 </template>
 
