@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\LayoutController;
 use App\Http\Controllers\Frontend\PostDetailController;
 use App\Http\Controllers\Frontend\PostListController;
@@ -36,3 +37,9 @@ Route::group(['prefix' => '/posts'], function () {
         ->middleware(['signed'])
         ->name('api.posts.preview');
 });
+
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', [AuthenticatedSessionController::class, 'store'])
+        ->middleware("guest:member");
+});
+
