@@ -3,10 +3,28 @@
 import AppleIcon from "@/icons/AppleIcon.vue";
 import GoogleIcon from "@/icons/GoogleIcon.vue";
 import AuthInput from "@/pages/auth/components/AuthInput.vue";
+import {Form} from "vee-validate";
+import {attemptRegister} from "@/pages/auth/register/components/RegisterForm";
+
+const onSubmit = async function (values, actions) {
+  try {
+    await attemptRegister(values);
+  } catch (error) {
+    console.log(error.message);
+    if (error.errors) {
+      for (const fieldName in error.errors) {
+        actions.setFieldError(fieldName, error.errors[fieldName]);
+      }
+    } else if (error.message) {
+      // Optional: set a general error
+      // actions.setStatus(error.message);
+    }
+  }
+}
 </script>
 
 <template>
-  <form action="#" class="space-y-4 max-w-md md:space-y-6 xl:max-w-xl">
+  <Form @submit="onSubmit" class="space-y-4 max-w-md md:space-y-6 xl:max-w-xl">
     <h2 class="text-xl font-bold text-gray-900 dark:text-white">Your Best Work Starts Here</h2>
     <div class="items-center space-y-3 space-x-0 sm:flex sm:space-x-4 sm:space-y-0">
       <a
@@ -27,7 +45,7 @@ import AuthInput from "@/pages/auth/components/AuthInput.vue";
       <div class="px-5 text-center text-gray-500 dark:text-gray-400">or</div>
       <div class="w-full h-0.5 bg-gray-200 dark:bg-gray-700"></div>
     </div>
-    <AuthInput name="full-name" type="text" label="What should we call you?" placeholder="e.g. Bonnie Green"/>
+    <AuthInput name="name" type="text" label="What should we call you?" placeholder="e.g. Bonnie Green"/>
     <AuthInput name="email" label="Your email" type="email" placeholder="name@company.com"/>
     <AuthInput name="password" label="Your password" type="password" placeholder="••••••••"/>
     <div class="space-y-3">
@@ -73,7 +91,7 @@ import AuthInput from "@/pages/auth/components/AuthInput.vue";
         here
       </router-link>
     </p>
-  </form>
+  </Form>
 
 </template>
 
