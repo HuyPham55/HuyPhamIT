@@ -4,10 +4,32 @@ import AuthInput from "@/pages/auth/components/AuthInput.vue";
 import GoogleIcon from "@/icons/GoogleIcon.vue";
 import AppleIcon from "@/icons/AppleIcon.vue";
 import {Form} from "vee-validate";
+import axios from "axios";
+import {useAuthStore} from "@/stores/modules/auth";
+import {watch} from "vue";
+import {useRouter} from "vue-router";
 
-const onSubmit = function(values) {
-  console.log(values);
+const authStore = useAuthStore();
+const router = useRouter()
+
+const onSubmit = async function (values) {
+  await attempt(values);
 }
+const attempt = async function (credentials) {
+  await axios.post('/auth/login', credentials)
+    .then(response => {
+      authStore.fetchUser()
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+watch(() => authStore.isAuthenticated, (isAuthenticated) => {
+  if (isAuthenticated) {
+    router.push({name: 'home'});
+  }
+})
 </script>
 
 <template>
@@ -15,12 +37,12 @@ const onSubmit = function(values) {
     <h1 class="text-xl font-bold text-gray-900 dark:text-white">Welcome back</h1>
     <div class="items-center space-x-0 space-y-3 sm:flex sm:space-x-4 sm:space-y-0">
       <a class="w-full inline-flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-         href="#">
+        href="#">
         <GoogleIcon class="w-5 h-5 mr-2"/>
         Sign in with Google
       </a>
       <a class="w-full inline-flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-         href="#">
+        href="#">
         <AppleIcon class="w-5 h-5 mr-2 text-gray-900 dark:text-white"/>
         Sign in with Apple
       </a>
@@ -30,7 +52,7 @@ const onSubmit = function(values) {
       <div class="px-5 text-center text-gray-500 dark:text-gray-400">or</div>
       <div class="w-full h-0.5 bg-gray-200 dark:bg-gray-700"></div>
     </div>
-    <AuthInput name="email" label="Email" type="email" placeholder="Enter your email" />
+    <AuthInput name="email" label="Email" type="email" placeholder="Enter your email"/>
     <AuthInput name="password" label="Password" type="password" placeholder="••••••••"/>
     <div class="flex items-center justify-between">
       <div class="flex items-start">
@@ -48,7 +70,7 @@ const onSubmit = function(values) {
         password?</a>
     </div>
     <button class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            type="submit">
+      type="submit">
       Sign
       in to your account
     </button>
