@@ -18,9 +18,10 @@ const onSubmit = async function (values, actions) {
     await router.push({name: 'home'});
   } catch (error) {
     console.log(error);
-    if (error.errors) {
-      for (const fieldName in error.errors) {
-        actions.setFieldError(fieldName, error.errors[fieldName]);
+    if (typeof error === "object" && error !== null && "errors" in error) {
+      const err = error as { errors: Record<string, string[]> };
+      for (const fieldName in err.errors) {
+        actions.setFieldError(fieldName, err.errors[fieldName]);
       }
     }
     // else if (error.message) {
