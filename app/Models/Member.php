@@ -32,6 +32,23 @@ class Member extends Authenticatable implements CanResetPasswordContract
     use CanResetPassword;
     use Filterable;
 
+    protected $fillable = [
+        'name',
+        'username',
+        'email',
+        'phone',
+        'address',
+        'password'
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+
     protected static function boot()
     {
         parent::boot();

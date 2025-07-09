@@ -1,9 +1,12 @@
+"use strict";
 import axios from "axios";
+import {useAuthStore} from "@/stores/modules/auth";
 
 const attempt = async function (credentials) {
-    await axios.post('/auth/login', credentials)
+    const authStore = useAuthStore();
+    return await axios.post('/auth/login', credentials)
         .then(response => {
-            authStore.fetchUser()
+            return authStore.fetchUser()
         })
         .catch(res => {
             if (res.status === 422) {

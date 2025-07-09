@@ -23,12 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/sanctum/csrf-cookie', function (Request $request) {
-    // Laravel\Sanctum › CsrfCookieController@show
-    # https://laravel.com/docs/10.x/sanctum#csrf-protection
-    return redirect()->route('sanctum.csrf-cookie');
-});
-
 Route::get('/layout', [LayoutController::class, 'index']);
 
 Route::group(['prefix' => '/posts'], function () {
@@ -39,10 +33,14 @@ Route::group(['prefix' => '/posts'], function () {
         ->name('api.posts.preview');
 });
 
+// Authentication routes
 Route::group(['prefix' => 'auth'], function () {
-    Route::post('login', [AuthenticatedSessionController::class, 'store'])
-        ->middleware("guest:member");
-    Route::post('register', [RegisteredUserController::class, 'store'])
-        ->middleware("guest:member");
+    Route::group(['middleware' => 'throttle:60:1'], function () {
+        Route::post('login', [AuthenticatedSessionController::class, 'store']);
+        Route::post('register', [RegisteredUserController::class, 'store']);
+    });
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::post('logout', [AuthenticatedSessionController::class, 'destroy']);
+    });
 });
 

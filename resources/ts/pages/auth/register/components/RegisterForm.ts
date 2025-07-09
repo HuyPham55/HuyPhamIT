@@ -1,7 +1,8 @@
 "use strict";
+import axios from "axios";
 
 async function attemptRegister(values) {
-    await axios.post('/auth/register', values)
+    return await axios.post('/auth/register', values)
         .then(response => {
             return response.data;
         })

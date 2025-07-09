@@ -5,20 +5,28 @@ import GoogleIcon from "@/icons/GoogleIcon.vue";
 import AuthInput from "@/pages/auth/components/AuthInput.vue";
 import {Form} from "vee-validate";
 import {attemptRegister} from "@/pages/auth/register/components/RegisterForm";
+import {useRouter} from "vue-router";
+import {useAuthStore} from "@/stores/modules/auth";
 
+const router = useRouter();
+const authStore = useAuthStore();
 const onSubmit = async function (values, actions) {
   try {
-    await attemptRegister(values);
+    let response = await attemptRegister(values);
+    authStore.setUser(response);
+    // redirect to login page
+    await router.push({name: 'home'});
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     if (error.errors) {
       for (const fieldName in error.errors) {
         actions.setFieldError(fieldName, error.errors[fieldName]);
       }
-    } else if (error.message) {
-      // Optional: set a general error
-      // actions.setStatus(error.message);
     }
+    // else if (error.message) {
+    //   // Optional: set a general error
+    //   // actions.setStatus(error.message);
+    // }
   }
 }
 </script>
@@ -48,6 +56,7 @@ const onSubmit = async function (values, actions) {
     <AuthInput name="name" type="text" label="What should we call you?" placeholder="e.g. Bonnie Green"/>
     <AuthInput name="email" label="Your email" type="email" placeholder="name@company.com"/>
     <AuthInput name="password" label="Your password" type="password" placeholder="••••••••"/>
+    <AuthInput name="password_confirmation" label="Confirm your password" type="password" placeholder="••••••••"/>
     <div class="space-y-3">
       <div class="flex items-start">
         <div class="flex items-center h-5">
@@ -94,7 +103,3 @@ const onSubmit = async function (values, actions) {
   </Form>
 
 </template>
-
-<style scoped>
-
-</style>

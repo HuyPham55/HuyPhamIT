@@ -12,9 +12,21 @@ export const useAuthStore = defineStore('authStore', () => {
     }
 
     async function fetchUser() {
-        await axios.get('/user')
+        return await axios.get('/user')
             .then(response => {
-                setUser(response.data)
+                let data = response.data;
+                setUser(data)
+                return data;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    async function logout() {
+        return await axios.post('/auth/logout')
+            .then(() => {
+                setUser(null)
             })
             .catch(error => {
                 console.error(error);
@@ -24,6 +36,8 @@ export const useAuthStore = defineStore('authStore', () => {
     return {
         user,
         isAuthenticated,
-        fetchUser
+        fetchUser,
+        setUser,
+        logout,
     }
 })
