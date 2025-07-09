@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import LoginForm from "@/pages/auth/login/components/LoginForm.vue";
-
+import axios from "axios";
 //73px: Header height
 
-axios.get('/sanctum/csrf-cookie').then(response => {
+axios.get('/sanctum/csrf-cookie', {
+  baseURL: '', // ⇐ overrides axios.defaults.baseURL
+}).then(response => {
   // Login...
 });
 </script>

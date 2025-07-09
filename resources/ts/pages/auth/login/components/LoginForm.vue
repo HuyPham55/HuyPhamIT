@@ -16,7 +16,6 @@ const onSubmit = async function (values, actions) {
   try {
     await attempt(values);
   } catch (error) {
-    console.log(error.message);
     if (error.errors) {
       for (const fieldName in error.errors) {
         actions.setFieldError(fieldName, error.errors[fieldName]);

@@ -1,5 +1,7 @@
+"use strict";
 import {defineStore} from 'pinia'
 import axios from "axios";
+import {initFlowbite} from "flowbite";
 
 declare type LayoutData = {
     app_name: string;
@@ -25,6 +27,10 @@ export const useLayoutStore = defineStore('layoutStore', {
                     this.data[key as keyof LayoutData] = data[key];
                 })
             })
+        },
+        initLayout() {
+            // Initialize Flowbite components
+            initFlowbite();
         }
     },
 })
