@@ -47,8 +47,8 @@ class PostService implements PostServiceInterface
             ->editColumn('publish_date', fn($item) => $item->publish_date
                 ? $item->formatDate('publish_date')
                 : view('components.buttons.datatables.publish_button', [
-                    'data' => $item,
                     'permission' => 'publish_posts',
+                    'item' => $item,
                     'route' => route('posts.publish', ['post' => $item]),
                 ])
             )
