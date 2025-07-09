@@ -22,8 +22,11 @@ class PostListController extends Controller
 
     public function index(Request $request)
     {
-        $data = $request->all();
-        $posts = $this->postService->getAll();
+        $posts = $this->postService->getAll(
+            null,
+            'publish_date',
+            'desc'
+        );
         return new PostCollection($posts);
     }
 }
