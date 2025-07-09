@@ -16,13 +16,11 @@ const onSubmit = async function (values, actions) {
   try {
     await attempt(values);
   } catch (error) {
-    if (error.errors) {
-      for (const fieldName in error.errors) {
-        actions.setFieldError(fieldName, error.errors[fieldName]);
+    if (typeof error === "object" && error !== null && "errors" in error) {
+      const err = error as { errors: Record<string, string[]> };
+      for (const fieldName in err.errors) {
+        actions.setFieldError(fieldName, err.errors[fieldName]);
       }
-    } else if (error.message) {
-      // Optional: set a general error
-      // actions.setStatus(error.message);
     }
   }
 }
