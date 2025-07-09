@@ -1,3 +1,6 @@
+<?php
+/** @var \App\Models\Post $post */
+?>
 <div class="card-body">
     <div class="row">
         <div class="col-sm-12">
@@ -140,20 +143,22 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="publish_date" class="control-label">{{ __('label.publish_date') }}</label>
-                <div>
-                    <input type="text" name="publish_date" id="publish_date"
-                           placeholder="YYYY-MM-DD"
-                           class="form-control datepicker"
-                           value="{{date('Y-m-d', strtotime($post->publish_date??now()))}}"/>
-                    @error('publish_date')
+        @can('publish_posts')
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="publish_date" class="control-label">{{ __('label.publish_date') }}</label>
+                    <div>
+                        <input type="text" name="publish_date" id="publish_date"
+                               placeholder="YYYY-MM-DD"
+                               class="form-control datepicker"
+                               value="{{$post->publish_date ? date('Y-m-d', strtotime($post->publish_date)): null}}"/>
+                        @error('publish_date')
                         <p class="text-danger">{{ $message }}</p>
-                    @enderror
+                        @enderror
+                    </div>
                 </div>
             </div>
-        </div>
+        @endcan
 
         <div class="col-md-2">
             <div class="form-group">

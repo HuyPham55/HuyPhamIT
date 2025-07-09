@@ -118,6 +118,7 @@ return [
             'show_list_posts' => 'Show list posts',
             'add_posts' => 'Add posts',
             'edit_posts' => 'Edit posts',
+            'publish_posts' => 'Publish posts',
             'delete_posts' => 'Delete posts',
         ]
     ],
