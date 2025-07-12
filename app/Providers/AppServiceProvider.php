@@ -86,5 +86,12 @@ class AppServiceProvider extends ServiceProvider
 
         //Set Bootstrap as default pagination template
         Paginator::useBootstrap();
+
+        if (request()->is('api/*')) {
+            /**
+             * @description Tell Sanctum to use the "sanctum"
+             */
+            Auth::shouldUse('sanctum');
+        }
     }
 }
