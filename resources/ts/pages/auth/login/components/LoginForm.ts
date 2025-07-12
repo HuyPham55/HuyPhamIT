@@ -12,7 +12,8 @@ const attempt = async function (credentials) {
             if (res.status === 422) {
                 throw res.response.data;
             } else {
-                console.error(res);
+                console.log(res)
+                throw res.response;
             }
         });
 }

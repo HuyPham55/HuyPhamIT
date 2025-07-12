@@ -5,22 +5,30 @@ import GoogleIcon from "@/icons/GoogleIcon.vue";
 import AppleIcon from "@/icons/AppleIcon.vue";
 import {Form} from "vee-validate";
 import {useAuthStore} from "@/stores/modules/auth";
-import {watch} from "vue";
+import {ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import {attempt} from "@/pages/auth/login/components/LoginForm";
 
 const authStore = useAuthStore();
 const router = useRouter();
+const generalErrorMessage = ref()
 
 const onSubmit = async function (values, actions) {
+  generalErrorMessage.value = '';
   try {
     await attempt(values);
-  } catch (error) {
-    if (typeof error === "object" && error !== null && "errors" in error) {
-      const err = error as { errors: Record<string, string[]> };
-      for (const fieldName in err.errors) {
-        actions.setFieldError(fieldName, err.errors[fieldName]);
+  } catch (response) {
+    if (typeof response === "object" && response !== null) {
+      if ("errors" in response) {
+        const err = response as { errors: Record<string, string[]> };
+        for (const fieldName in err.errors) {
+          actions.setFieldError(fieldName, err.errors[fieldName]);
+        }
+      } else if ("statusText" in response) {
+        generalErrorMessage.value = (response as { statusText: string }).statusText;
       }
+    } else {
+      generalErrorMessage.value = "An unexpected error occurred. Please try again.";
     }
   }
 }
@@ -74,6 +82,11 @@ watch(() => authStore.isAuthenticated, (isAuthenticated) => {
       Sign
       in to your account
     </button>
+    <Transition name="fade-slide">
+      <small class="text-sm text-red-600 dark:text-red-500 mt-4" v-if="generalErrorMessage">
+        {{ generalErrorMessage }}
+      </small>
+    </Transition>
     <p class="text-sm font-light text-gray-500 dark:text-gray-400">
       Don't have an account?
       <router-link :to="{name: 'register'}"
