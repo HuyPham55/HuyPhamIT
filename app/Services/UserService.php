@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Contracts\Services\UserServiceInterface;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -29,6 +30,7 @@ class UserService implements UserServiceInterface
 
     public function create(array $data): bool
     {
+        /** @var User $model */
         DB::beginTransaction();
         try {
             $data['password'] = Hash::make($data['password']);
@@ -45,13 +47,14 @@ class UserService implements UserServiceInterface
 
     public function update($model, array $data): bool
     {
+        /** @var User $model */
         DB::beginTransaction();
         try {
             $data['password'] = empty($data['password'])
                 ? $model->password
                 : Hash::make($data['password']);
             $this->repository->update($model, $data);
-            $model->assignRole($data['role']);
+            $model->syncRoles($data['role']);
             DB::commit();
             return true;
         } catch (\Exception $exception) {
