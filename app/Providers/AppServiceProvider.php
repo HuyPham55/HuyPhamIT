@@ -20,6 +20,7 @@ use App\Services\PostService;
 use App\Services\TagService;
 use App\Services\UserService;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -85,24 +86,5 @@ class AppServiceProvider extends ServiceProvider
 
         //Set Bootstrap as default pagination template
         Paginator::useBootstrap();
-        if (0) {
-
-            \DB::listen(function ($query) {
-                // Way 1
-                $output = [$query->sql, $query->bindings, $query->time];
-                file_put_contents(base_path() . '/storage/logs/dump_db_queries.txt',
-                    var_export($output, true)
-                    . PHP_EOL . '--------------------------------------------------------' . PHP_EOL,
-                    FILE_APPEND);
-
-                // Way 2
-                $output = str_replace_array('?', $query->bindings, str_replace('?', "'?'", $query->sql)) . ';';
-                file_put_contents(base_path() . '/storage/logs/dump_db_queries.sql',
-                    $output
-                    . PHP_EOL,
-                    FILE_APPEND);
-
-            });
-        }
     }
 }
