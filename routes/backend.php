@@ -20,7 +20,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Models\StaticPage;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:web']], function () {
 
 
     /*
