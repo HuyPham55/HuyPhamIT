@@ -3,7 +3,7 @@ jQuery(() => {
     let sortingContainer = (data) => `<input class="update-sorting form-control" style="max-width: 125px;" type="number" value="${data}" max="e9"/>`;
     let datatablesCallback = () => {
         jQuery(".bt-switch input[type='checkbox']").bootstrapSwitch();
-        jQuery(".btn--publish").on('click', async function() {
+        jQuery(".btn--publish:not(.disabled)").on('click', async function() {
             let $button = $(this);
             $($button).attr("disabled", "")
             let route = $($button).data('route');
