@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\Member;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -89,6 +90,6 @@ class LoginRequest extends FormRequest
      */
     protected function guard()
     {
-        return Auth::guard('member');
+        return Auth::guard(Member::GUARD_NAME);
     }
 }

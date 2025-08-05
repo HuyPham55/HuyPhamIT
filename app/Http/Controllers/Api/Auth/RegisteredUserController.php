@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        Auth::guard(Member::GUARD_NAME)->login($user);
 
         return response()->json($user);
     }
