@@ -1,14 +1,25 @@
 @extends('admin.layout')
 @php
+    /** @var \App\Models\Post $post */
     $targetLabel = __('label.posts');
     $actionLabel = trans('label.action.edit');
     $title = $targetLabel." - ".$actionLabel;
+    if ($post->title) {
+        $title .= " - ".$post->title;
+    }
 @endphp
 @section('title', $title)
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>{{ $actionLabel }}</h1>
+            <h1>
+                {{ $actionLabel }}
+                @if($post->title)
+                    <small class="text-muted">
+                        {{$post->title}}
+                    </small>
+                @endif
+            </h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -18,7 +29,9 @@
                         {{ __('label.posts') }}
                     </a>
                 </li>
-                <li class="breadcrumb-item active">{{ $actionLabel }}</li>
+                <li class="breadcrumb-item active">
+                    {{ $actionLabel }}
+                </li>
             </ol>
         </div>
     </div>

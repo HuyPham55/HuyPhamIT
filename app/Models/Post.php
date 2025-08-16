@@ -18,6 +18,7 @@ use Spatie\Translatable\HasTranslations;
  * @property bool|mixed $status
  * @property mixed $created_at
  * @property \Illuminate\Support\Carbon|mixed|null $publish_date
+ * @property \Illuminate\Support\Carbon|mixed|null $date_format
  * @property mixed $updated_by
  * @property mixed $user_id
  * @property mixed $id
