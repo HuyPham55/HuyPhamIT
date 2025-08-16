@@ -74,10 +74,41 @@
                                       class="form-control" rows="5"
                             >{{ old("$langKey.short_description") ?? $post->getTranslation('short_description', $langKey, false) }}</textarea>
                         </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
 
-
+<div class="card-body">
+    <div class="row">
+        <div class="col-sm-12">
+            @if(count($lang) > 1)
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">
+                            {{ __('label.language') }}
+                        </a>
+                    </li>
+                    @foreach($lang as $langKey => $langTitle)
+                        <li class="nav-item">
+                            <a class="nav-link {{ $loop->first ? 'active' : '' }}" data-toggle="tab"
+                               href="#tab_lang_content_{{ $langKey }}">
+                                {{ $langTitle }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+                <br>
+            @endif
+            <!-- Tab panes -->
+            <div class="tab-content">
+                @foreach($lang as $langKey => $langTitle)
+                    <div id="tab_lang_content_{{ $langKey }}" class="tab-pane container p-0 {{ $loop->first ? 'active' : '' }}">
                         @php
-                        $postTemplate = request()->url() === route('posts.add') ? option("post_add_template_".$langKey) : null;
+                            $postTemplate = request()->url() === route('posts.add') ? option("post_add_template_".$langKey) : null;
                         @endphp
                         <div class="form-group">
                             <label for="{{ $langKey }}[content]"
@@ -86,7 +117,6 @@
                                       class="form-control editor" rows="25"
                             >{{ old("$langKey.content") ?? $postTemplate ?? $post->getTranslation('content', $langKey, false) }}</textarea>
                         </div>
-
                     </div>
                 @endforeach
             </div>
