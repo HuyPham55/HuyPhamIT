@@ -9,6 +9,7 @@ use App\Models\Post;
 use Hashids\Hashids;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Facades\DataTables;
 
 class PostService implements PostServiceInterface
@@ -44,8 +45,9 @@ class PostService implements PostServiceInterface
                 return $item->formatDate('updated_at');
             })
             ->addColumn('action', function ($item) {
-                return view('components.buttons.edit', ['route' => route('posts.edit', ['post' => $item])])
-                    . ' ' .
+                $singedPreviewUrl = URL::signedRoute('posts.preview', ['hash' => $item->hash]);
+                return view('components.buttons.edit', ['route' => route('posts.edit', ['post' => $item])]) .
+                    view('components.buttons.preview', ['route' => $singedPreviewUrl]) .
                     view('components.buttons.datatables.delete', ['route' => route('posts.delete', ['post' => $item]), 'key' => $item->hash]);
             })
             ->setRowId(function ($item) {
