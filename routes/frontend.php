@@ -15,5 +15,5 @@ Route::group(['prefix' => 'contact'], function () {
 Route::get("{any}", [HomeController::class, 'index'])->where('any', '^(?!.admin|api).*');
 
 // Placeholder to generate URLs for route() helper
-Route::post('/posts/preview/{hash}', [PostDetailController::class, 'preview'])->name('posts.preview')->middleware(['signed']);
+Route::get('/posts/preview/{hash}', [PostDetailController::class, 'preview'])->name('posts.preview');
 

@@ -27,5 +27,7 @@ Route::get('/layout', [LayoutController::class, 'index']);
 Route::group(['prefix' => '/posts'], function () {
     Route::get('/', [PostListController::class, 'index']);
     Route::get('/{hash}', [PostDetailController::class, 'show']);
-    Route::get('preview/{hash}', [PostDetailController::class, 'preview'])->middleware(['signed']);
+    Route::get('preview/{hash}', [PostDetailController::class, 'preview'])
+        ->middleware(['signed'])
+        ->name('api.posts.preview');
 });

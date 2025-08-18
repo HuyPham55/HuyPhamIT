@@ -20,13 +20,11 @@ const route = useRoute();
 const post = ref<PostDetailType>();
 
 const loading = ref(false);
-const fetch = async function() {
+const fetch = async function () {
   loading.value = true;
   // get URL
   let fullPath = route.fullPath;
-const {data: responseData} = await axios.post(fullPath, {}, {
-  baseURL: '',
-})
+  const {data: responseData} = await axios.get(fullPath)
   post.value = responseData.data
   loading.value = false;
 }
