@@ -134,7 +134,6 @@
                         'field': field,
                         'item_id': itemId,
                         'status': isChecked ? 1 : 0,
-                        '_token': '{{ csrf_token() }}'
                     });
                 }
             });

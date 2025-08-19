@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends BaseController
 {
@@ -59,23 +60,28 @@ class PostController extends BaseController
     public function postAdd(Request $request): RedirectResponse
     {
         $begin = microtime(true);
-        $result = $this->service->create($request->all());
-        $duration = microtime(true) - $begin;
-        $ms = round($duration * 1000, 1);
-        if ($result) {
+        try {
+            $result = $this->service->create($request->all());
+            $duration = microtime(true) - $begin;
+            $ms = round($duration * 1000, 1);
             $this->forgetCache();
-            return redirect()->route($this->routeList)->with([
-                'status' => 'success',
-                'flash_message' => trans('label.notification.success') . " ({$ms}ms)"
-            ]);
+            if ($result) {
+                return redirect()->route($this->routeList)->with([
+                    'status' => 'success',
+                    'flash_message' => trans('label.notification.success') . " ({$ms}ms)"
+                ]);
+            }
+            throw new \Exception("Failed to create");
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with([
+                    'status' => 'danger',
+                    'flash_message' => trans('label.something_went_wrong')
+                ]);
         }
-        return redirect()
-            ->back()
-            ->withInput()
-            ->with([
-                'status' => 'danger',
-                'flash_message' => trans('label.something_went_wrong')
-            ]);
     }
 
     public function getEdit(Request $request, Post $post, TagService $tagService)
@@ -88,23 +94,39 @@ class PostController extends BaseController
     public function putEdit(Request $request, Post $post): RedirectResponse
     {
         $begin = microtime(true);
-        $result = $this->service->update($post, $request->all());
-        $duration = microtime(true) - $begin;
-        $ms = round($duration * 1000, 1);
-        if ($result) {
-            $this->forgetCache();
-            return redirect()->intended(route($this->routeList))->with([
-                'status' => 'success',
-                'flash_message' => trans('label.notification.success') . " ({$ms}ms)"
-            ]);
+        try {
+            $model = $this->service->update($post, $request->all());
+            $duration = microtime(true) - $begin;
+            $ms = round($duration * 1000, 1);
+            if ($model) {
+                $this->forgetCache();
+                return redirect()->intended(route($this->routeList))->with([
+                    'status' => 'success',
+                    'flash_message' => trans('label.notification.success') . " ({$ms}ms)"
+                ]);
+            }
+            throw new \Exception("Failed to update");
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with([
+                    'status' => 'danger',
+                    'flash_message' => trans('label.something_went_wrong')
+                ]);
         }
-        return redirect()
-            ->back()
-            ->withInput()
-            ->with([
-                'status' => 'danger',
-                'flash_message' => trans('label.something_went_wrong')
-            ]);
+    }
+
+    public function publish(Request $request, Post $post)
+    {
+        try {
+            $this->service->publish($post);
+            return $this->success();
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            return $this->error($exception->getMessage());
+        }
     }
 
     public function changeStatus(Request $request, Post $post = null): JsonResponse
@@ -117,13 +139,17 @@ class PostController extends BaseController
         $field = $request->post('field');
         //$itemId = $request->post('item_id');
         $status = $request->post('status');
-
-        $result = $this->service->changeStatus($post, $field, $status);
-        if ($result) {
-            $this->forgetCache();
-            return $this->success();
+        try {
+            $result = $this->service->changeStatus($post, $field, $status);
+            if ($result) {
+                $this->forgetCache();
+                return $this->success();
+            }
+            throw new \Exception("Failed to change status");
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            return $this->error();
         }
-        return $this->error();
     }
 
     public function changeSorting(Request $request, Post $post = null): JsonResponse
@@ -132,21 +158,29 @@ class PostController extends BaseController
             //'item_id' => 'required|integer',
             'sorting' => 'required|integer|min:0|integer',
         ]);
-
-        $result = $this->service->changeSorting(model: $post, sorting: $request->integer('sorting'));
-        if ($result) {
-            $this->forgetCache();
-            return $this->success();
+        try {
+            $result = $this->service->changeSorting(model: $post, sorting: $request->integer('sorting'));
+            if ($result) {
+                $this->forgetCache();
+                return $this->success();
+            }
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            return $this->error();
         }
-        return $this->error();
     }
 
     public function delete(Request $request, Post $post)
     {
-        $result = $this->service->delete($post);
-        return $result
-            ? $this->success(trans('label.deleted'))
-            : $this->error(trans('label.something_went_wrong'));
+        try {
+            $result = $this->service->delete($post);
+            if ($result)
+                return $this->success(trans('label.deleted'));
+            throw new \Exception("Failed to delete");
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            return $this->error(trans('label.something_went_wrong'));
+        }
     }
 
     protected function forgetCache(): void
@@ -168,6 +202,7 @@ class PostController extends BaseController
             }
             return redirect()->back()->with(['status' => 'success', 'flash_message' => trans('label.notification.success')]);
         } catch (\Exception $exception) {
+            Log::error($exception);
             return redirect()->back()->with([
                 'status' => 'danger',
                 'flash_message' => trans('label.something_went_wrong')
