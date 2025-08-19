@@ -5,33 +5,47 @@ import ContactUs from "@/pages/contact-us/ContactUs.vue";
 import NotFound from "@/errors/NotFound.vue";
 import Layout from "@/layout/Layout.vue";
 import authRoutes from "@/routes/modules/auth";
+import PostPreview from "@/pages/post-preview/PostPreview.vue";
 
 const routes = [
     {
         path: '/',
         component: Layout,
+        redirect: { name: 'home' },
         children: [
             {
-                path: '/',
+                path: '/home',
                 component: Home,
                 name: 'home',
             },
             {
-                path: '/post-list', //Route paths should start with a "/": "post-detail" should be "/post-detail"
-                component: PostIndex,
-                name: 'post_list',
-            },
-            {
-                path: '/post-detail/:hash', //Route paths should start with a "/": "post-detail" should be "/post-detail"
-                component: PostDetail,
-                name: 'post_detail',
+                path: '/posts', //Route paths should start with a "/": "post-detail" should be "/post-detail"
+                name: 'posts',
+                redirect: { name: 'post_list' },
+                children: [
+                    {
+                        path: 'list',
+                        component: PostIndex,
+                        name: 'post_list',
+                    },
+                    {
+                        path: ':hash', //Route paths should start with a "/": "post-detail" should be "/post-detail"
+                        component: PostDetail,
+                        name: 'post_detail',
+                    },
+                    {
+                        path: 'preview/:hash',
+                        component: PostPreview,
+                        name: 'post_preview',
+                    },
+                ],
             },
             {
                 path: '/contact-us',
                 component: ContactUs,
                 name: 'contact_us',
             },
-        ]
+        ],
     },
     // will match everything and put it under `route.params.pathMatch`
     authRoutes,

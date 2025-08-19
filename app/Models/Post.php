@@ -18,11 +18,15 @@ use Spatie\Translatable\HasTranslations;
  * @property bool|mixed $status
  * @property mixed $created_at
  * @property \Illuminate\Support\Carbon|mixed|null $publish_date
+ * @property \Illuminate\Support\Carbon|mixed|null $date_format
  * @property mixed $updated_by
  * @property mixed $user_id
  * @property mixed $id
  * @property int|null $reading_time
  * @property string $hash
+ * @property int $view_count
+ * @property string $title
+ * @property string $short_description
  */
 class Post extends BaseModel
 {
@@ -45,6 +49,7 @@ class Post extends BaseModel
 
     protected $casts = [
         'publish_date' => 'datetime',
+        'view_count' => 'integer',
     ];
 
     public static function boot()
