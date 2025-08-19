@@ -45,7 +45,7 @@ class PostService implements PostServiceInterface
                 return $item->formatDate('updated_at');
             })
             ->addColumn('action', function ($item) {
-                $signedApiUrl = URL::signedRoute('api.posts.preview', ['hash' => $item->hash]);
+                $signedApiUrl = URL::signedRoute('api.posts.preview', $item);
                 $query = parse_url($signedApiUrl, PHP_URL_QUERY); // e.g. "signature=...&expires=169..."
                 $singedPreviewUrl = route('posts.preview', ['hash' => $item->hash, $query]); //carrier
                 return view('components.buttons.edit', ['route' => route('posts.edit', ['post' => $item])]) .
