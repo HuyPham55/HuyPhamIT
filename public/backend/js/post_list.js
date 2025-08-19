@@ -43,7 +43,7 @@ jQuery(() => {
                 {data: 'publish_date', name: 'publish_date'},
                 {data: 'action', name: 'action', orderable: false}
             ],
-            order: [[0, 'desc']],
+            order: [[3, 'desc']],
             drawCallback: datatablesCallback
         });
     }
