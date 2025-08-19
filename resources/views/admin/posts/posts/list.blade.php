@@ -49,6 +49,7 @@
                             <th scope="col">{{ __('label.status.status') }}</th>
                             <th scope="col">{{ __('label.created_at') }}</th>
                             <th scope="col">{{ __('backend.updated_at') }}</th>
+                            <th scope="col">{{ __('label.publish_date') }}</th>
                             <th scope="col">{{ __('label.action.action') }}</th>
                         </tr>
                         </thead>
@@ -67,97 +68,8 @@
 @include('components.Select2')
 
 @push('js')
-    <script type="text/javascript">
-        jQuery(() => {
-            let imageContainer = (data) => `<img src="${data}" style="max-width: 125px;"/>`;
-            let sortingContainer = (data) => `<input class="update-sorting form-control" style="max-width: 125px;" type="number" value="${data}" max="e9"/>`;
-            let datatablesCallback = () => {
-                jQuery(".bt-switch input[type='checkbox']").bootstrapSwitch();
-            }
-            let filter = jQuery("#filter")
-            let refreshBtn = jQuery("button.refresh")
-
-            const initialize = function () {
-                let filterData = {};
-                if (filter) {
-                    filterData = {
-                        categories: jQuery("select[name='categories']").val(),
-                        status: jQuery("select[name='status']").val(),
-                    };
-                }
-                return jQuery("#datatables").DataTable({
-                    serverSide: true,
-                    processing: true,
-                    responsive: true,
-                    destroy: true,
-                    ajax: {
-                        "url": '{{route('posts.datatables')}}',
-                        data: filterData
-                    },
-                    columns: [
-                        {data: 'title', name: 'title'},
-                        {data: 'sorting', name: 'sorting', render: sortingContainer},
-                        {data: 'status', name: 'status'},
-                        {data: 'created_at', name: 'created_at'},
-                        {data: 'updated_at', name: 'updated_at'},
-                        {data: 'action', name: 'action', orderable: false}
-                    ],
-                    order: [[3, 'desc']],
-                    drawCallback: datatablesCallback
-                });
-            }
-            let table = initialize();
-
-            jQuery(filter).on("change", function() {
-                initialize()
-
-            })
-            jQuery(filter).on("submit", function(e) {
-                e.preventDefault();
-                initialize()
-            })
-
-            jQuery(refreshBtn).on("click", function () {
-                initialize()
-                jQuery(this).attr("disabled", "")
-                setTimeout(() => {
-                    jQuery(this).removeAttr('disabled')
-                }, 500)
-            })
-
-
-            jQuery(document).on('switchChange.bootstrapSwitch', '.change-status', function (event) {
-                let field = jQuery(this).data('field');
-                let tr = jQuery(this).closest("tr");
-                let trId = tr.attr('id')
-                let itemId = trId.split('row-id-')[1];
-                let isChecked = event.target.checked;
-
-                if (itemId) {
-                    patchData("{{route('posts.change_status')}}" + `/${itemId}`, {
-                        'field': field,
-                        'status': isChecked ? 1 : 0,
-                        '_token': '{{ csrf_token() }}'
-                    });
-                }
-            });
-
-            //change sorting
-            jQuery(document).on('input', '.update-sorting', function (e) {
-                e.stopPropagation();
-                let tr = jQuery(this).closest("tr");
-                let trId = tr.attr('id')
-                let itemId = trId.split('row-id-')[1];
-                let sorting = jQuery(this).val();
-
-                if (itemId) {
-                    patchData("{{ route('posts.change_sorting') }}" + `/${itemId}`, {
-                        'item_id': itemId,
-                        'sorting': sorting,
-                        '_token': '{{ csrf_token() }}'
-                    });
-                }
-            });
-        })
-    </script>
+    <input type="hidden" name="posts.datatables" value="{{route('posts.datatables')}}">
+    <input type="hidden" name="posts.change_status" value="{{route('posts.change_status')}}">
+    <input type="hidden" name="posts.change_sorting" value="{{route('posts.change_sorting')}}">
+    <script src="{{asset('/backend/js/post_list.js').'?version=' . filemtime(public_path('/backend/js/post_list.js'))}}"></script>
 @endpush

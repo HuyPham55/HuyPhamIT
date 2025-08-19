@@ -55,7 +55,10 @@ function resetInput(id) {
     jQuery("#image-preview-" + id).find('img').attr("src", "/images/no-image.png");
 }
 
-async function postData(route, dataPost) {
+async function postData(route, dataPost = {}) {
+    if (!dataPost.hasOwnProperty('_token')) {
+        dataPost['_token'] = jQuery('meta[name="csrf-token"]').attr('content');
+    }
     return await jQuery.post(route, dataPost)
         .done(function (data) {
             if (typeof toastr != 'undefined') {
@@ -117,6 +120,9 @@ async function confirmAjaxDelete(url, key) {
 }
 
 async function patchData(route, dataPost) {
+    if (!dataPost.hasOwnProperty('_token')) {
+        dataPost['_token'] = jQuery('meta[name="csrf-token"]').attr('content');
+    }
     return await jQuery.ajax({
         url: route,
         type: 'PATCH',
