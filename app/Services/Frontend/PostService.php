@@ -27,10 +27,8 @@ class PostService implements PostServiceInterface
             ->query()
             ->with(['author', 'tags'])
             ->where('status', CommonStatus::Active)
-            ->where(function($query) {
-                $query->where('publish_date', '<=', now())
-                    ->orWhereNull('publish_date');
-            });
+            ->whereNotNull('publish_date')
+            ->where('publish_date', '<=', now());
         $order = in_array($order, ['asc', 'desc']) ? $order : null;
         if ($orderBy && in_array($orderBy, $this->sortableFields)) {
             $query->orderBy($orderBy, $order);
@@ -49,6 +47,8 @@ class PostService implements PostServiceInterface
                     ->orWhereNull('publish_date');
             })
             ->where('hash', $hash)
+            ->whereNotNull('publish_date')
+            ->where('publish_date', '<=', now())
             ->firstOrFail();
 
         $this->repository->update($post, [
