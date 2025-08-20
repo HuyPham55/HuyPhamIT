@@ -41,6 +41,11 @@ class PostService implements PostServiceInterface
         $post = $this->repository
             ->query()
             ->with(['author', 'tags'])
+            ->where('status', CommonStatus::Active)
+            ->where(function($query) {
+                $query->where('publish_date', '<=', now())
+                    ->orWhereNull('publish_date');
+            })
             ->where('hash', $hash)
             ->whereNotNull('publish_date')
             ->where('publish_date', '<=', now())
