@@ -26,6 +26,7 @@ class PostDetailController extends Controller
 
     public function preview(Request $request, Post $post)
     {
+        $post->load(['author', 'tags']);
         return new PostDetailResource($post);
     }
 }
