@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Contracts\Repositories\PostRepositoryInterface;
 use App\Contracts\Services\Frontend\PostServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Frontend\PostDetailResource;
@@ -13,7 +12,6 @@ class PostDetailController extends Controller
 {
     public function __construct(
         protected PostServiceInterface    $postService,
-        protected PostRepositoryInterface $postRepository
     )
     {
     }
