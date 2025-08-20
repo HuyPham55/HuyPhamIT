@@ -26,7 +26,7 @@ const author = computed(() => post.value?.author);
             {{author?.name}}
           </a>
         </div>
-        <div class="flex items-center">
+        <div class="flex items-center" v-if="post?.publish_date">
           <span class="ml-2 w-3 h-3 bg-gray-400 border-2 border-white dark:border-gray-800 rounded-full inline-block shrink-0"></span>
           <span class="ml-2 text-balance">
             <time class="">

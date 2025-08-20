@@ -1,24 +1,21 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+
 import {ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import axios from "axios";
 import {PostDetailType} from "@/pages/post-detail/PostDetail";
+import axios from "axios";
 import PostDetailWrapper from "@/pages/post-detail/components/PostDetailWrapper.vue";
-
-// initialize components based on data attribute selectors
-// onMounted(() => {
-//   initFlowbite();
-// })
 
 const route = useRoute();
 const router = useRouter();
 const post = ref<PostDetailType>();
-
 const loading = ref(false);
 const fetch = async function () {
   loading.value = true;
   try {
-    const {data: responseData} = await axios.get("/posts/" + route.params.hash)
+    // get URL
+    let fullPath = route.fullPath;
+    const {data: responseData} = await axios.get(fullPath)
     post.value = responseData.data
   } catch (e) {
     if ((e as { status: number }).status === 404) {
@@ -29,11 +26,10 @@ const fetch = async function () {
   }
   loading.value = false;
 }
-
 fetch()
+
 </script>
 
 <template>
-  <PostDetailWrapper :loading="loading" :post="post"/>
+  <PostDetailWrapper :post="post" :loading="loading"/>
 </template>
-
