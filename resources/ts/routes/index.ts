@@ -5,6 +5,7 @@ import ContactUs from "@/pages/contact-us/ContactUs.vue";
 import NotFound from "@/errors/NotFound.vue";
 import Layout from "@/layout/Layout.vue";
 import authRoutes from "@/routes/modules/auth";
+import ServerError from "@/errors/ServerError.vue";
 
 const routes = [
     {
@@ -47,6 +48,11 @@ const routes = [
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component: NotFound
+    },
+    {
+        path: '/error',
+        name: 'Error',
+        component: ServerError
     },
 ];
 

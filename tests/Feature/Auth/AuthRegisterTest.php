@@ -40,6 +40,35 @@ class AuthRegisterTest extends TestCase
         $this->assertAuthenticated('member');
     }
 
+
+    /** -----------------------------------------------------------------
+     *  R-02  Register – missing name
+     * ----------------------------------------------------------------*/
+    public function test_register_fails_when_name_is_missing(): void
+    {
+        // Step 1: Get CSRF token for Sanctum
+        $this->get('/sanctum/csrf-cookie');
+
+        // Step 2: Prepare payload without the required 'name' field
+        $payload = [
+            'email'    => 'john@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
+
+        // Step 3: Post to /register API endpoint
+        $response = $this->postJson('/api/auth/register', $payload);
+
+        // Step 4: Assert validation error for missing 'name'
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['name']);
+
+        // Step 5: Verify that no user was created
+        $this->assertDatabaseMissing('members', [
+            'email' => 'john@example.com',
+        ]);
+    }
+
     /** -----------------------------------------------------------------
      *  R-03 Register – invalid email
      * ----------------------------------------------------------------*/
