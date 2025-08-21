@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\MemberObserver;
+use Database\Factories\MemberFactory;
 use EloquentFilter\Filterable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -26,6 +27,7 @@ use Laravel\Sanctum\HasApiTokens;
  */
 class Member extends Authenticatable implements CanResetPasswordContract
 {
+    /** @see MemberFactory */
     use HasFactory;
     use HasApiTokens;
     use Notifiable;
@@ -48,6 +50,8 @@ class Member extends Authenticatable implements CanResetPasswordContract
 
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
+
+    const GUARD_NAME = 'member';
 
     protected static function boot()
     {
