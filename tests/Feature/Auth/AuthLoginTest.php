@@ -10,9 +10,9 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-use Tests\TestCase;
+use Tests\Feature\BaseTest;
 
-class AuthLoginTest extends TestCase
+class AuthLoginTest extends BaseTest
 {
     use RefreshDatabase;
 
@@ -29,15 +29,7 @@ class AuthLoginTest extends TestCase
         ]);
 
         /** 1. Ask Sanctum for the CSRF cookie (same as the browser) */
-        $csrf = $this->withServerVariables([
-            // makes Sanctum treat it as a “stateful” first-party request
-            'HTTP_ORIGIN' => config('app.url'),
-            'HTTP_REFERER' => config('app.url'),
-        ])
-            ->get('/sanctum/csrf-cookie');
-
-        // pull the token value out of Laravel’s cookie jar
-        $token = $csrf->headers->getCookies()[0]->getValue();      // XSRF-TOKEN
+        $token = $this->getCsrfToken();
 
         /** 2. Send the token back exactly like Axios does */
         $response = $this->withCookie('XSRF-TOKEN', $token)
