@@ -12,8 +12,9 @@ const router = useRouter();
 const authStore = useAuthStore();
 const onSubmit = async function (values, actions) {
   try {
-    let response = await attemptRegister(values);
-    authStore.setUser(response);
+    await attemptRegister(values);
+    //authStore.setUser(response);
+    await authStore.fetchUser();
     // redirect to login page
     await router.push({name: 'home'});
   } catch (error) {
@@ -23,7 +24,9 @@ const onSubmit = async function (values, actions) {
       for (const fieldName in err.errors) {
         actions.setFieldError(fieldName, err.errors[fieldName]);
       }
+      return;
     }
+    await router.push({name: 'Error'});
     // else if (error.message) {
     //   // Optional: set a general error
     //   // actions.setStatus(error.message);

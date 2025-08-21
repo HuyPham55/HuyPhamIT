@@ -96,7 +96,44 @@ class AuthLoginTest extends TestCase
         $this->assertGuest(Member::GUARD_NAME);
     }
 
+    /** ---------------------------------------------------------------
+     *  L-04  Login – invalid email format
+     * -------------------------------------------------------------- */
+    public function test_login_fails_with_invalid_email_format(): void
+    {
+        $this->get('/sanctum/csrf-cookie');
 
+        $response = $this->postJson('/api/auth/login', [
+            'email' => 'notfound@example.com',
+            'password' => 'any-password',
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['email']);
+
+        $this->assertGuest(Member::GUARD_NAME);
+    }
+    /** -----------------------------------------------------------------
+     *  L-05  Login – blank password
+     * ----------------------------------------------------------------*/
+    public function test_login_fails_with_blank_password(): void
+    {
+        $member = Member::factory()->create([
+            'password' => Hash::make('secret123'),
+        ]);
+
+        $this->get('/sanctum/csrf-cookie');
+
+        $response = $this->postJson('/api/auth/login', [
+            'email' => $member->email,
+            'password' => '',
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['password']);
+
+        $this->assertGuest(Member::GUARD_NAME);
+    }
     /** -----------------------------------------------------------------
      *  L-06  Login – excessive attempts (throttle: N per minute)
      * ----------------------------------------------------------------*/
