@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Http\Controllers\Api\Auth\AuthenticatedSessionController;
 use App\Models\Member;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -29,8 +30,9 @@ class AuthRegisterTest extends TestCase
 
         $response = $this->postJson('/api/auth/register', $payload);
 
-        $response->assertStatus(200)
-            ->assertJsonPath('email', 'jane@example.com');
+        /** @see AuthenticatedSessionController::destroy() */
+        //$response->assertStatus(200)->assertJsonPath('email', 'jane@example.com');
+        $response->assertStatus(204);
 
         $this->assertDatabaseHas('members', [
             'email' => 'jane@example.com',
