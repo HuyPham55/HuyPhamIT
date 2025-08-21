@@ -35,15 +35,17 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group row">
         <label for="description"
-               class="control-label">{{ __('backend.short_description') }}</label>
-        <textarea id="description" name="description"
-                  class="form-control" rows="5" maxlength="300"
-        >{{ old("site_description") ?? $data->description }}</textarea>
-        @error('description')
-        <p class="text-danger">{{ $message }}</p>
-        @enderror
+               class="col-sm-2 control-label col-form-label">{{ __('backend.short_description') }}</label>
+        <div class="col-sm-10">
+           <textarea id="description" name="description"
+                     class="form-control" rows="5" maxlength="300"
+           >{{ old("site_description") ?? $data->description }}</textarea>
+            @error('description')
+            <p class="text-danger">{{ $message }}</p>
+            @enderror
+        </div>
     </div>
 
     <div class="form-group row">
@@ -85,34 +87,37 @@
     @php
         $rolesOfUser = $data->getRoleNames()->toArray();
     @endphp
-    <div class="form-group">
-        <label for="role" class="control-label">
+    <div class="form-group row">
+        <label for="role" class="col-sm-2  control-label col-form-label">
             {{ __('label.roles') }}
         </label>
-        <div class="input-group">
-            <select id="role" name="role[]" class="form-control select2" required multiple>
-                @foreach($roles as $role)
-                    <option
-                        value="{{ $role->id }}" {{ in_array($role->name, $rolesOfUser) ? 'selected' : '' }}>
-                        {{ $role->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('category')
-            <p class="text-danger">{{ $message }}</p>
-            @enderror
+        <div class="col-sm-5">
+            <div class="input-group">
+                <select id="role" name="role[]" class="form-control select2" required multiple>
+                    @foreach($roles as $role)
+                        <option
+                            value="{{ $role->id }}" {{ in_array($role->name, $rolesOfUser) ? 'selected' : '' }}>
+                            {{ $role->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('category')
+                <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
         </div>
     </div>
 
-    @php
-        $options = [
-            'value' => $data->status ?? true,
-            'label' => __('label.status.status'),
-            'name' => 'status',
-        ];
-    @endphp
-    @include('components.form_elements.mono_radio', $options)
-
+    <div class="row">
+        @php
+            $options = [
+                'value' => $data->status ?? true,
+                'label' => __('label.status.status'),
+                'name' => 'status',
+            ];
+        @endphp
+        @include('components.form_elements.mono_radio', $options)
+    </div>
 </div>
 <hr>
 <div class="card-footer">
