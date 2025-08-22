@@ -9,6 +9,11 @@ use Tests\TestCase;
 
 class PostCategoryControllerTest extends TestCase
 {
+    // Seed user data before running tests
+    protected function setUp(): void {
+        parent::setUp();
+        $this->artisan('db:seed');
+    }
     public function test_post_categories_index()
     {
         $user = User::query()->first();
