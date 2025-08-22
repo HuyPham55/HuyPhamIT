@@ -5,7 +5,6 @@ import ContactUs from "@/pages/contact-us/ContactUs.vue";
 import NotFound from "@/errors/NotFound.vue";
 import Layout from "@/layout/Layout.vue";
 import authRoutes from "@/routes/modules/auth";
-import ServerError from "@/errors/ServerError.vue";
 
 const routes = [
     {
@@ -32,6 +31,11 @@ const routes = [
                         path: ':hash', //Route paths should start with a "/": "post-detail" should be "/post-detail"
                         component: PostDetail,
                         name: 'post_detail',
+                    },
+                    {
+                        path: 'preview/:hash',
+                        component: PostPreview,
+                        name: 'post_preview',
                     },
                 ],
             },

@@ -1,3 +1,6 @@
+<?php
+/** @var \App\Models\Post $post */
+?>
 <div class="card-body">
     <div class="row">
         <div class="col-sm-12">
@@ -71,10 +74,41 @@
                                       class="form-control" rows="5" maxlength="300"
                             >{{ old("$langKey.short_description") ?? $post->getTranslation('short_description', $langKey, false) }}</textarea>
                         </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
 
-
+<div class="card-body">
+    <div class="row">
+        <div class="col-sm-12">
+            @if(count($lang) > 1)
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">
+                            {{ __('label.language') }}
+                        </a>
+                    </li>
+                    @foreach($lang as $langKey => $langTitle)
+                        <li class="nav-item">
+                            <a class="nav-link {{ $loop->first ? 'active' : '' }}" data-toggle="tab"
+                               href="#tab_lang_content_{{ $langKey }}">
+                                {{ $langTitle }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+                <br>
+            @endif
+            <!-- Tab panes -->
+            <div class="tab-content">
+                @foreach($lang as $langKey => $langTitle)
+                    <div id="tab_lang_content_{{ $langKey }}" class="tab-pane container p-0 {{ $loop->first ? 'active' : '' }}">
                         @php
-                        $postTemplate = request()->url() === route('posts.add') ? option("post_add_template_".$langKey) : null;
+                            $postTemplate = request()->url() === route('posts.add') ? option("post_add_template_".$langKey) : null;
                         @endphp
                         <div class="form-group">
                             <label for="{{ $langKey }}[content]"
@@ -83,7 +117,6 @@
                                       class="form-control editor" rows="25"
                             >{{ old("$langKey.content") ?? $postTemplate ?? $post->getTranslation('content', $langKey, false) }}</textarea>
                         </div>
-
                     </div>
                 @endforeach
             </div>
@@ -140,20 +173,22 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="publish_date" class="control-label">{{ __('label.publish_date') }}</label>
-                <div>
-                    <input type="text" name="publish_date" id="publish_date"
-                           placeholder="YYYY-MM-DD"
-                           class="form-control datepicker"
-                           value="{{date('Y-m-d', strtotime($post->publish_date??now()))}}"/>
-                    @error('publish_date')
+        @can('publish_posts')
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="publish_date" class="control-label">{{ __('label.publish_date') }}</label>
+                    <div>
+                        <input type="text" name="publish_date" id="publish_date"
+                               placeholder="YYYY-MM-DD"
+                               class="form-control datepicker"
+                               value="{{$post->publish_date ? date('Y-m-d', strtotime($post->publish_date)): null}}"/>
+                        @error('publish_date')
                         <p class="text-danger">{{ $message }}</p>
-                    @enderror
+                        @enderror
+                    </div>
                 </div>
             </div>
-        </div>
+        @endcan
 
         <div class="col-md-2">
             <div class="form-group">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Frontend\PostDetailController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,3 +13,7 @@ Route::group(['prefix' => 'contact'], function () {
     Route::post('/refresh-captcha', [ContactController::class, 'refreshCaptcha'])->name('contact.refresh_captcha');
 });
 Route::get("{any}", [HomeController::class, 'index'])->where('any', '^(?!.admin|api).*');
+
+// Placeholder to generate URLs for route() helper
+Route::get('/posts/preview/{hash}', [PostDetailController::class, 'preview'])->name('posts.preview');
+

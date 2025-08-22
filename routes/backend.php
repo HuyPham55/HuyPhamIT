@@ -236,6 +236,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web']], function () {
                 Route::patch('change-status/{post?}', [PostController::class, 'changeStatus'])->name('posts.change_status');
                 Route::patch('change-sorting/{post?}', [PostController::class, 'changeSorting'])->name('posts.change_sorting');
             });
+            Route::post('publish/{post}', [PostController::class, 'publish'])
+                ->middleware('permission:publish_posts')
+                ->name('posts.publish');
             Route::delete('delete/{post}', [PostController::class, 'delete'])
                 ->middleware('permission:delete_posts')->name('posts.delete');
         });
