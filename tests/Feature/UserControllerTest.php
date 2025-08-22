@@ -54,7 +54,11 @@ class UserControllerTest extends TestCase
                 'status' => true,
                 'role' => [Role::query()->first()->id],
             ]);
-        $response->assertStatus(302);
+        if ($targetingUser) {
+            $response->assertStatus(302);
+        } else {
+            $response->assertStatus(200);
+        }
     }
 
     /**

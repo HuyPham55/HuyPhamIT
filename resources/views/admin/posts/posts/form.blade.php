@@ -71,7 +71,7 @@
                             <label for="{{ $langKey }}[short_description]"
                                    class="control-label">{{ __('backend.short_description') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <textarea id="{{ $langKey }}[short_description]" name="{{ $langKey }}[short_description]"
-                                      class="form-control" rows="5" maxlength="300"
+                                      class="form-control" rows="5"
                             >{{ old("$langKey.short_description") ?? $post->getTranslation('short_description', $langKey, false) }}</textarea>
                         </div>
                     </div>
