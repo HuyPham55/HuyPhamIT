@@ -7,9 +7,7 @@ use App\Contracts\Services\PostServiceInterface;
 use App\Enums\CommonStatus;
 use App\Models\Post;
 use Hashids\Hashids;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Facades\DataTables;
 
