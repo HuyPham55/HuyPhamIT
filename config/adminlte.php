@@ -540,20 +540,30 @@ return [
         'Datatables' => [
             'active' => false,
             'files' => [
+//                [
+//                    'type' => 'js',
+//                    'asset' => true,
+//                    'location' => 'vendor/datatables/js/jquery.dataTables.min.js',
+//                ],
+//                [
+//                    'type' => 'js',
+//                    'asset' => true,
+//                    'location' => 'vendor/datatables/js/dataTables.bootstrap4.min.js',
+//                ],
+//                [
+//                    'type' => 'css',
+//                    'asset' => true,
+//                    'location' => 'vendor/datatables/css/dataTables.bootstrap4.min.css',
+//                ],
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'vendor/datatables/js/jquery.dataTables.min.js',
-                ],
-                [
-                    'type' => 'js',
-                    'asset' => true,
-                    'location' => 'vendor/datatables/js/dataTables.bootstrap4.min.js',
+                    'location' => 'vendor/datatables/js/datatables.min.js',
                 ],
                 [
                     'type' => 'css',
                     'asset' => true,
-                    'location' => 'vendor/datatables/css/dataTables.bootstrap4.min.css',
+                    'location' => 'vendor/datatables/css/datatables.min.css',
                 ],
             ],
         ],
