@@ -11,3 +11,7 @@ window.axios = axios;
 axios.defaults.baseURL = '/api/';
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+// https://laravel.com/docs/10.x/sanctum#cors-and-cookies
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
