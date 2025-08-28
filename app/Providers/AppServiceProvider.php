@@ -20,6 +20,7 @@ use App\Services\PostService;
 use App\Services\TagService;
 use App\Services\UserService;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -85,5 +86,12 @@ class AppServiceProvider extends ServiceProvider
 
         //Set Bootstrap as default pagination template
         Paginator::useBootstrap();
+
+        if (request()->is('api/*')) {
+            /**
+             * @description Tell Sanctum to use the "sanctum"
+             */
+            Auth::shouldUse('sanctum');
+        }
     }
 }

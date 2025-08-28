@@ -1,16 +1,18 @@
 <script lang="ts" setup>
-import {ref, toRef} from "vue";
+import {computed, toRef} from "vue";
 import SwitchThemeButton from "@/layout/components/components/SwitchThemeButton.vue";
 import SearchButton from "@/layout/components/components/SearchButton.vue";
 import {useLayoutStore} from "@/stores/layout";
-import UserMenu from "@/layout/components/components/UserMenu.vue";
+import UserMenuButton from "@/layout/components/components/UserMenuButton.vue";
 import NavbarMenu from "@/layout/components/components/NavbarMenu.vue";
+import {useAuthStore} from "@/stores/modules/auth";
+import UserMenuDropdown from "@/layout/components/components/UserMenuDropdown.vue";
+import LoginButton from "@/layout/components/components/LoginButton.vue";
 
 const layoutStore = useLayoutStore();
-
 const data = toRef(() => layoutStore.data);
-
-const authenticated = ref(false);
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => authStore.isAuthenticated);
 
 </script>
 <template>
@@ -26,13 +28,9 @@ const authenticated = ref(false);
       <div class="flex md:order-2 rtl:space-x-reverse gap-1 md:gap-2 items-center">
         <SearchButton/>
         <SwitchThemeButton/>
-        <router-link :to="{name: 'login'}"
-          v-if="!authenticated"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          type="button">
-          Log in
-        </router-link>
-        <UserMenu v-else/>
+        <UserMenuButton v-if="isAuthenticated"/>
+        <UserMenuDropdown v-if="isAuthenticated"/>
+        <LoginButton v-else/>
 
         <button aria-controls="navbar-sticky" aria-expanded="false"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"

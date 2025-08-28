@@ -23,7 +23,7 @@ const loading = computed<boolean>(() => !!posts.loading)
 
 const isEmpty = computed<boolean>(() => !posts.data.length)
 
-const detailedMode = ref<boolean>(false)
+const detailedMode = ref<boolean>(true)
 
 const changeDisplayMode = (value: boolean) => {
   detailedMode.value = value;

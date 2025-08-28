@@ -25,5 +25,5 @@ CKEDITOR.editorConfig = function( config ) {
         '87/87px;88/88px;89/89px;90/90px';
     config.enterMode = CKEDITOR.ENTER_BR; //newline behavior
     config.height = 500;
-
+    config.tabSpaces = 4;
 };

@@ -3,13 +3,21 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
     // Use the RefreshDatabase trait to reset the database between tests
-    //use RefreshDatabase;
+    use RefreshDatabase;
+    /**
+     * Set up the test environment.
+     */
+    protected function setUp(): void {
+        parent::setUp();
+        $this->artisan('db:seed');
+    }
 
     /**
      * A basic feature test example.
@@ -36,8 +44,6 @@ class UserControllerTest extends TestCase
     public function test_users_can_be_created(): void
     {
         $admin = User::query()->first();
-
-        $targetingUser = User::query()->where('email', 'admin@admin.com')->first();
         $response = $this->actingAs($admin)
             ->post('/admin/users/add', data: [
                 'username' => 'blogger',
@@ -48,11 +54,7 @@ class UserControllerTest extends TestCase
                 'status' => true,
                 'role' => [Role::query()->first()->id],
             ]);
-        if ($targetingUser) {
-            $response->assertStatus(302);
-        } else {
-            $response->assertStatus(200);
-        }
+        $response->assertStatus(302);
     }
 
     /**
