@@ -164,7 +164,6 @@
                             {{ $tag->name }}
                         </option>
                     @empty
-                        <option value="">{{ __('label.none')}}</option>
                     @endforelse
                 </select>
                 @error('tags')

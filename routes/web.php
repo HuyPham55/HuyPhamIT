@@ -1,9 +1,7 @@
 <?php
 
 
-use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,5 +22,13 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false, 'verify' => false]);
 
+//Route::get('/sanctum/csrf-cookie', function (Request $request) {
+//    /** @see \Laravel\Sanctum\Http\Controllers\CsrfCookieController::show()
+//     * @name 'sanctum.csrf-cookie'
+//     * @usage No longer needed to call this route explicitly in the frontend, sanctum handles it automatically
+//     * */
+//    # https://laravel.com/docs/10.x/sanctum#csrf-protection
+//    // return redirect()->route('sanctum.csrf-cookie');
+//});
 
 
