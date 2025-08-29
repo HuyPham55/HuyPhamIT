@@ -67,6 +67,9 @@
 @include('components.Datatables')
 @include('components.Select2')
 
+@push('css')
+    <link rel="stylesheet" href="{{asset('/backend/css/post_list.css').'?version=' . filemtime(public_path('/backend/css/post_list.css'))}}"/>
+@endpush
 @push('js')
     <input type="hidden" name="posts.datatables" value="{{route('posts.datatables')}}">
     <input type="hidden" name="posts.change_status" value="{{route('posts.change_status')}}">
