@@ -41,7 +41,7 @@ jQuery(() => {
                 {data: 'created_at', name: 'created_at'},
                 {data: 'updated_at', name: 'updated_at'},
                 {data: 'publish_date', name: 'publish_date'},
-                {data: 'action', name: 'action', orderable: false}
+                {data: 'action', name: 'action', orderable: false, className: 'columns-action'}
             ],
             order: [[3, 'desc']],
             drawCallback: datatablesCallback
