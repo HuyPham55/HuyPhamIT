@@ -44,6 +44,6 @@ export default {
   plugins: [
     flowbitePlugin,
     flowbiteTypography
-  ],
+  ]
 }
 
