@@ -34,11 +34,11 @@ const author = computed(() => post.value?.author);
             </time>
           </span>
         </div>
-        <div class="flex items-center">
+        <div class="flex items-center" v-if="!!post?.reading_time">
           <span
             class="ml-2 w-3 h-3 bg-gray-400 border-2 border-white dark:border-gray-800 rounded-full inline-block shrink-0"></span>
           <span class="ml-2 text-balance">
-            12 min read
+            {{post?.reading_time_display}} read
           </span>
         </div>
       </div>
