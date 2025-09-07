@@ -2,6 +2,7 @@
 
 namespace App\ModelFilters;
 
+use App\Models\Post;
 use App\Models\PostCategory;
 use App\Services\CategoryService;
 use EloquentFilter\ModelFilter;
@@ -30,13 +31,24 @@ class PostFilter extends ModelFilter
         return $this->where('status', $status);
     }
 
-    public function categories($id) {
+    public function categories($id)
+    {
         $category = PostCategory::findOrfail($id);
         $array_children = (new CategoryService($category))->getArrayChildrenId($category->lft, $category->rgt);
         return $this->whereIn('category_id', $array_children);
     }
 
-    public function category($id) {
+    public function category($id)
+    {
         return $this->where('category_id', $id);
+    }
+
+    public function tags($tags)
+    {
+        foreach ($tags as $tag) {
+            $this->whereHas('tags', function ($query) use ($tag) {
+                return $query->where('tags.id', $tag);
+            });
+        }
     }
 }

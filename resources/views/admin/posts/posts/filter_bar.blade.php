@@ -23,6 +23,20 @@
                             value="0" {{ !is_null(request()->input('status')) && !request()->input('status')?"selected":""}}>{{__('label.off')}}</option>
                     </select>
                 </div>
+                <div class="form-group col-md-4">
+                    <label for="tags">{{__('menu.tags')}}</label>
+                    <select type="text" name="tags[]" id="tags" class="form-control select2" multiple="multiple">
+                        <option value="" disabled>
+                            @lang('label.none')
+                        </option>
+                        @forelse($tags as $tag)
+                            <option value="{{ $tag->id }}">
+                                {{ $tag->name }}
+                            </option>
+                        @empty
+                        @endforelse
+                    </select>
+                </div>
             </div>
             <button class="btn btn-danger" type="reset">
                 <i class="fa fa-fw fa-eraser"></i>

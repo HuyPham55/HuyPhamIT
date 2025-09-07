@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Contracts\Services\PostServiceInterface;
+use App\Contracts\Services\TagServiceInterface;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Services\CategoryService;
@@ -23,6 +24,7 @@ class PostController extends BaseController
 
     public function __construct(
         protected PostServiceInterface $service,
+        protected TagServiceInterface  $tagService,
         protected Post                 $model,
         protected string               $routeList = 'posts.list',
         protected string               $pathView = 'admin.posts.posts',
@@ -41,7 +43,8 @@ class PostController extends BaseController
             session()->flash('flash_message', $inactiveCount . " inactive items(s)");
             session()->flash('status', 'warning');
         }
-        return view("{$this->pathView}.list", compact('categories', 'total_count'));
+        $tags = $this->tagService->getAll();
+        return view("{$this->pathView}.list", compact('categories', 'tags', 'total_count'));
     }
 
     public function datatables(Request $request)
@@ -53,7 +56,7 @@ class PostController extends BaseController
     {
         $post = $this->model;
         $categories = (new CategoryService(new PostCategory()))->dropdown();
-        $tags = $tagService->getAll();
+        $tags = $this->tagService->getAll();
         return view("{$this->pathView}.add", compact('post', 'categories', 'tags'));
     }
 
@@ -87,7 +90,7 @@ class PostController extends BaseController
     public function getEdit(Request $request, Post $post, TagService $tagService)
     {
         $categories = (new CategoryService(new PostCategory()))->dropdown();
-        $tags = $tagService->getAll();
+        $tags = $this->tagService->getAll();
         return view("{$this->pathView}.edit", compact('post', 'categories', 'tags'));
     }
 
