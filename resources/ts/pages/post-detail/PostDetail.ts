@@ -13,7 +13,8 @@ export declare type PostDetailType = {
     short_description: string;
     content: string;
     publish_date: string;
-    reading_time: string;
+    reading_time: number;
+    reading_time_display: string;
     author?: Author;
     tags?: Array<TagType>;
 }

@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+import flowbitePlugin from 'flowbite/plugin'; // https://github.com/tailwindlabs/tailwindcss-forms/issues/151
+import flowbiteTypography from 'flowbite-typography';
+
 export default {
   content: [
     "./resources/views/index.blade.php",
@@ -39,8 +42,8 @@ export default {
     },
   },
   plugins: [
-    require('flowbite/plugin'),
-    require('flowbite-typography'),
-  ],
+    flowbitePlugin,
+    flowbiteTypography
+  ]
 }
 
