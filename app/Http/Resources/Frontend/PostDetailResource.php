@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Frontend;
 
 use App\Http\Resources\UserResource;
+use Carbon\CarbonInterval;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,6 +25,7 @@ class PostDetailResource extends JsonResource
             'content' => data_get($this, 'content'),
             'publish_date' => formatDate(data_get($this, 'publish_date')),
             'reading_time' => data_get($this, 'reading_time'),
+            'reading_time_display' => CarbonInterval::minutes(data_get($this, 'reading_time'))->cascade()->forHumans(),
             'author' => new UserResource($this->whenLoaded('author')),
             'tags' => new TagCollection($this->whenLoaded('tags')),
         ];
