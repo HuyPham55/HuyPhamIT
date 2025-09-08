@@ -5,6 +5,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             $('select.select2').select2({
                 theme: "bootstrap4", //classic
+                placeholder: "@lang('label.action.select')"
             });
         })
     </script>

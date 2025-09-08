@@ -23,6 +23,7 @@ jQuery(() => {
             filterData = {
                 categories: jQuery("select[name='categories']").val(),
                 status: jQuery("select[name='status']").val(),
+                tags: jQuery("select[name='tags[]']").val(),
             };
         }
         return jQuery("#datatables").DataTable({
