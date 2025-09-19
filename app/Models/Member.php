@@ -59,6 +59,15 @@ class Member extends Authenticatable implements CanResetPasswordContract
         self::observe(MemberObserver::class);;
     }
 
+    public function bookmarkedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'bookmark_post_member')
+            ->withTimestamps()
+            ->withPivot([
+                'bookmarked_at',
+            ]); // Optional: retrieve bookmarked date
+    }
+
     public static function saveModel(self $model, Request $request)
     {
         DB::beginTransaction();

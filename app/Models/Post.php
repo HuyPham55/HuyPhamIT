@@ -66,8 +66,19 @@ class Post extends BaseModel
     public function author() {
         return $this->belongsTo(User::class, 'user_id');
     }
-    public function updater() {
+
+    public function updater()
+    {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function bookmarkedByMembers()
+    {
+        return $this->belongsToMany(Member::class, 'bookmark_post_member')
+            ->withTimestamps()
+            ->withPivot([
+                'bookmarked_at',
+            ]); // Optional: retrieve bookmarked date
     }
 
     public function getDateFormatAttribute()
