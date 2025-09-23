@@ -28,7 +28,7 @@ const computedShowLoading = computed(() => {
         <article v-if="!computedShowLoading"
                  class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert xl:max-w-4xl lg:order-1">
           <PostHeader :post="post" v-if="post"/>
-          <div class="post-content" v-html="post.content"></div>
+          <div class="post-content" v-html="post?.content"></div>
           <PostAuthor :post="post"/>
           <CommentSection/>
         </article>

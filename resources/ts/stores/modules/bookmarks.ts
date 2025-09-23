@@ -5,7 +5,7 @@ import axios from "axios";
 
 export const useBookmarksStore = defineStore('bookmarks', () => {
     // map postHash -> boolean
-    const map = ref(new Map<number, boolean>())
+    const map = ref(new Map<string, boolean>())
 
     function set(postHash: string, value: boolean) {
         map.value.set(postHash, value)

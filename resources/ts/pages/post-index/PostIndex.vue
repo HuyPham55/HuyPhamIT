@@ -10,6 +10,7 @@ import PostListEmpty from "@/pages/post-index/components/PostListEmpty.vue";
 import SearchForm from "@/pages/post-index/components/SearchForm.vue";
 import DisplayMode from "@/pages/post-index/components/DisplayMode.vue";
 import Sorting from "@/pages/post-index/components/Sorting.vue";
+import {useRouter} from "vue-router";
 
 
 const posts = reactive<PostList>({
@@ -29,21 +30,29 @@ const changeDisplayMode = (value: boolean) => {
   detailedMode.value = value;
 }
 
+const router = useRouter();
+
 const fetch = async function () {
   posts.loading = true;
-  let response = await axios.get('/posts', {
-    params: {
-      orderBy: posts.orderBy,
-      order: posts.order,
+  try {
+    let response = await axios.get('/posts', {
+      params: {
+        orderBy: posts.orderBy,
+        order: posts.order,
+      }
+    });
+    posts.loading = false;
+    let {data, meta} = response.data;
+    posts.data = data
+    posts.meta = meta
+  } catch (e: unknown) {
+    if (e instanceof Error && 'status' in e && e.status === 500) {
+      await router.push({name: 'ServerError'})
     }
-  });
-  posts.loading = false;
-  let {data, meta} = response.data;
-  posts.data = data
-  posts.meta = meta
+  }
 }
 
-const updateSorting = function (payload) {
+const updateSorting = function (payload: { orderBy: string, order: string }) {
   const {orderBy, order} = payload;
   posts.orderBy = orderBy;
   posts.order = order;

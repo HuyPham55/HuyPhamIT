@@ -5,6 +5,8 @@ import SimplePopover from "@/components/popover/SimplePopover.vue";
 import {PostDetailType} from "@/pages/post-detail/PostDetail";
 import {computed, ref, toRef} from "vue";
 import {useBookmarksStore} from "@/stores/modules/bookmarks";
+import {useAuthStore} from "@/stores/modules/auth";
+import {useRouter} from "vue-router";
 
 interface Props {
   post: PostDetailType;
@@ -13,7 +15,12 @@ interface Props {
 const props = defineProps<Props>()
 const post = toRef(props.post);
 const loading = ref(false);
+const authStore = useAuthStore();
+const router = useRouter()
 const onClick = async function () {
+  if (!authStore.isAuthenticated) {
+    return router.push({name: 'login'})
+  }
   loading.value = true;
   await store.toggle(post.value.hash)
   setTimeout(() => {
