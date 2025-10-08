@@ -4,6 +4,7 @@ import {PaginationType} from "@/components/paginations/Pagination";
 declare type PostItem = {
     id: number;
     hash: string;
+    slug: string;
     title: string;
     short_description: string;
     publish_date: string;

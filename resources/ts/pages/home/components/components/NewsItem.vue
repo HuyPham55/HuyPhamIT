@@ -20,6 +20,7 @@ const {post} = toRefs(props)
 const {
   title,
   hash,
+  slug,
   short_description,
   publish_date,
   view_count,
@@ -38,7 +39,7 @@ const computedShowDescription = computed(() => !!short_description.value.length 
   <div class="grid gap-4 pb-4 sm:grid-cols-10 md:grid-cols-10 md:gap-6 md:pb-6">
     <div class="sm:col-span-10 lg:col-span-10 flex flex-wrap gap-2">
       <h3>
-        <router-link :to="{name: 'post_detail', params: {hash}}"
+        <router-link :to="{name: 'post_detail', params: {hash, slug}}"
                      class="content-center font-semibold text-gray-900 hover:underline dark:text-white text-xl">
           {{ title }}
         </router-link>
