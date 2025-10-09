@@ -23,8 +23,13 @@ const fetch = async function () {
     const {data: responseData} = await axios.get("/posts/" + hash);
     post.value = responseData.data
   } catch (e) {
-    if ((e as { status: number }).status === 404) {
+    let statusCode = (e as { status: number }).status;
+    if (statusCode === 404) {
       await router.push({name: "NotFound"})
+      return
+    }
+    if (statusCode === 500) {
+      await router.push({name: "ServerError"})
       return
     }
     console.error(e)
