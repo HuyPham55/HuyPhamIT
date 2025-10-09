@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\PostDetailController;
 use App\Http\Controllers\Frontend\PostListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravolt\Avatar\Avatar;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    $user = $request->user();
+    $user->profile_picture = $user->profile_picture ?: (new Avatar)->create($user->name)->toBase64();
+    return $user;
 });
 
 Route::get('/layout', [LayoutController::class, 'index']);

@@ -5,6 +5,18 @@ import axios from "axios";
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref()
+interface MemberType {
+    id: string;
+    name: string;
+    profile_picture: string;
+    description: string;
+    email: string;
+    username: string;
+}
+export {MemberType}
+
+export const useAuthStore = defineStore('authStore', () => {
+    const user = ref<MemberType|null>()
     const isAuthenticated = computed(() => !!user.value)
 
     function setUser(newData) {
