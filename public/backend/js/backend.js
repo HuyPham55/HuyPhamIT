@@ -1,3 +1,4 @@
+"use strict";
 async function confirmAction(callback) {
     return await Swal.fire({
         title: labels.action.confirm_action,
@@ -150,4 +151,44 @@ async function patchData(route, dataPost) {
                 toastr.error(data.statusText, 'Error');
             }
         });
+}
+
+function saveUnsavedChangesToLocalStorage(item) {
+    let id = jQuery(item).attr('id');
+    if (typeof id !== 'undefined' && id) {
+        let value = jQuery(item).val();
+        let windowPath = window.location.pathname;
+        let localStorageKey = 'unsaved-' + windowPath + '-' + id;
+        localStorage.setItem(localStorageKey, value);
+    }
+}
+
+function restoreSavedChangesFromLocalStorage() {
+    jQuery(".unsaved-change").each(function (index, item) {
+        let id = jQuery(item).attr('id');
+        if (typeof id !== 'undefined' && id) {
+            let windowPath = window.location.pathname;
+            let localStorageKey = 'unsaved-' + windowPath + '-' + id;
+            let savedValue = localStorage.getItem(localStorageKey);
+            if (typeof savedValue !== 'undefined' && savedValue !== null) {
+                if (jQuery(item).val() !== savedValue) {
+                    jQuery(item).addClass('border-danger');
+                    jQuery(item).after('<div class="text-danger mb-2">You have unsaved changes</div>');
+                    jQuery(item).on('focus', function () {
+                        jQuery(item).removeClass('border-danger');
+                        jQuery(item).siblings('div.text-danger').remove();
+                    });
+                }
+                jQuery(item).val(savedValue);
+            }
+        }
+    })
+}
+
+function initSaveUnsavedChangesToLocalStorage() {
+    jQuery(".unsaved-change").each(function (index, item) {
+        jQuery(item).on("change keyup paste", function () {
+            saveUnsavedChangesToLocalStorage(item);
+        });
+    });
 }
