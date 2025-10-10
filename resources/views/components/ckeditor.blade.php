@@ -23,6 +23,7 @@
             })
 
             event.editor.on("change", function (event) {
+                $(event.editor.element.$).trigger('change'); // trigger change on original textarea el
                 if (!document.body.onbeforeunload) {
                     document.body.onbeforeunload = function (e) {
                         //unsaved data
