@@ -48,3 +48,12 @@
     </div>
 @endsection
 
+@push('js')
+    <script>
+        jQuery(() => {
+            restoreSavedChangesFromLocalStorage()
+            initSaveUnsavedChangesToLocalStorage();
+        })
+    </script>
+@endpush
+

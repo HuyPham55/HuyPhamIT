@@ -71,7 +71,7 @@
                             <label for="{{ $langKey }}[short_description]"
                                    class="control-label">{{ __('backend.short_description') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <textarea id="{{ $langKey }}[short_description]" name="{{ $langKey }}[short_description]"
-                                      class="form-control" rows="5"
+                                      class="form-control unsaved-change" rows="5"
                             >{{ old("$langKey.short_description") ?? $post->getTranslation('short_description', $langKey, false) }}</textarea>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                             <label for="{{ $langKey }}[content]"
                                    class="control-label">{{ __('backend.content') }} {{ count($lang) > 1 ? "($langTitle)" : '' }}</label>
                             <textarea id="{{ $langKey }}[content]" name="{{ $langKey }}[content]"
-                                      class="form-control editor" rows="25"
+                                      class="form-control editor unsaved-change" rows="25"
                             >{{ old("$langKey.content") ?? $postTemplate ?? $post->getTranslation('content', $langKey, false) }}</textarea>
                         </div>
                     </div>
@@ -217,13 +217,6 @@
 @include('components.BootstrapDatePicker')
 @include('components.form_elements.alertUnsavedChange')
 @push('js')
-    <script type="text/javascript">
-        jQuery(() => {
-            jQuery(".datepicker").datepicker({
-                format: 'yyyy-mm-dd',
-                todayHighlight: true,
-            });
-        })
-    </script>
+    <script src="{{asset('/backend/js/post_form.js').'?version=' . filemtime(public_path('/backend/js/post_form.js'))}}"></script>
 @endpush
 

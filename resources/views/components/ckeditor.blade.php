@@ -14,7 +14,6 @@
                 // Show the paste dialog for the paste buttons and right-click paste
                 if (event.data.name === "paste") {
                     event.editor._.forcePasteDialog = true;
-                    console.log("OK")
                 }
                 // Don't show the paste dialog for Ctrl+Shift+V
                 if (event.data.name === "pastetext" && event.data.commandData.from === "keystrokeHandler") {
@@ -23,6 +22,7 @@
             })
 
             event.editor.on("change", function (event) {
+                $(event.editor.element.$).trigger('change'); // trigger change on original textarea el
                 if (!document.body.onbeforeunload) {
                     document.body.onbeforeunload = function (e) {
                         //unsaved data
@@ -31,6 +31,10 @@
                     }
                 }
             })
+            event.editor.on('focus', function(event) {
+                // Perform actions when the editor gains focus
+                $(event.editor.element.$).trigger('focus'); // trigger change on original textarea el
+            });
         })
 
     </script>
