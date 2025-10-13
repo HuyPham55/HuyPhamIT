@@ -5,9 +5,9 @@ use App\Http\Controllers\Api\Auth\RegisteredUserController;
 use App\Http\Controllers\Frontend\LayoutController;
 use App\Http\Controllers\Frontend\PostDetailController;
 use App\Http\Controllers\Frontend\PostListController;
+use App\Http\Resources\Frontend\MemberResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Laravolt\Avatar\Avatar;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +21,9 @@ use Laravolt\Avatar\Avatar;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    /** @var \App\Models\Member $user */
     $user = $request->user();
-    $user->profile_picture = $user->profile_picture ?: (new Avatar)->create($user->name)->toBase64();
-    return $user;
+    return new MemberResource($user);
 });
 
 Route::get('/layout', [LayoutController::class, 'index']);
