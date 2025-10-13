@@ -4,6 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Laravolt\Avatar\Facade as AvatarFacade;
+
+;
 
 /**
  * @property mixed $profile_picture
@@ -20,10 +23,11 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         //return parent::toArray($request);
+        /** @var \App\Models\User $this */
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'profile_picture' => either($this->profile_picture, "/images/no-image.png")
+            'profile_picture' => either($this->profile_picture, AvatarFacade::create($this->name)->toBase64()),
         ];
     }
 }

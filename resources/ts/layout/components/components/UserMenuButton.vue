@@ -21,12 +21,13 @@ const onMouseEnter = function() {
 
 <template>
   <button id="user-menu-button"
+          v-if="user"
           @mouseenter="onMouseEnter"
           aria-expanded="false"
           class="flex text-sm md:me-0 items-center text-gray-700 dark:text-white gap-1.5 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" data-dropdown-placement="bottom" data-dropdown-toggle="user-dropdown"
           type="button">
     <span class="sr-only">Open user menu</span>
-    <img alt="" class="w-6 h-6 rounded-full" src="/images/profile-picture.jpg">
+    <img alt="" class="w-6 h-6 rounded-full" :src="user.profile_picture">
     <span class="font-semibold hidden lg:inline overflow-hidden overflow-ellipsis max-w-[100px]">
       {{user.username || user.name}}
     </span>
