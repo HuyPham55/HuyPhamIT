@@ -26,6 +26,7 @@ use Spatie\Translatable\HasTranslations;
  * @property string $hash
  * @property int $view_count
  * @property string $title
+ * @property string $slug
  * @property string $short_description
  */
 class Post extends BaseModel

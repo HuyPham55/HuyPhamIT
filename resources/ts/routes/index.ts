@@ -30,7 +30,7 @@ const routes = [
                         name: 'post_list',
                     },
                     {
-                        path: ':hash', //Route paths should start with a "/": "post-detail" should be "/post-detail"
+                        path: ':slug-:hash', //Route paths should start with a "/": "post-detail" should be "/post-detail"
                         component: PostDetail,
                         name: 'post_detail',
                     },
