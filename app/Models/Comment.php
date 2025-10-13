@@ -25,6 +25,8 @@ class Comment extends Model
     use HasFactory;
     use SoftDeletes;
 
+    /** Disable auto increment - Laravel's Eloquent ORM attempts to cast the ULID string to an integer */
+    public $incrementing = false;
     const MORPH_NAME = 'commentable';
 
     protected $fillable = [
