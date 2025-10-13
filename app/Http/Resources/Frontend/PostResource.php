@@ -26,6 +26,7 @@ class PostResource extends JsonResource
             'publish_date' => formatDate($this->publish_date),
             'author' => new UserResource($this->whenLoaded('author')),
             'tags' => new TagCollection($this->whenLoaded('tags')),
+            'comments_count' => $this->when(isset($this->comments_count), $this->comments_count),
         ];
     }
 }

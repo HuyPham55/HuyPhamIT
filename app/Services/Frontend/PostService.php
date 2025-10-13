@@ -5,7 +5,6 @@ namespace App\Services\Frontend;
 use App\Contracts\Repositories\PostRepositoryInterface;
 use App\Contracts\Services\Frontend\PostServiceInterface;
 use App\Enums\CommonStatus;
-use App\Models\Post;
 
 class PostService implements PostServiceInterface
 {
@@ -26,6 +25,7 @@ class PostService implements PostServiceInterface
         $query = $this->repository
             ->query()
             ->with(['author', 'tags'])
+            ->withCount('comments')
             ->where('status', CommonStatus::Active)
             ->whereNotNull('publish_date')
             ->where('publish_date', '<=', now());
@@ -41,6 +41,7 @@ class PostService implements PostServiceInterface
         $post = $this->repository
             ->query()
             ->with(['author', 'tags'])
+            ->withCount('comments')
             ->where('status', CommonStatus::Active)
             ->where(function($query) {
                 $query->where('publish_date', '<=', now())
