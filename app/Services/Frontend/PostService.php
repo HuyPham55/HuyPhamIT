@@ -5,7 +5,6 @@ namespace App\Services\Frontend;
 use App\Contracts\Repositories\PostRepositoryInterface;
 use App\Contracts\Services\Frontend\PostServiceInterface;
 use App\Enums\CommonStatus;
-use App\Models\Post;
 
 class PostService implements PostServiceInterface
 {
@@ -14,6 +13,7 @@ class PostService implements PostServiceInterface
         'created_at',
         'updated_at',
         'view_count',
+        'publish_date',
     ];
     public function __construct(
         public PostRepositoryInterface $repository
@@ -26,10 +26,11 @@ class PostService implements PostServiceInterface
         $query = $this->repository
             ->query()
             ->with(['author', 'tags'])
+            ->withCount('comments')
             ->where('status', CommonStatus::Active)
             ->whereNotNull('publish_date')
             ->where('publish_date', '<=', now());
-        $order = in_array($order, ['asc', 'desc']) ? $order : null;
+        $order = in_array(strtolower($order), ['asc', 'desc']) ? $order : null;
         if ($orderBy && in_array($orderBy, $this->sortableFields)) {
             $query->orderBy($orderBy, $order);
         }
@@ -41,6 +42,8 @@ class PostService implements PostServiceInterface
         $post = $this->repository
             ->query()
             ->with(['author', 'tags'])
+            ->withCount('comments')
+            ->where('status', CommonStatus::Active)
             ->where('hash', $hash)
             ->whereNotNull('publish_date')
             ->where('publish_date', '<=', now())

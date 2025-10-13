@@ -7,6 +7,9 @@ use Carbon\CarbonInterval;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property int|null $comments_count
+ */
 class PostDetailResource extends JsonResource
 {
     /**
@@ -28,6 +31,8 @@ class PostDetailResource extends JsonResource
             'reading_time_display' => CarbonInterval::minutes(data_get($this, 'reading_time'))->cascade()->forHumans(),
             'author' => new UserResource($this->whenLoaded('author')),
             'tags' => new TagCollection($this->whenLoaded('tags')),
+            'bookmark_status' => auth()->check() ? auth()->user()->bookmarkedPosts()->where('post_id', $this->id)->exists() : false,
+            'comments_count' => $this->when(isset($this->comments_count), $this->comments_count),
         ];
     }
 }

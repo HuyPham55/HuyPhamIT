@@ -17,4 +17,6 @@ export declare type PostDetailType = {
     reading_time_display: string;
     author?: Author;
     tags?: Array<TagType>;
+    bookmark_status: boolean;
+    comments_count?: number | null;
 }

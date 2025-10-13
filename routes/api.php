@@ -2,9 +2,17 @@
 
 use App\Http\Controllers\Api\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Api\Auth\RegisteredUserController;
+use App\Http\Controllers\Frontend\CommentController;
+use App\Http\Controllers\Frontend\Comments\DestroyController;
+use App\Http\Controllers\Frontend\Comments\ListController;
+use App\Http\Controllers\Frontend\Comments\StoreReplyController;
+use App\Http\Controllers\Frontend\Comments\StoreRootController;
+use App\Http\Controllers\Frontend\Comments\UpdateController;
 use App\Http\Controllers\Frontend\LayoutController;
 use App\Http\Controllers\Frontend\PostDetailController;
 use App\Http\Controllers\Frontend\PostListController;
+use App\Models\Post;
+use App\Http\Resources\Frontend\MemberResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,17 +28,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    /** @var \App\Models\Member $user */
+    $user = $request->user();
+    return new MemberResource($user);
 });
 
-Route::get('/layout', [LayoutController::class, 'index']);
+Route::get('layout', [LayoutController::class, 'index']);
 
-Route::group(['prefix' => '/posts'], function () {
+Route::group(['prefix' => 'posts'], function () {
     Route::get('/', [PostListController::class, 'index']);
     Route::get('/{hash}', [PostDetailController::class, 'show']);
     Route::get('preview/{post}', [PostDetailController::class, 'preview'])
         ->middleware(['signed'])
         ->name('api.posts.preview');
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::post('/{post}/bookmark', [PostDetailController::class, 'bookmark']);
+    });
 });
 
 // Authentication routes
@@ -44,3 +57,14 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
+// constrain the {type} segment and bind {owner} dynamically
+Route::pattern('type', implode('|', [Post::BIND_TYPE]));;
+Route::prefix('{type}/{id}')->group(callback: function () {
+    Route::get('comments', [CommentController::class, 'getComments']); // GET /posts/{post}/comments
+    Route::post('comments', [CommentController::class, 'postComment'])->middleware('auth:sanctum'); // POST /posts/{post}/comments
+});
+Route::prefix('comments/{comment}')->group(function () {
+    Route::post('replies', [CommentController::class, 'replies']); // POST /comments/{comment}/replies
+    Route::patch('', [CommentController::class, 'updateComment']); // PATCH /comments/{comment}
+    Route::delete('', [CommentController::class, 'deleteComment']); // DELETE /comments/{comment}
+})->middleware('auth:sanctum');

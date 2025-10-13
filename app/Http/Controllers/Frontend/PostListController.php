@@ -24,8 +24,8 @@ class PostListController extends Controller
     {
         $posts = $this->postService->getAll(
             null,
-            'publish_date',
-            'desc'
+            $request->input('orderBy'),
+            $request->input('order'),
         );
         return new PostCollection($posts);
     }

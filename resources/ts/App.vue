@@ -14,7 +14,7 @@ const isAuthRoute = computed(() => route.meta.isAuth);  // is auth route or not
   <SearchModal/>
   <Header/>
   <RouterView v-slot="{Component}">
-    <Transition name="fade">
+    <Transition name="fade" mode="out-in">
       <Component :is="Component"/>
     </Transition>
   </RouterView>

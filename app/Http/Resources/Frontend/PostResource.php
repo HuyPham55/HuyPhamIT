@@ -20,12 +20,14 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'hash' => $this->hash,
+            'slug' => $this->slug,
             'title' => $this->title,
             'view_count' => $this->view_count,
             'short_description' => $this->short_description,
             'publish_date' => formatDate($this->publish_date),
             'author' => new UserResource($this->whenLoaded('author')),
             'tags' => new TagCollection($this->whenLoaded('tags')),
+            'comments_count' => $this->when(isset($this->comments_count), $this->comments_count),
         ];
     }
 }
