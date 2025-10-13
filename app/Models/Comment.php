@@ -63,11 +63,11 @@ class Comment extends Model
 
     /**
      * @Description Scope to any commentable model instance
-     * @param Model $query
+     * @param $query
      * @param Model $commentable
      * @return mixed
      */
-    public function scopeFor(Model $query, Model $commentable)
+    public function scopeFor($query, Model $commentable)
     {
         return $query->where('commentable_type', $commentable->getMorphClass())
             ->where('commentable_id', $commentable->getKey());
