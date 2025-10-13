@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Frontend;
 
-use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Laravolt\Avatar\Facade as AvatarFacade;
 
 class MemberResource extends JsonResource
 {
@@ -15,9 +15,15 @@ class MemberResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var Member $this */
-        return array_merge(parent::toArray($request), [
-            'profile_picture' => either($this->profile_picture, "/images/no-image.png")
-        ]);
+        /** @var \App\Models\Member $this */
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'username' => $this->username,
+            'email' => $this->email,
+            'gender' => $this->gender,
+            'profile_picture' => either($this->profile_picture, AvatarFacade::create($this->name)->toBase64()),
+            'created_at' => $this->created_at,
+        ];
     }
 }

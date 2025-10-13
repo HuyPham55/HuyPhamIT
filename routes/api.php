@@ -12,6 +12,7 @@ use App\Http\Controllers\Frontend\LayoutController;
 use App\Http\Controllers\Frontend\PostDetailController;
 use App\Http\Controllers\Frontend\PostListController;
 use App\Models\Post;
+use App\Http\Resources\Frontend\MemberResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +28,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    /** @var \App\Models\Member $user */
+    $user = $request->user();
+    return new MemberResource($user);
 });
 
 Route::get('layout', [LayoutController::class, 'index']);
