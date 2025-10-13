@@ -4,11 +4,7 @@ import PostSocial from "@/pages/post-detail/components/components/PostSocial.vue
 import {PostDetailType} from "@/pages/post-detail/PostDetail";
 import {computed} from "vue";
 
-interface Props {
-  post: PostDetailType|undefined;
-}
-
-const props = defineProps<Props>()
+const props = defineProps<{ post: PostDetailType }>()
 
 const post = computed(() => props.post);
 
@@ -42,7 +38,7 @@ const author = computed(() => post.value?.author);
           </span>
         </div>
       </div>
-      <PostSocial/>
+      <PostSocial :post="post"/>
     </div>
     <h1 class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
       {{post?.title}}

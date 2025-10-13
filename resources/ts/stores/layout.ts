@@ -8,7 +8,7 @@ declare type LayoutData = {
     logo: string;
 }
 
-export const useLayoutStore = defineStore('layoutStore', {
+export const useLayoutStore = defineStore('layout', {
     state: (): {
         data: LayoutData
     } => {
