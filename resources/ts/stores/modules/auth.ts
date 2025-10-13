@@ -3,8 +3,6 @@ import {defineStore} from 'pinia'
 import {computed, ref} from "vue";
 import axios from "axios";
 
-export const useAuthStore = defineStore('auth', () => {
-    const user = ref()
 interface MemberType {
     id: string;
     name: string;
@@ -15,8 +13,8 @@ interface MemberType {
 }
 export {MemberType}
 
-export const useAuthStore = defineStore('authStore', () => {
-    const user = ref<MemberType|null>()
+export const useAuthStore = defineStore('auth', () => {
+    const user = ref()
     const isAuthenticated = computed(() => !!user.value)
 
     function setUser(newData) {
