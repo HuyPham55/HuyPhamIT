@@ -24,6 +24,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property mixed|string $password
  * @property mixed $status
  * @property mixed $birthday
+ * @property string|null $profile_picture
  */
 class Member extends Authenticatable implements CanResetPasswordContract
 {
@@ -40,7 +41,8 @@ class Member extends Authenticatable implements CanResetPasswordContract
         'email',
         'phone',
         'address',
-        'password'
+        'password',
+        'profile_picture',
     ];
 
     protected $hidden = [

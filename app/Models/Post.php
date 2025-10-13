@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use App\Enums\CommonStatus;
+use App\Models\Concerns\HasComments;
+use App\Models\Contracts\Commentable;
 use App\Observers\PostObserver;
 use EloquentFilter\Filterable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -27,13 +30,17 @@ use Spatie\Translatable\HasTranslations;
  * @property int $view_count
  * @property string $title
  * @property string $short_description
+ * @property Collection $comments
  */
-class Post extends BaseModel
+class Post extends BaseModel implements Commentable
 {
     use HasFactory;
     use HasTranslations;
     use Filterable;
     use HasTags;
+    use HasComments;
+
+    const BIND_TYPE = 'posts';
 
     public array $translatable = [
         'image',

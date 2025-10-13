@@ -30,7 +30,7 @@ const computedShowLoading = computed(() => {
           <PostHeader :post="post" v-if="post"/>
           <div class="post-content" v-html="post?.content"></div>
           <PostAuthor :post="post"/>
-          <CommentSection/>
+          <CommentSection v-if="!!post" :post="post"/>
         </article>
         <PostAside :post="post" v-if="!computedShowLoading"/>
         <ArticleLoading v-if="computedShowLoading"/>
