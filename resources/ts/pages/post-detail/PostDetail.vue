@@ -4,6 +4,7 @@ import {useRoute, useRouter} from "vue-router";
 import axios from "axios";
 import {PostDetailType} from "@/pages/post-detail/PostDetail";
 import PostDetailWrapper from "@/pages/post-detail/components/PostDetailWrapper.vue";
+import {getHashFromUrl} from "@/helpers/PostHelpers";
 
 // initialize components based on data attribute selectors
 // onMounted(() => {
@@ -18,14 +19,21 @@ const loading = ref(false);
 const fetch = async function () {
   loading.value = true;
   try {
-    const {data: responseData} = await axios.get("/posts/" + route.params.hash)
+    const hash = getHashFromUrl(route.path);
+    const {data: responseData} = await axios.get("/posts/" + hash);
     post.value = responseData.data
   } catch (e) {
-    if ((e as { status: number }).status === 404) {
+    let statusCode = (e as { status: number }).status;
+    if (statusCode === 404) {
       await router.push({name: "NotFound"})
       return
     }
+    if (statusCode === 500) {
+      await router.push({name: "ServerError"})
+      return
+    }
     console.error(e)
+    await router.push({name: "NotFound"})
   }
   loading.value = false;
 }
