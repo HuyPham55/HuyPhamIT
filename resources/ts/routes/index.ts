@@ -57,7 +57,7 @@ const routes = [
     },
     {
         path: '/error',
-        name: 'Error',
+        name: 'ServerError',
         component: ServerError
     },
 ];

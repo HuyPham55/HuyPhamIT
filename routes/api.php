@@ -31,6 +31,9 @@ Route::group(['prefix' => '/posts'], function () {
     Route::get('preview/{post}', [PostDetailController::class, 'preview'])
         ->middleware(['signed'])
         ->name('api.posts.preview');
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::post('/{post}/bookmark', [PostDetailController::class, 'bookmark']);
+    });
 });
 
 // Authentication routes

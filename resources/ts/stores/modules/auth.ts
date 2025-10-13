@@ -3,7 +3,7 @@ import {defineStore} from 'pinia'
 import {computed, ref} from "vue";
 import axios from "axios";
 
-export const useAuthStore = defineStore('authStore', () => {
+export const useAuthStore = defineStore('auth', () => {
     const user = ref()
     const isAuthenticated = computed(() => !!user.value)
 
