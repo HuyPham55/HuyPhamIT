@@ -11,6 +11,7 @@ declare type PostItem = {
     author?: Author;
     tags?: Array<TagType>;
     view_count?: number | null;
+    comments_count?: number | null;
 }
 
 declare type PostList = {
