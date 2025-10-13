@@ -5,6 +5,7 @@ use App\Contracts\Repositories\PostCategoryRepositoryInterface;
 use App\Contracts\Repositories\PostRepositoryInterface;
 use App\Contracts\Repositories\TagRepositoryInterface;
 use App\Contracts\Repositories\UserRepositoryInterface;
+use App\Contracts\Services\Frontend\CommentServiceInterface;
 use App\Contracts\Services\Frontend\PostServiceInterface as FrontendPostServiceContract;
 use App\Contracts\Services\PostCategoryServiceInterface;
 use App\Contracts\Services\PostServiceInterface;
@@ -14,6 +15,7 @@ use App\Repositories\PostCategoryRepository;
 use App\Repositories\PostRepository;
 use App\Repositories\TagRepository;
 use App\Repositories\UserRepository;
+use App\Services\Frontend\CommentService;
 use App\Services\Frontend\PostService as FrontendPostService;
 use App\Services\PostCategoryService;
 use App\Services\PostService;
@@ -72,6 +74,10 @@ class AppServiceProvider extends ServiceProvider
         app()->bind(
             FrontendPostServiceContract::class,
             FrontendPostService::class
+        );
+        app()->bind(
+            CommentServiceInterface::class,
+            CommentService::class
         );
     }
 
