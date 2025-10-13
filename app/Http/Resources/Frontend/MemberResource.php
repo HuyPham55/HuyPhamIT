@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Frontend;
 
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Laravolt\Avatar\Facade as AvatarFacade;

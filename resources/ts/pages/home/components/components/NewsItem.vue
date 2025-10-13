@@ -26,6 +26,7 @@ const {
   view_count,
   author,
   tags,
+  comments_count,
 } = toRefs(post.value)
 
 
@@ -71,9 +72,9 @@ const computedShowDescription = computed(() => !!short_description.value.length 
         {{ publish_date }}
       </span>
       <div class="flex flex-grow space-x-2 justify-end">
-        <span class="font-medium text-gray-500 dark:text-gray-400 inline-flex items-center">
+        <span class="font-medium text-gray-500 dark:text-gray-400 inline-flex items-center" v-if="comments_count">
           <i class="fa fa-comment mr-1 h-3"></i>
-          12
+          {{comments_count}}
         </span>
         <span class="font-medium text-gray-500 dark:text-gray-400 inline-flex items-center">
           <VoteIcon class="self-end w-5 h-5"/>

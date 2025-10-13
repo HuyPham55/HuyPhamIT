@@ -26,6 +26,7 @@ class PostService implements PostServiceInterface
         $query = $this->repository
             ->query()
             ->with(['author', 'tags'])
+            ->withCount('comments')
             ->where('status', CommonStatus::Active)
             ->whereNotNull('publish_date')
             ->where('publish_date', '<=', now());
@@ -41,6 +42,8 @@ class PostService implements PostServiceInterface
         $post = $this->repository
             ->query()
             ->with(['author', 'tags'])
+            ->withCount('comments')
+            ->where('status', CommonStatus::Active)
             ->where('hash', $hash)
             ->whereNotNull('publish_date')
             ->where('publish_date', '<=', now())
