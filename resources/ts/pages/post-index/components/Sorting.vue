@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, watch, computed} from "vue";
+import {computed, ref, watch} from "vue";
 
 const emits = defineEmits(["updateSorting"])
 const props = defineProps({
@@ -12,24 +12,29 @@ const props = defineProps({
 
 const options = ref([
   {
-    id: 'created_at-asc',
-    orderBy: 'created_at',
-    order: 'asc',
-    text: 'Most recent'
+    id: 'publish_date-desc',
+    orderBy: 'publish_date',
+    order: 'desc',
+    text: 'Recently published',
+    enabled: true,
   },
   {
     id: 'updated_at-desc',
     orderBy: 'updated_at',
     order: 'desc',
-    text: 'Latest activity'
+    text: 'Latest activity',
+    enabled: false,
   },
   {
     id: 'view_count-desc',
     orderBy: 'view_count',
     order: 'desc',
-    text: 'Most viewed'
+    text: 'Most viewed',
+    enabled: true,
   },
 ]);
+
+let computedOptions = computed(() => options.value.filter((item) => item.enabled));
 
 let defaultValue = computed(() => {
   let firstOption = options.value.find(() => true);
@@ -50,7 +55,7 @@ watch(modelValue, function (value, oldValue, onCleanup) {
 
 <template>
   <div class="flex">
-    <div class="flex items-center mr-4" v-for="(option, index) in options">
+    <div class="flex items-center mr-4" v-for="(option, index) in computedOptions">
       <input :id="'radio-' + index"
              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
              name="order_by" type="radio"
